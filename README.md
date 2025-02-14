@@ -1,16 +1,14 @@
-# weve_client
+## Weve client
 
-A new Flutter project.
+### Commit Rule
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+| **태그**     | **설명**                                                 |
+| ------------ | -------------------------------------------------------- |
+| **Init**     | 프로젝트 생성                                            |
+| **Feat**     | 기능 추가                                                |
+| **Fix**      | 버그 수정                                                |
+| **Docs**     | 문서 수정                                                |
+| **Style**    | 코드 formatting, 세미콜론(;) 누락, 코드 변경이 없는 경우 |
+| **Refactor** | 코드 리팩토링                                            |
+| **Test**     | 테스트 코드, 리팩토링 테스트 코드 추가                   |
+| **Minor**    | 사소한 변화                                              |
