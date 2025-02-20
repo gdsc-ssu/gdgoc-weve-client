@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/commons/presentation/main_screen.dart';
-import 'package:weve_client/core/controllers/navigation_controller.dart';
-import 'package:weve_client/core/controllers/user_mode_controller.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  Get.put(NavigationController());
-  Get.put(UserModeController());
-
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp())); // Riverpod ProviderScope 적용
 }
 
 class MyApp extends StatelessWidget {
@@ -17,12 +11,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-        title: 'Weve App',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          fontFamily: 'Pretendard',
-        ),
-        home: MainScreen());
+    return MaterialApp(
+      title: 'Weve App',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(fontFamily: 'Pretendard'),
+      home: MainScreen(),
+    );
   }
 }
