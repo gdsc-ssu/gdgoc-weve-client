@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:weve_client/core/constants/colors.dart';
-import 'package:weve_client/core/constants/fonts.dart';
+import 'package:get/get.dart';
+import 'package:weve_client/commons/presentation/main_screen.dart';
+import 'package:weve_client/core/controllers/navigation_controller.dart';
+import 'package:weve_client/core/controllers/user_mode_controller.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Get.put(NavigationController());
+  Get.put(UserModeController());
+
   runApp(const MyApp());
 }
 
@@ -11,25 +17,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Weve App',
-      theme: ThemeData(
-        fontFamily: 'Pretendard',
-      ),
-      home: Scaffold(
-        backgroundColor: WeveColor.bg.bg1,
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Hello flutter",
-                style: WeveText.header1(color: WeveColor.main.orange1),
-              )
-            ],
-          ),
+    return GetMaterialApp(
+        title: 'Weve App',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: 'Pretendard',
         ),
-      ),
-    );
+        home: MainScreen());
   }
 }
