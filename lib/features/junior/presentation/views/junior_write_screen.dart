@@ -10,6 +10,6 @@ class JuniorWriteScreen extends StatefulWidget {
 class _JuniorWriteScreenState extends State<JuniorWriteScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container();
   }
 }

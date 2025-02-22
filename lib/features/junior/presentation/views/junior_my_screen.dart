@@ -10,6 +10,6 @@ class JuniorMyScreen extends StatefulWidget {
 class _JuniorMyScreenState extends State<JuniorMyScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container();
   }
 }

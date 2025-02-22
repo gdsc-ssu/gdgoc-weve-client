@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 final class WeveColor {
   static final main = _MainColors();
   static final bg = _BgColors();
+  static final gray = _GrayColors();
 }
 
 final class _MainColors {
@@ -26,4 +27,16 @@ final class _BgColors {
   final Color bg2 = Color(0XFFECEAE9);
   final Color bg3 = Color(0XFFEDE6DB);
   final Color bg4 = Color(0x33242424);
+}
+
+final class _GrayColors {
+  _GrayColors();
+  final Color gray1 = Color(0XFF000000);
+  final Color gray2 = Color(0XFF242424);
+  final Color gray3 = Color(0XFF434343);
+  final Color gray4 = Color(0XFF656565);
+  final Color gray5 = Color(0XFF898989);
+  final Color gray6 = Color(0XFFafafaf);
+  final Color gray7 = Color(0XFFd6d6d6);
+  final Color gray8 = Color(0XFFFFFFFF);
 }

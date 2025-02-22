@@ -20,20 +20,12 @@ class MainScreen extends ConsumerWidget {
     ];
 
     return Scaffold(
-      backgroundColor: WeveColor.bg.bg1 ?? Colors.white,
-      appBar: AppBar(
-        title: const Text('메인 화면',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        centerTitle: true,
-      ),
+      backgroundColor: WeveColor.bg.bg1,
+      appBar: AppBar(leading: BackButton()),
       body: pages[selectedIndex],
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            "현재 선택된 페이지: $selectedIndex",
-            style: const TextStyle(fontSize: 14, color: Colors.grey),
-          ),
           JuniorNavigationBar(),
         ],
       ),

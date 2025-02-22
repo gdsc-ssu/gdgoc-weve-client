@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/commons/presentation/main_screen.dart';
 
 void main() {
-  runApp(const ProviderScope(child: MyApp())); // Riverpod ProviderScope 적용
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
