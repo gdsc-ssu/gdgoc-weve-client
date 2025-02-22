@@ -10,6 +10,8 @@ class JuniorMyScreen extends StatefulWidget {
 class _JuniorMyScreenState extends State<JuniorMyScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      body: Text("Junior My"),
+    );
   }
 }

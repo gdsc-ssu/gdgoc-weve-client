@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/navigator/junior_navigation_bar.dart';
+import 'package:weve_client/core/navigator/senior_navigation_bar.dart';
 import 'package:weve_client/core/provider/StateNotifierProvider.dart';
 import 'package:weve_client/features/junior/presentation/views/junior_home_screen.dart';
 import 'package:weve_client/features/junior/presentation/views/junior_my_screen.dart';
@@ -26,7 +27,7 @@ class MainScreen extends ConsumerWidget {
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          JuniorNavigationBar(),
+          SeniorNavigationBar(),
         ],
       ),
     );

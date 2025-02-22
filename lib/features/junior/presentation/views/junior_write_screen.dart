@@ -10,6 +10,8 @@ class JuniorWriteScreen extends StatefulWidget {
 class _JuniorWriteScreenState extends State<JuniorWriteScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      body: Text("Junior Write"),
+    );
   }
 }

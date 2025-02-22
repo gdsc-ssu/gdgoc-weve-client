@@ -63,7 +63,7 @@ flutter:
     - assets/icons/nav_home_off.svg
     - assets/icons/nav_home_on.svg
     - assets/icons/nav_letter_off.svg
-    - assets/icons/nav_home_on.svg
+    - assets/icons/nav_letter_on.svg
     - assets/icons/nav_user_off.svg
     - assets/icons/nav_user_on.svg
     - assets/icons/nav_write_off.svg
