@@ -29,7 +29,7 @@ class ModeTypeModel {
       case ModeType.senior:
         return WeveColor.main.orange1;
       case ModeType.junior:
-        return WeveColor.main.yellow1;
+        return WeveColor.main.yellow1_100;
     }
   }
 }

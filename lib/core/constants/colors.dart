@@ -14,6 +14,9 @@ final class _MainColors {
   final Color blue1 = Color(0xFF345FAD);
   final Color pink1 = Color(0xFFEE9CC4);
   final Color yellow1 = Color(0xFFF8C811);
+  final Color yellow1_100 = Color(0XFFF8C811);
+  final Color yellow1_50 = Color(0XFFFBE180);
+  final Color yellow1_20 = Color(0XFFFEF1C2);
   final Color green1 = Color(0xFF05A552);
   final Color orange2 = Color(0XFF791C0A);
   final Color blue2 = Color(0XFF051042);
@@ -21,6 +24,8 @@ final class _MainColors {
   final Color yellow2 = Color(0XFF873F19);
   final Color green2 = Color(0XFF005227);
   final Color green3 = Color(0xFF27ce75);
+  final Color yellowText = Color(0xFF4B2816);
+  final Color yellow4 = Color(0xFFA3844B);
 }
 
 final class _BgColors {

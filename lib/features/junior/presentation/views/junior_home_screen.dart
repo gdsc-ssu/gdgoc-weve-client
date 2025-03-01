@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weve_client/commons/widgets/button/view/button.dart';
 import 'package:weve_client/commons/widgets/mode_button/model/mode_type.dart';
 import 'package:weve_client/commons/widgets/mode_button/view/mode_button.dart';
 import 'package:weve_client/core/constants/colors.dart';
@@ -17,16 +18,11 @@ class _JuniorHomeScreenState extends State<JuniorHomeScreen> {
     return Scaffold(
         body: Column(
       children: [
-        ModeButton(
-            modeTypeModel: ModeTypeModel(
-              type: ModeType.junior,
-            ),
-            targetScreen: JuniorMyScreen()),
-        ModeButton(
-            modeTypeModel: ModeTypeModel(
-              type: ModeType.senior,
-            ),
-            targetScreen: JuniorMyScreen())
+        Button(
+            text: "다음",
+            backgroundColor: WeveColor.main.yellow1_100,
+            textColor: WeveColor.main.yellowText,
+            onPressed: () {})
       ],
     ));
   }

@@ -58,4 +58,14 @@ class WeveText {
       fontSize: 8,
       fontWeight: FontWeight.w400,
       color: color);
+  static TextStyle semiHeader4({Color color = Colors.black}) => TextStyle(
+      fontFamily: 'Pretendard',
+      fontSize: 18,
+      fontWeight: FontWeight.w700,
+      color: color);
+  static TextStyle semiHeader5({Color color = Colors.black}) => TextStyle(
+      fontFamily: 'Pretendard',
+      fontSize: 16,
+      fontWeight: FontWeight.w700,
+      color: color);
 }
