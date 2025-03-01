@@ -8,13 +8,11 @@ import 'package:weve_client/commons/widgets/popup/view/popup.dart';
 import 'package:weve_client/commons/widgets/toast/view/toast.dart';
 import 'package:weve_client/core/constants/colors.dart';
 
-class JuniorHomeScreen extends ConsumerWidget {
-  const JuniorHomeScreen({super.key});
+class ToastUsage extends ConsumerWidget {
+  const ToastUsage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final popupViewModel = ref.read(popupProvider.notifier);
-
     return Scaffold(
         body: Center(
       child: ElevatedButton(
