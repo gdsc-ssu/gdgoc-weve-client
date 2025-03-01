@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/commons/widgets/mode_button/model/mode_type.dart';
-import 'package:weve_client/core/constants/colors.dart';
 
 final modeTypeProvider =
     StateNotifierProvider<ModeTypeViewmodel, ModeType?>((ref) {

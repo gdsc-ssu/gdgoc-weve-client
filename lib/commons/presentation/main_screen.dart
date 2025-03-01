@@ -4,7 +4,6 @@ import 'package:weve_client/commons/widgets/header/model/header_type.dart';
 import 'package:weve_client/commons/widgets/header/view/header_widget.dart';
 import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
 import 'package:weve_client/core/constants/colors.dart';
-import 'package:weve_client/core/navigator/junior_navigation_bar.dart';
 import 'package:weve_client/core/navigator/senior_navigation_bar.dart';
 import 'package:weve_client/core/provider/StateNotifierProvider.dart';
 import 'package:weve_client/features/junior/presentation/views/junior_home_screen.dart';

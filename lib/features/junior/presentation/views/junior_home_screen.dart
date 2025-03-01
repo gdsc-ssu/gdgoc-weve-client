@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:weve_client/commons/widgets/button/view/select_button.dart';
-import 'package:weve_client/commons/widgets/popup/model/popup_model.dart';
-import 'package:weve_client/commons/widgets/popup/viewmodel/popup_viewmodel.dart';
-import 'package:weve_client/commons/widgets/popup/view/popup.dart';
 import 'package:weve_client/commons/widgets/toast/view/toast.dart';
 import 'package:weve_client/core/constants/colors.dart';
 
@@ -13,8 +9,6 @@ class JuniorHomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final popupViewModel = ref.read(popupProvider.notifier);
-
     return Scaffold(
         body: Center(
       child: ElevatedButton(
