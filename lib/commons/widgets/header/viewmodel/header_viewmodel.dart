@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/commons/widgets/header/model/header_config.dart';
 import 'package:weve_client/commons/widgets/header/model/header_type.dart';
