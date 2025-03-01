@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weve_client/commons/widgets/button/view/button.dart';
+import 'package:weve_client/commons/widgets/button/view/select_button.dart';
 import 'package:weve_client/commons/widgets/mode_button/model/mode_type.dart';
 import 'package:weve_client/commons/widgets/mode_button/view/mode_button.dart';
 import 'package:weve_client/core/constants/colors.dart';
@@ -18,11 +19,18 @@ class _JuniorHomeScreenState extends State<JuniorHomeScreen> {
     return Scaffold(
         body: Column(
       children: [
-        Button(
-            text: "다음",
-            backgroundColor: WeveColor.main.yellow1_100,
-            textColor: WeveColor.main.yellowText,
-            onPressed: () {})
+        SelectButton(
+          title: "title",
+          description: "description",
+          isSelected: true,
+          onTap: () {},
+        ),
+        SelectButton(
+          title: "title",
+          description: "description",
+          isSelected: false,
+          onTap: () {},
+        )
       ],
     ));
   }
