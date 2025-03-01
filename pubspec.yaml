@@ -95,6 +95,7 @@ flutter:
     - assets/icons/senior_loud.svg
     - assets/icons/senior_microphone.svg
     - assets/icons/senior_people.svg
+    - assets/icons/popup_cancel.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

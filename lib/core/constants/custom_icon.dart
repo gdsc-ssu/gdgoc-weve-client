@@ -37,6 +37,7 @@ class CustomIcons {
   static const String seniorLoud = 'assets/icons/senior_loud.svg';
   static const String seniorMicrophone = 'assets/icons/senior_mircophone.svg';
   static const String seniorPeople = 'assets/icons/senior_people.svg';
+  static const String popupCancel = 'assets/icons/popup_cancel.svg';
 
   static Widget getIcon(String assetName, {double size = 24, Color? color}) {
     try {

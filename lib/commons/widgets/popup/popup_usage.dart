@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/commons/widgets/button/view/select_button.dart';
-import 'package:weve_client/commons/widgets/popup/model/popup_model.dart';
 import 'package:weve_client/commons/widgets/popup/viewmodel/popup_viewmodel.dart';
 import 'package:weve_client/commons/widgets/popup/view/popup.dart';
 
-class JuniorHomeScreen extends ConsumerWidget {
-  const JuniorHomeScreen({super.key});
+class PopupUsageScreen extends ConsumerWidget {
+  const PopupUsageScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
