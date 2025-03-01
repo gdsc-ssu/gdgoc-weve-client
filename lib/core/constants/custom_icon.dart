@@ -10,6 +10,33 @@ class CustomIcons {
   static const String navUserOn = 'assets/icons/nav_user_on.svg';
   static const String navLetterOff = 'assets/icons/nav_letter_off.svg';
   static const String navLetterOn = 'assets/icons/nav_letter_on.svg';
+  static const String headerCancel = 'assets/icons/header_cancel.svg';
+  static const String headerLeftArrow = 'assets/icons/header_left_arrow.svg';
+  static const String juniorChat = 'assets/icons/junior_chat.svg';
+  static const String juniorCheck = 'assets/icons/junior_check.svg';
+  static const String juniorHeart = 'assets/icons/junior_heart.svg';
+  static const String logo = 'assets/icons/logo.svg';
+  static const String myEarth = 'assets/icons/my_earth.svg';
+  static const String myEtc = 'assets/icons/my_etc.svg';
+  static const String myMy = 'assets/icons/my_my.svg';
+  static const String myPhone = 'assets/icons/my_phone.svg';
+  static const String mySendActive = 'assets/icons/my_send_active.svg';
+  static const String mySendDeactive = 'assets/icons/my_send_deactive.svg';
+  static const String profileBlue = 'assets/icons/profile_blue.svg';
+  static const String profileGreen = 'assets/icons/profile_green.svg';
+  static const String profileOrange = 'assets/icons/profile_orange.svg';
+  static const String profilePink = 'assets/icons/profile_pink.svg';
+  static const String profileYellow = 'assets/icons/profile_yellow.svg';
+  static const String radioOff = 'assets/icons/radio_off.svg';
+  static const String radioOn = 'assets/icons/radio_on.svg';
+  static const String seniorCamera = 'assets/icons/senior_camera.svg';
+  static const String seniorChat = 'assets/icons/senior_chat.svg';
+  static const String seniorHeart = 'assets/icons/senior_heart.svg';
+  static const String seniorLetterOff = 'assets/icons/senior_letter_off.svg';
+  static const String seniorLetterOn = 'assets/icons/senior_letter_on.svg';
+  static const String seniorLoud = 'assets/icons/senior_loud.svg';
+  static const String seniorMicrophone = 'assets/icons/senior_mircophone.svg';
+  static const String seniorPeople = 'assets/icons/senior_people.svg';
 
   static Widget getIcon(String assetName, {double size = 24, Color? color}) {
     try {
