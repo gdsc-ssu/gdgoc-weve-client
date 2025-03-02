@@ -32,7 +32,7 @@ class Popup extends ConsumerWidget {
           child: Dialog(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            backgroundColor: WeveColor.bg.bg1,
+            backgroundColor: WeveColor.gray.gray8,
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
