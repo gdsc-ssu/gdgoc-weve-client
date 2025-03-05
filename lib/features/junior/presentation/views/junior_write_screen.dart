@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class JuniorWriteScreen extends StatefulWidget {
   const JuniorWriteScreen({super.key});
@@ -11,7 +12,22 @@ class _JuniorWriteScreenState extends State<JuniorWriteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text("Junior Write"),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 200,
+              height: 200,
+              child: Lottie.asset(
+                'assets/animations/audio_wave.json',
+                repeat: true,
+                animate: true,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
