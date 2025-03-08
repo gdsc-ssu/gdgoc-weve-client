@@ -16,7 +16,7 @@ class _JuniorWriteScreenState extends State<JuniorWriteScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
+            SizedBox(
               width: 200,
               height: 200,
               child: Lottie.asset(
