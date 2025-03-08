@@ -62,46 +62,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/icons/
     - assets/animations/
-    - assets/icons/nav_home_off.svg
-    - assets/icons/nav_home_on.svg
-    - assets/icons/nav_letter_off.svg
-    - assets/icons/nav_letter_on.svg
-    - assets/icons/nav_user_off.svg
-    - assets/icons/nav_user_on.svg
-    - assets/icons/nav_write_off.svg
-    - assets/icons/nav_write_on.svg
-    - assets/icons/header_cancel.svg
-    - assets/icons/header_left_arrow.svg
-    - assets/icons/junior_chat.svg
-    - assets/icons/junior_check.svg
-    - assets/icons/junior_heart.svg
-    - assets/icons/logo.svg
-    - assets/icons/my_earth.svg
-    - assets/icons/my_etc.svg
-    - assets/icons/my_my.svg
-    - assets/icons/my_phone.svg
-    - assets/icons/my_send_active.svg
-    - assets/icons/my_send_deactive.svg
-    - assets/icons/profile_blue.svg
-    - assets/icons/profile_green.svg
-    - assets/icons/profile_orange.svg
-    - assets/icons/profile_pink.svg
-    - assets/icons/profile_yellow.svg
-    - assets/icons/radio_off.svg
-    - assets/icons/radio_on.svg
-    - assets/icons/senior_camera.svg
-    - assets/icons/senior_chat.svg
-    - assets/icons/senior_heart.svg
-    - assets/icons/senior_letter_on.svg
-    - assets/icons/senior_letter_off.svg
-    - assets/icons/senior_loud.svg
-    - assets/icons/senior_microphone.svg
-    - assets/icons/senior_people.svg
-    - assets/icons/popup_cancel.svg
-    - assets/animations/audio_wave.json
-    - assets/animations/weve_characters.json
-
+    
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
