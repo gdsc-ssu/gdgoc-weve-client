@@ -1,52 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:weve_client/commons/widgets/button/view/select_button.dart';
-import 'package:weve_client/commons/widgets/popup/view/popup.dart';
-import 'package:weve_client/commons/widgets/popup/viewmodel/popup_viewmodel.dart';
-import 'package:weve_client/commons/widgets/toast/view/toast.dart';
-import 'package:weve_client/core/constants/colors.dart';
+import 'package:weve_client/commons/widgets/junior/box/view/input_box_worry.dart';
+import 'package:weve_client/commons/widgets/junior/button/view/junior_profile_button.dart';
+import 'package:weve_client/commons/widgets/junior/button/view/select_language_button.dart';
+import 'package:weve_client/commons/widgets/junior/button/viewmodel/select_language_provider.dart';
+import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_complete.dart';
+import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_responsed.dart';
+import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_waiting.dart';
 
 class JuniorHomeScreen extends ConsumerWidget {
   const JuniorHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final popupViewModel = ref.read(popupProvider.notifier);
     return Scaffold(
-      body: Stack(
-        children: [
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                popupViewModel.showPopup(Column(
-                  children: [
-                    SelectButton(
-                        title: "select",
-                        description: "description",
-                        isSelected: false,
-                        onTap: () {}),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    SelectButton(
-                        title: "select",
-                        description: "description",
-                        isSelected: false,
-                        onTap: () {}),
-                  ],
-                ));
-              },
-              child: const Text("팝업 열기"),
-            ),
-          ),
-
-          // ✅ ViewModel이 관리하는 팝업을 표시
-          const Popup(
-            title: "popup title",
-          ),
-        ],
-      ),
-    );
+        body: Column(
+      children: [
+        ListItemComplete(text: "N?A"),
+        ListItemResponded(text: "N?A"),
+        ListItemWaiting(text: "N?A")
+      ],
+    ));
   }
 }

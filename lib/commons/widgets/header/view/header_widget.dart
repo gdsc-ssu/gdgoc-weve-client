@@ -38,35 +38,32 @@ class HeaderWidget extends ConsumerWidget implements PreferredSizeWidget {
             )
           : null,
       centerTitle: !hasTitle || !hasLogo,
-      title: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-        child: hasTitle && hasLogo
-            ? Row(
-                children: [
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        config.title!,
-                        style: _getFont(config.type),
-                      ),
+      title: hasTitle && hasLogo
+          ? Row(
+              children: [
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      config.title!,
+                      style: _getFont(config.type),
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: CustomIcons.getIcon(CustomIcons.logo),
-                  ),
-                ],
-              )
-            : hasLogo
-                ? CustomIcons.getIcon(CustomIcons.logo)
-                : hasTitle
-                    ? Text(
-                        config.title!,
-                        style: _getFont(config.type),
-                      )
-                    : null,
-      ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: CustomIcons.getIcon(CustomIcons.logo),
+                ),
+              ],
+            )
+          : hasLogo
+              ? CustomIcons.getIcon(CustomIcons.logo)
+              : hasTitle
+                  ? Text(
+                      config.title!,
+                      style: _getFont(config.type),
+                    )
+                  : null,
       actions: config.showCancelButton
           ? [
               IconButton(
