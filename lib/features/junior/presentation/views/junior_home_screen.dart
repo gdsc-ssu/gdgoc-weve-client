@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:weve_client/commons/widgets/button/view/select_button.dart';
+import 'package:weve_client/commons/widgets/junior/button/view/letter_button_off.dart';
+import 'package:weve_client/commons/widgets/junior/button/view/letter_button_on.dart';
 import 'package:weve_client/commons/widgets/popup/view/popup.dart';
 import 'package:weve_client/commons/widgets/popup/viewmodel/popup_viewmodel.dart';
 import 'package:weve_client/commons/widgets/senior/button/view/button.dart';
@@ -28,9 +30,9 @@ class JuniorHomeScreen extends ConsumerWidget {
 
     return Column(
       children: [
-        InputBox(
-          gap: 142,
-        )
+        LetterButtonOff(
+            countryName: "대한민국", countryEmoji: "🇰🇷", onTap: () {}),
+        LetterButtonOn(countryName: "대한민국", countryEmoji: "🇰🇷", onTap: () {})
       ],
     );
   }
