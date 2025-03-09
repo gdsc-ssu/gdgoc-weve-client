@@ -107,6 +107,8 @@ flutter:
     - assets/banner/banner_1.svg
     - assets/banner/banner_2.svg
     - assets/icons/junior_profile.svg
+    - assets/icons/lan_radio_off.svg
+    - assets/icons/lan_radio_on.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
