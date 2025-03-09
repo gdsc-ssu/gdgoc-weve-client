@@ -23,12 +23,11 @@ class JuniorHomeScreen extends ConsumerWidget {
 
     return Column(
       children: [
-        // QuestionBox(
-        //     audioUrl: "",
-        //     text:
-        //         "Right here your input profile text description. and I’m hungry. hahaha."),
-        // SpeechToTextBox()
-        ListItem(text: "고민 내용을 AI가 10자로 보여줍니다.", color: WeveColor.main.green3)
+        QuestionBox(
+            audioUrl: "",
+            text:
+                "Right here your input profile text description. and I’m hungry. hahaha."),
+        SpeechToTextBox()
       ],
     );
   }
