@@ -31,7 +31,10 @@ class MainScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: WeveColor.bg.bg1,
       appBar: HeaderWidget(),
-      body: pages[selectedIndex],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: pages[selectedIndex],
+      ),
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
