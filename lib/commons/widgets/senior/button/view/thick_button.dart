@@ -1,32 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 
-class SeniorButton extends StatelessWidget {
+class ThickButton extends StatelessWidget {
   final String text;
-  final Color backgroundColor;
-  final Color textColor;
+
   final void Function() onPressed;
 
-  const SeniorButton(
-      {super.key,
-      required this.text,
-      required this.backgroundColor,
-      required this.textColor,
-      required this.onPressed});
+  const ThickButton({super.key, required this.text, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: double.infinity,
-        height: 60,
+        width: 350,
+        height: 100,
         decoration: BoxDecoration(
-          color: backgroundColor,
+          color: WeveColor.main.yellow1_100,
           borderRadius: BorderRadius.circular(16),
         ),
         alignment: Alignment.center,
-        child: Text(text, style: WeveText.semiHeader4(color: textColor)),
+        child: Text(text,
+            style: WeveText.header3(color: WeveColor.main.yellowText)),
       ),
     );
   }
