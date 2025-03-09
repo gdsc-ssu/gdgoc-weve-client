@@ -5,6 +5,7 @@ import 'package:weve_client/commons/widgets/button/view/select_button.dart';
 import 'package:weve_client/commons/widgets/popup/view/popup.dart';
 import 'package:weve_client/commons/widgets/popup/viewmodel/popup_viewmodel.dart';
 import 'package:weve_client/commons/widgets/senior/button/view/button.dart';
+import 'package:weve_client/commons/widgets/senior/input_profile/view/question_box.dart';
 import 'package:weve_client/commons/widgets/senior/login/view/input_field.dart';
 import 'package:weve_client/commons/widgets/toast/view/toast.dart';
 import 'package:weve_client/core/constants/colors.dart';
@@ -19,7 +20,12 @@ class JuniorHomeScreen extends ConsumerWidget {
     }
 
     return Column(
-      children: [SeniorInputField(title: "name", placeholder: "name")],
+      children: [
+        QuestionBox(
+            audioUrl: "",
+            text:
+                "Right here your input profile text description. and I’m hungry. hahaha.")
+      ],
     );
   }
 }
