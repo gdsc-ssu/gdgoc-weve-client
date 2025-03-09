@@ -35,7 +35,7 @@ class CustomIcons {
   static const String seniorLetterOff = 'assets/icons/senior_letter_off.svg';
   static const String seniorLetterOn = 'assets/icons/senior_letter_on.svg';
   static const String seniorLoud = 'assets/icons/senior_loud.svg';
-  static const String seniorMicrophone = 'assets/icons/senior_mircophone.svg';
+  static const String seniorRecording = 'assets/icons/senior_record.svg';
   static const String seniorPeople = 'assets/icons/senior_people.svg';
   static const String popupCancel = 'assets/icons/popup_cancel.svg';
   static const String juniorProfile = 'assets/icons/junior_profile.svg';

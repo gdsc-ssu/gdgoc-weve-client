@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:weve_client/commons/widgets/senior/button/view/speech_button.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 
@@ -50,6 +52,14 @@ class _SpeechToTextBoxState extends State<SpeechToTextBox> {
     _speech.stop();
   }
 
+  void _toggleListening() {
+    if (_isListening) {
+      _stopListening();
+    } else {
+      _startListening();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -66,8 +76,21 @@ class _SpeechToTextBoxState extends State<SpeechToTextBox> {
             style: WeveText.header4(color: WeveColor.gray.gray1),
           ),
         ),
-        SizedBox(height: 12),
-        // 음성 인식 버튼
+        SizedBox(height: 30),
+        SizedBox(
+          width: 200,
+          height: 200,
+          child: Lottie.asset(
+            'assets/animations/audio_wave.json',
+            repeat: true,
+            animate: true,
+          ),
+        ),
+        SizedBox(height: 20),
+        SpeechButton(
+          onTap: _toggleListening,
+          isListening: _isListening,
+        ),
       ],
     );
   }

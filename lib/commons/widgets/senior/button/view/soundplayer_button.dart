@@ -3,17 +3,17 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/custom_icon.dart';
 
-class SoundPlayerWidget extends StatefulWidget {
+class SoundButton extends StatefulWidget {
   // MP3 파일 경로
   final String audioUrl;
 
-  const SoundPlayerWidget({super.key, required this.audioUrl});
+  const SoundButton({super.key, required this.audioUrl});
 
   @override
-  State<SoundPlayerWidget> createState() => _SoundPlayerWidgetState();
+  State<SoundButton> createState() => _SoundButtonState();
 }
 
-class _SoundPlayerWidgetState extends State<SoundPlayerWidget> {
+class _SoundButtonState extends State<SoundButton> {
   final AudioPlayer _audioPlayer = AudioPlayer();
   bool _isPlaying = false;
 

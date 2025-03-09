@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weve_client/commons/widgets/senior/sound_player/view/soundplayer_widget.dart';
+import 'package:weve_client/commons/widgets/senior/button/view/soundplayer_button.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 
@@ -18,7 +18,7 @@ class QuestionBox extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SoundPlayerWidget(audioUrl: audioUrl),
+        SoundButton(audioUrl: audioUrl),
         SizedBox(width: 12),
         Expanded(
           child: Text(
