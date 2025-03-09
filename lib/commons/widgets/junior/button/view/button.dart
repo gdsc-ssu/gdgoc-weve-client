@@ -18,8 +18,8 @@ class JuniorButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: 310,
-        height: 50,
+        width: 350,
+        height: 53,
         decoration: BoxDecoration(
           color: backgroundColor,
           borderRadius: BorderRadius.circular(16),
