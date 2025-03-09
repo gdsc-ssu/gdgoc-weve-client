@@ -5,6 +5,7 @@ import 'package:weve_client/core/constants/fonts.dart';
 class InputHeader extends StatelessWidget {
   final String title;
   final String text;
+
   const InputHeader({
     super.key,
     required this.title,
@@ -16,14 +17,23 @@ class InputHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: WeveText.header3(color: WeveColor.gray.gray1),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            title,
+            style: WeveText.header3(color: WeveColor.gray.gray1),
+            textAlign: TextAlign.left,
+          ),
         ),
-        Text(
-          title,
-          style: WeveText.body2(color: WeveColor.gray.gray5),
-        )
+        SizedBox(height: 4),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            text,
+            style: WeveText.body2(color: WeveColor.gray.gray5),
+            textAlign: TextAlign.left,
+          ),
+        ),
       ],
     );
   }

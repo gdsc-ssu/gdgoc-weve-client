@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:weve_client/commons/widgets/button/view/select_button.dart';
-import 'package:weve_client/commons/widgets/junior/header/view/header.dart';
-import 'package:weve_client/commons/widgets/popup/view/popup.dart';
-import 'package:weve_client/commons/widgets/popup/viewmodel/popup_viewmodel.dart';
-import 'package:weve_client/commons/widgets/toast/view/toast.dart';
-import 'package:weve_client/core/constants/colors.dart';
+
+import 'package:weve_client/commons/widgets/junior/input/view/input_field.dart';
+import 'package:weve_client/commons/widgets/junior/input/view/input_header.dart';
 
 class JuniorHomeScreen extends ConsumerWidget {
   const JuniorHomeScreen({super.key});
@@ -14,7 +10,14 @@ class JuniorHomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      body: JuniorHeader(),
-    );
+        body: Column(
+      children: [
+        InputHeader(
+            title: "This is Title text contents",
+            text:
+                "This is caption text contents. Please write here your description."),
+        InputField(title: "name", placeholder: "Enter your name")
+      ],
+    ));
   }
 }
