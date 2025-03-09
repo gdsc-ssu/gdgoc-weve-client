@@ -16,15 +16,15 @@ class ListItemResponded extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
       decoration: BoxDecoration(
-        color: WeveColor.main.yellow1_20,
+        color: WeveColor.main.yellow1_100,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         children: [
-          CustomIcons.getIcon(CustomIcons.juniorCheck),
+          CustomIcons.getIcon(CustomIcons.juniorHeart),
           SizedBox(width: 10),
           Text(text,
-              style: WeveText.semiHeader4(color: WeveColor.main.yellow4)),
+              style: WeveText.semiHeader4(color: WeveColor.main.yellowText)),
         ],
       ),
     );

@@ -16,15 +16,15 @@ class ListItemComplete extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
       decoration: BoxDecoration(
-        color: WeveColor.main.yellow1_100,
+        color: WeveColor.main.yellow1_20,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         children: [
-          CustomIcons.getIcon(CustomIcons.juniorHeart),
+          CustomIcons.getIcon(CustomIcons.juniorCheck),
           SizedBox(width: 10),
           Text(text,
-              style: WeveText.semiHeader4(color: WeveColor.main.yellowText)),
+              style: WeveText.semiHeader4(color: WeveColor.main.yellow4)),
         ],
       ),
     );
