@@ -1,25 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:weve_client/commons/widgets/junior/box/view/input_box_worry.dart';
-import 'package:weve_client/commons/widgets/junior/button/view/junior_profile_button.dart';
-import 'package:weve_client/commons/widgets/junior/button/view/select_language_button.dart';
-import 'package:weve_client/commons/widgets/junior/button/viewmodel/select_language_provider.dart';
-import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_complete.dart';
-import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_responsed.dart';
-import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_waiting.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:weve_client/commons/widgets/button/view/select_button.dart';
+import 'package:weve_client/commons/widgets/junior/button/view/letter_button_off.dart';
+import 'package:weve_client/commons/widgets/junior/button/view/letter_button_on.dart';
+import 'package:weve_client/commons/widgets/popup/view/popup.dart';
+import 'package:weve_client/commons/widgets/popup/viewmodel/popup_viewmodel.dart';
+import 'package:weve_client/commons/widgets/senior/button/view/button.dart';
+import 'package:weve_client/commons/widgets/senior/button/view/sound_button.dart';
+import 'package:weve_client/commons/widgets/senior/button/view/thick_button.dart';
+import 'package:weve_client/commons/widgets/senior/header/view/profile_header.dart';
+import 'package:weve_client/commons/widgets/senior/input/view/input_box.dart';
+import 'package:weve_client/commons/widgets/senior/input_profile/view/question_box.dart';
+import 'package:weve_client/commons/widgets/senior/input_profile/view/stt_box.dart';
+import 'package:weve_client/commons/widgets/senior/list_item/view/list_item.dart';
+import 'package:weve_client/commons/widgets/senior/login/view/input_field.dart';
+import 'package:weve_client/commons/widgets/toast/view/toast.dart';
+import 'package:weve_client/core/constants/colors.dart';
+import 'package:weve_client/core/constants/custom_svg_image.dart';
 
 class JuniorHomeScreen extends ConsumerWidget {
   const JuniorHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-        body: Column(
+    void onPressed() {
+      return;
+    }
+
+    return Column(
       children: [
-        ListItemComplete(text: "N?A"),
-        ListItemResponded(text: "N?A"),
-        ListItemWaiting(text: "N?A")
+        LetterButtonOff(
+            countryName: "대한민국", countryEmoji: "🇰🇷", onTap: () {}),
+        LetterButtonOn(countryName: "대한민국", countryEmoji: "🇰🇷", onTap: () {})
       ],
-    ));
+    );
   }
 }
