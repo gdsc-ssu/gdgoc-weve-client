@@ -26,6 +26,12 @@ class AppLocalizations {
       'seniorNavHome': 'Home',
       'seniorNavLetterBox': 'Letter',
       'seniorNavMy': 'My',
+      'juniorHeaderHomeTitle': 'My Problems List',
+      'juniorHeaderWriteTitle': 'Write a Problem',
+      'juniorHeaderMyTitle': 'My Page',
+      'seniorHeaderHomeTitle': 'Junior Problems List',
+      'seniorHeaderLetterBoxTitle': 'Thank You Letters',
+      'seniorHeaderMyTitle': 'My Page',
     },
     'ko': {
       'appTitle': 'weve',
@@ -41,6 +47,12 @@ class AppLocalizations {
       'seniorNavHome': '홈',
       'seniorNavLetterBox': '편지함',
       'seniorNavMy': '마이',
+      'juniorHeaderHomeTitle': '나의 고민 목록',
+      'juniorHeaderWriteTitle': '고민 작성',
+      'juniorHeaderMyTitle': '마이페이지',
+      'seniorHeaderHomeTitle': '청년 고민 목록',
+      'seniorHeaderLetterBoxTitle': '감사편지함',
+      'seniorHeaderMyTitle': '마이페이지',
     },
     'ja': {
       'appTitle': 'weve',
@@ -56,6 +68,12 @@ class AppLocalizations {
       'seniorNavHome': 'ホーム',
       'seniorNavLetterBox': '手紙',
       'seniorNavMy': 'マイ',
+      'juniorHeaderHomeTitle': '私の悩みリスト',
+      'juniorHeaderWriteTitle': '悩みを書く',
+      'juniorHeaderMyTitle': 'マイページ',
+      'seniorHeaderHomeTitle': '青年の悩みリスト',
+      'seniorHeaderLetterBoxTitle': '感謝の手紙',
+      'seniorHeaderMyTitle': 'マイページ',
     },
   };
 
@@ -90,6 +108,28 @@ class AppLocalizations {
       _localizedValues[locale.languageCode]?['seniorNavLetterBox'] ?? 'Letter';
   String get seniorNavMy =>
       _localizedValues[locale.languageCode]?['seniorNavMy'] ?? 'My';
+
+  // 주니어 헤더 타이틀
+  String get juniorHeaderHomeTitle =>
+      _localizedValues[locale.languageCode]?['juniorHeaderHomeTitle'] ??
+      'My Problems List';
+  String get juniorHeaderWriteTitle =>
+      _localizedValues[locale.languageCode]?['juniorHeaderWriteTitle'] ??
+      'Write a Problem';
+  String get juniorHeaderMyTitle =>
+      _localizedValues[locale.languageCode]?['juniorHeaderMyTitle'] ??
+      'My Page';
+
+  // 시니어 헤더 타이틀
+  String get seniorHeaderHomeTitle =>
+      _localizedValues[locale.languageCode]?['seniorHeaderHomeTitle'] ??
+      'Junior Problems List';
+  String get seniorHeaderLetterBoxTitle =>
+      _localizedValues[locale.languageCode]?['seniorHeaderLetterBoxTitle'] ??
+      'Thank You Letters';
+  String get seniorHeaderMyTitle =>
+      _localizedValues[locale.languageCode]?['seniorHeaderMyTitle'] ??
+      'My Page';
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

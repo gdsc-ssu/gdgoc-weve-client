@@ -9,6 +9,7 @@ import 'package:weve_client/commons/widgets/junior/button/viewmodel/select_langu
 import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_complete.dart';
 import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_responsed.dart';
 import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_waiting.dart';
+import 'package:weve_client/core/localization/app_localizations.dart';
 
 class JuniorHomeScreen extends ConsumerStatefulWidget {
   const JuniorHomeScreen({super.key});
@@ -23,9 +24,12 @@ class _JuniorHomeScreenState extends ConsumerState<JuniorHomeScreen> {
     super.initState();
     // 헤더 설정
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      final locale = ref.read(localeProvider);
+      final appLocalizations = AppLocalizations(locale);
+
       ref.read(headerProvider.notifier).setHeader(
             HeaderType.juniorTitleLogo,
-            title: "나의 고민 목록",
+            title: appLocalizations.juniorHeaderHomeTitle,
           );
     });
   }
