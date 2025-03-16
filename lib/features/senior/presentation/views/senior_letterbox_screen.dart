@@ -4,22 +4,23 @@ import 'package:lottie/lottie.dart';
 import 'package:weve_client/commons/widgets/header/model/header_type.dart';
 import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
 
-class JuniorWriteScreen extends ConsumerStatefulWidget {
-  const JuniorWriteScreen({super.key});
+class SeniorLetterboxScreen extends ConsumerStatefulWidget {
+  const SeniorLetterboxScreen({super.key});
 
   @override
-  ConsumerState<JuniorWriteScreen> createState() => _JuniorWriteScreenState();
+  ConsumerState<SeniorLetterboxScreen> createState() =>
+      _SeniorLetterboxScreenState();
 }
 
-class _JuniorWriteScreenState extends ConsumerState<JuniorWriteScreen> {
+class _SeniorLetterboxScreenState extends ConsumerState<SeniorLetterboxScreen> {
   @override
   void initState() {
     super.initState();
     // 헤더 설정
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(headerProvider.notifier).setHeader(
-            HeaderType.juniorTitleLogo,
-            title: "고민 작성",
+            HeaderType.seniorTitleLogo,
+            title: "감사 편지함",
           );
     });
   }
@@ -40,6 +41,8 @@ class _JuniorWriteScreenState extends ConsumerState<JuniorWriteScreen> {
                 animate: true,
               ),
             ),
+            const SizedBox(height: 20),
+            const Text("시니어 편지함 화면"),
           ],
         ),
       ),

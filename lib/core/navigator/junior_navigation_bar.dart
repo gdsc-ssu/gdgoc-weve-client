@@ -43,7 +43,7 @@ class JuniorNavigationBar extends ConsumerWidget {
                   ? CustomIcons.getIcon(CustomIcons.navWriteOn)
                   : CustomIcons.getIcon(CustomIcons.navWriteOff),
             ),
-            label: '글쓰기',
+            label: '작성',
           ),
           BottomNavigationBarItem(
             icon: Padding(

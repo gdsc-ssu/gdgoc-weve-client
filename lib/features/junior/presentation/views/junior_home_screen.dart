@@ -1,36 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:weve_client/commons/widgets/button/view/select_button.dart';
-import 'package:weve_client/commons/widgets/junior/button/view/letter_button_off.dart';
-import 'package:weve_client/commons/widgets/junior/button/view/letter_button_on.dart';
-import 'package:weve_client/commons/widgets/popup/view/popup.dart';
-import 'package:weve_client/commons/widgets/popup/viewmodel/popup_viewmodel.dart';
-import 'package:weve_client/commons/widgets/senior/button/view/button.dart';
-import 'package:weve_client/commons/widgets/senior/button/view/sound_button.dart';
-import 'package:weve_client/commons/widgets/senior/button/view/thick_button.dart';
-import 'package:weve_client/commons/widgets/senior/header/view/profile_header.dart';
-import 'package:weve_client/commons/widgets/senior/input/view/input_box.dart';
-import 'package:weve_client/commons/widgets/senior/input_profile/view/question_box.dart';
-import 'package:weve_client/commons/widgets/senior/input_profile/view/stt_box.dart';
-import 'package:weve_client/commons/widgets/senior/list_item/view/list_item.dart';
-import 'package:weve_client/commons/widgets/senior/login/view/input_field.dart';
-import 'package:weve_client/commons/widgets/toast/view/toast.dart';
-import 'package:weve_client/core/constants/colors.dart';
-import 'package:weve_client/core/constants/custom_svg_image.dart';
-import 'package:weve_client/features/senior/presentation/views/login/senior_login_screen.dart';
+import 'package:weve_client/commons/widgets/header/model/header_type.dart';
+import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
+import 'package:weve_client/commons/widgets/junior/box/view/input_box_worry.dart';
+import 'package:weve_client/commons/widgets/junior/button/view/junior_profile_button.dart';
+import 'package:weve_client/commons/widgets/junior/button/view/select_language_button.dart';
+import 'package:weve_client/commons/widgets/junior/button/viewmodel/select_language_provider.dart';
+import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_complete.dart';
+import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_responsed.dart';
+import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_waiting.dart';
 
-class JuniorHomeScreen extends ConsumerWidget {
+class JuniorHomeScreen extends ConsumerStatefulWidget {
   const JuniorHomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    void onPressed() {
-      return;
-    }
+  ConsumerState<JuniorHomeScreen> createState() => _JuniorHomeScreenState();
+}
 
-    return Column(
-      children: [SeniorLoginScreen()],
-    );
+class _JuniorHomeScreenState extends ConsumerState<JuniorHomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // 헤더 설정
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(headerProvider.notifier).setHeader(
+            HeaderType.juniorTitleLogo,
+            title: "나의 고민 목록",
+          );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Column(
+      children: [
+        ListItemComplete(text: "N?A"),
+        ListItemResponded(text: "N?A"),
+        ListItemWaiting(text: "N?A")
+      ],
+    ));
   }
 }
