@@ -1,16 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
+import 'package:weve_client/commons/widgets/header/model/header_type.dart';
+import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
 
-class SeniorLetterboxScreen extends StatefulWidget {
+class SeniorLetterboxScreen extends ConsumerStatefulWidget {
   const SeniorLetterboxScreen({super.key});
 
   @override
-  State<SeniorLetterboxScreen> createState() => _SeniorLetterboxScreenState();
+  ConsumerState<SeniorLetterboxScreen> createState() =>
+      _SeniorLetterboxScreenState();
 }
 
-class _SeniorLetterboxScreenState extends State<SeniorLetterboxScreen> {
+class _SeniorLetterboxScreenState extends ConsumerState<SeniorLetterboxScreen> {
   @override
   Widget build(BuildContext context) {
+    // 헤더 설정
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(headerProvider.notifier).setHeader(
+            HeaderType.seniorTitleLogo,
+            title: "감사 편지함",
+          );
+    });
+
     return Scaffold(
       body: Center(
         child: Column(

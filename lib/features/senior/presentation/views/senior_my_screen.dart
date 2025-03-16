@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weve_client/commons/widgets/header/model/header_type.dart';
+import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
 
-class SeniorMyScreen extends StatefulWidget {
+class SeniorMyScreen extends ConsumerStatefulWidget {
   const SeniorMyScreen({super.key});
 
   @override
-  State<SeniorMyScreen> createState() => _SeniorMyScreenState();
+  ConsumerState<SeniorMyScreen> createState() => _SeniorMyScreenState();
 }
 
-class _SeniorMyScreenState extends State<SeniorMyScreen> {
+class _SeniorMyScreenState extends ConsumerState<SeniorMyScreen> {
   @override
   Widget build(BuildContext context) {
+    // 헤더 설정
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(headerProvider.notifier).setHeader(
+            HeaderType.seniorTitleLogo,
+            title: "마이페이지",
+          );
+    });
+
     return Scaffold(
       body: Center(
         child: Text("시니어 마이 화면"),

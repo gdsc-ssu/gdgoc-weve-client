@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:weve_client/commons/widgets/header/model/header_type.dart';
 import 'package:weve_client/commons/widgets/header/view/header_widget.dart';
-import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/navigator/senior_navigation_bar.dart';
 import 'package:weve_client/core/provider/StateNotifierProvider.dart';
@@ -15,7 +13,6 @@ class SeniorMainScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final headerViewModel = ref.read(headerProvider.notifier);
     final selectedIndex = ref.watch(navigationProvider);
 
     final List<Widget> pages = [
@@ -23,10 +20,6 @@ class SeniorMainScreen extends ConsumerWidget {
       const SeniorLetterboxScreen(),
       const SeniorMyScreen()
     ];
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      headerViewModel.setHeader(HeaderType.seniorTitleLogo, title: "시니어 화면");
-    });
 
     return Scaffold(
       backgroundColor: WeveColor.bg.bg1,
