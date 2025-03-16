@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:weve_client/commons/presentation/index_screen.dart';
 import 'package:weve_client/commons/widgets/junior/button/view/select_language_button.dart';
 import 'package:weve_client/commons/widgets/junior/button/viewmodel/select_language_provider.dart';
 import 'package:weve_client/commons/widgets/junior/header/view/header.dart';
-import 'package:weve_client/core/constants/custom_icon.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
 
 class LanguageScreen extends ConsumerStatefulWidget {

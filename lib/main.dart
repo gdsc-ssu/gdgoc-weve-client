@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:weve_client/commons/presentation/index_screen.dart';
 import 'package:weve_client/commons/presentation/language_screen.dart';
 import 'package:weve_client/commons/presentation/splash_screen.dart';
 import 'package:weve_client/core/constants/colors.dart';

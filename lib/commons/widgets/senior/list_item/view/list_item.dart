@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:weve_client/core/constants/colors.dart';
-import 'package:weve_client/core/constants/custom_icon.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 
 class ListItem extends StatelessWidget {
