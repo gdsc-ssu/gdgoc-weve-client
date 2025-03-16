@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/commons/widgets/mode_button/model/mode_type.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/fonts.dart';
+import 'package:weve_client/core/localization/app_localizations.dart';
 
 class ModeButton extends ConsumerWidget {
   final ModeTypeModel modeTypeModel;
@@ -16,6 +17,9 @@ class ModeButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // 현재 로케일을 가져옵니다.
+    final locale = ref.watch(localeProvider);
+
     // 화면 너비를 가져옵니다.
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -44,7 +48,7 @@ class ModeButton extends ConsumerWidget {
         ),
         alignment: Alignment.center,
         child: Text(
-          modeTypeModel.text,
+          modeTypeModel.getLocalizedText(locale),
           style: WeveText.header1(color: WeveColor.gray.gray8),
         ),
       ),

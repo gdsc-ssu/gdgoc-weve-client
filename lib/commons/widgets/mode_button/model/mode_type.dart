@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weve_client/core/constants/colors.dart';
+import 'package:weve_client/core/localization/app_localizations.dart';
 
 enum ModeType {
   senior,
@@ -8,19 +9,23 @@ enum ModeType {
 
 class ModeTypeModel {
   final ModeType type;
-  final String text;
+  late final String text;
   final Color color;
 
-  ModeTypeModel({required this.type})
-      : text = _getDefaultText(type),
-        color = _getDefaultColor(type);
+  ModeTypeModel({required this.type}) : color = _getDefaultColor(type) {
+    // text는 생성자에서 초기화하지 않고, 나중에 설정합니다.
+    // AppLocalizations를 사용하기 위해서는 BuildContext나 Locale이 필요하기 때문입니다.
+  }
 
-  static String _getDefaultText(ModeType type) {
+  // 로케일에 따라 텍스트를 가져오는 메서드
+  String getLocalizedText(Locale locale) {
+    final appLocalizations = AppLocalizations(locale);
+
     switch (type) {
       case ModeType.senior:
-        return "어르신";
+        return appLocalizations.senior;
       case ModeType.junior:
-        return "청년";
+        return appLocalizations.junior;
     }
   }
 
