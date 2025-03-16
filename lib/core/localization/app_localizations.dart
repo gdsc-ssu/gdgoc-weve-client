@@ -29,8 +29,8 @@ class AppLocalizations {
       'juniorHeaderHomeTitle': 'My Problems List',
       'juniorHeaderWriteTitle': 'Write a Problem',
       'juniorHeaderMyTitle': 'My Page',
-      'seniorHeaderHomeTitle': 'Junior Problems List',
-      'seniorHeaderLetterBoxTitle': 'Thank You Letters',
+      'seniorHeaderHomeTitle': 'Problems List',
+      'seniorHeaderLetterBoxTitle': 'Thanks Letters',
       'seniorHeaderMyTitle': 'My Page',
     },
     'ko': {
