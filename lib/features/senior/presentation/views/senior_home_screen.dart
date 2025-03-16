@@ -12,7 +12,8 @@ class SeniorHomeScreen extends ConsumerStatefulWidget {
 
 class _SeniorHomeScreenState extends ConsumerState<SeniorHomeScreen> {
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     // 헤더 설정
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(headerProvider.notifier).setHeader(
@@ -20,7 +21,10 @@ class _SeniorHomeScreenState extends ConsumerState<SeniorHomeScreen> {
             title: "청년 고민들",
           );
     });
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Text("시니어 홈 화면"),

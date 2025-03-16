@@ -14,7 +14,8 @@ class SeniorLetterboxScreen extends ConsumerStatefulWidget {
 
 class _SeniorLetterboxScreenState extends ConsumerState<SeniorLetterboxScreen> {
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     // 헤더 설정
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(headerProvider.notifier).setHeader(
@@ -22,7 +23,10 @@ class _SeniorLetterboxScreenState extends ConsumerState<SeniorLetterboxScreen> {
             title: "감사 편지함",
           );
     });
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(

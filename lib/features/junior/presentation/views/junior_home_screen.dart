@@ -10,11 +10,17 @@ import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_comp
 import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_responsed.dart';
 import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_waiting.dart';
 
-class JuniorHomeScreen extends ConsumerWidget {
+class JuniorHomeScreen extends ConsumerStatefulWidget {
   const JuniorHomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<JuniorHomeScreen> createState() => _JuniorHomeScreenState();
+}
+
+class _JuniorHomeScreenState extends ConsumerState<JuniorHomeScreen> {
+  @override
+  void initState() {
+    super.initState();
     // 헤더 설정
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(headerProvider.notifier).setHeader(
@@ -22,7 +28,10 @@ class JuniorHomeScreen extends ConsumerWidget {
             title: "나의 고민 목록",
           );
     });
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         body: Column(
       children: [

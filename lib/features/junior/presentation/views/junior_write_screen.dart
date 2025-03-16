@@ -13,7 +13,8 @@ class JuniorWriteScreen extends ConsumerStatefulWidget {
 
 class _JuniorWriteScreenState extends ConsumerState<JuniorWriteScreen> {
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     // 헤더 설정
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(headerProvider.notifier).setHeader(
@@ -21,7 +22,10 @@ class _JuniorWriteScreenState extends ConsumerState<JuniorWriteScreen> {
             title: "고민 작성",
           );
     });
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(

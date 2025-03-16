@@ -12,7 +12,8 @@ class SeniorMyScreen extends ConsumerStatefulWidget {
 
 class _SeniorMyScreenState extends ConsumerState<SeniorMyScreen> {
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     // 헤더 설정
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(headerProvider.notifier).setHeader(
@@ -20,7 +21,10 @@ class _SeniorMyScreenState extends ConsumerState<SeniorMyScreen> {
             title: "마이페이지",
           );
     });
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Text("시니어 마이 화면"),

@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/commons/widgets/mode_button/model/mode_type.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 
-class ModeButton extends StatelessWidget {
+class ModeButton extends ConsumerWidget {
   final ModeTypeModel modeTypeModel;
   final Widget targetScreen;
-  const ModeButton(
-      {super.key, required this.modeTypeModel, required this.targetScreen});
+
+  const ModeButton({
+    super.key,
+    required this.modeTypeModel,
+    required this.targetScreen,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // 화면 너비를 가져옵니다.
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -22,7 +27,10 @@ class ModeButton extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
+        // 화면 이동
         Navigator.push(
+          // // 화면 이동 (이전 화면을 스택에서 제거)
+          // Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => targetScreen),
         );
