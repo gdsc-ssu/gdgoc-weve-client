@@ -3,6 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/commons/presentation/index_screen.dart';
 import 'package:weve_client/commons/presentation/splash_screen.dart';
 import 'package:weve_client/core/constants/colors.dart';
+import 'package:weve_client/features/senior/presentation/views/input/senior_input_birth_screen.dart';
+import 'package:weve_client/features/senior/presentation/views/input/senior_input_career_screen.dart';
+import 'package:weve_client/features/senior/presentation/views/input/senior_input_struggle_screen.dart';
+import 'package:weve_client/features/senior/presentation/views/input/senior_input_value_screen.dart';
+import 'package:weve_client/features/senior/presentation/views/login/senior_login_screen.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));

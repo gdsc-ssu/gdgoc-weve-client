@@ -26,7 +26,7 @@ class SeniorButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
         ),
         alignment: Alignment.center,
-        child: Text(text, style: WeveText.semiHeader4(color: textColor)),
+        child: Text(text, style: WeveText.header3(color: textColor)),
       ),
     );
   }

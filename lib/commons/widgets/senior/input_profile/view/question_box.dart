@@ -5,11 +5,13 @@ import 'package:weve_client/core/constants/fonts.dart';
 
 class QuestionBox extends StatelessWidget {
   final String audioUrl;
+  final double gap;
   final String text;
 
   const QuestionBox({
     super.key,
     required this.audioUrl,
+    required this.gap,
     required this.text,
   });
 
@@ -18,8 +20,11 @@ class QuestionBox extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SoundButton(audioUrl: audioUrl),
+        SoundPlayerButton(audioUrl: audioUrl),
         SizedBox(width: 12),
+        SizedBox(
+          height: gap,
+        ),
         Expanded(
           child: Text(
             text,
