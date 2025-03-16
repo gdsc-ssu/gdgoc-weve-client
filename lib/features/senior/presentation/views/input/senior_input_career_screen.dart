@@ -8,8 +8,8 @@ import 'package:weve_client/commons/widgets/senior/input_profile/view/question_b
 import 'package:weve_client/commons/widgets/senior/input_profile/view/stt_box.dart';
 import 'package:weve_client/core/constants/colors.dart';
 
-class SeniorInputBirthScreen extends ConsumerWidget {
-  const SeniorInputBirthScreen({super.key});
+class SeniorInputCareerScreen extends ConsumerWidget {
+  const SeniorInputCareerScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,14 +29,13 @@ class SeniorInputBirthScreen extends ConsumerWidget {
             children: [
               QuestionBox(
                 audioUrl: "",
-                text: "태어난 날을 말해주세요",
+                text: "어떤 직업을 가지셨나요?",
                 gap: 100,
               ),
               SpeechToTextBox(),
               SizedBox(
                 height: 64,
               ),
-              // @todo : 유저가 텍스트 50자 입력하기 전에 disabled
               SeniorButton(
                   text: "다음",
                   backgroundColor: WeveColor.main.yellow1_100,
