@@ -5,6 +5,7 @@ import 'package:weve_client/commons/presentation/widgets/splash_screen.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/features/senior/presentation/views/input/senior_input_birth_screen.dart';
 import 'package:weve_client/features/senior/presentation/views/input/senior_input_career_screen.dart';
+import 'package:weve_client/features/senior/presentation/views/input/senior_input_struggle_screen.dart';
 import 'package:weve_client/features/senior/presentation/views/input/senior_input_value_screen.dart';
 import 'package:weve_client/features/senior/presentation/views/login/senior_login_screen.dart';
 
@@ -45,7 +46,7 @@ class _InitialSplashScreenState extends State<InitialSplashScreen> {
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => SeniorInputValueScreen(),
+          builder: (context) => SeniorInputStruggleScreen(),
         ),
       );
     });

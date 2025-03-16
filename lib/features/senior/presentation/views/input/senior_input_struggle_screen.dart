@@ -8,8 +8,8 @@ import 'package:weve_client/commons/widgets/senior/input_profile/view/question_b
 import 'package:weve_client/commons/widgets/senior/input_profile/view/stt_box.dart';
 import 'package:weve_client/core/constants/colors.dart';
 
-class SeniorInputValueScreen extends ConsumerWidget {
-  const SeniorInputValueScreen({super.key});
+class SeniorInputStruggleScreen extends ConsumerWidget {
+  const SeniorInputStruggleScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,7 +29,7 @@ class SeniorInputValueScreen extends ConsumerWidget {
             children: [
               QuestionBox(
                 audioUrl: "",
-                text: "어떤 가치관을 가지고\n살아오셨나요?",
+                text: "어떤 고난이 있었고,\n어떻게 극복해 오셨나요?",
                 gap: 100,
               ),
               SpeechToTextBox(),
