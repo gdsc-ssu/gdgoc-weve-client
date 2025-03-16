@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/commons/presentation/main_screen.dart';
 import 'package:weve_client/commons/presentation/widgets/splash_screen.dart';
 import 'package:weve_client/core/constants/colors.dart';
+import 'package:weve_client/features/senior/presentation/views/login/senior_login_screen.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -41,7 +42,7 @@ class _InitialSplashScreenState extends State<InitialSplashScreen> {
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => MainScreen(),
+          builder: (context) => SeniorLoginScreen(),
         ),
       );
     });

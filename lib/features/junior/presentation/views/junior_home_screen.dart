@@ -18,6 +18,7 @@ import 'package:weve_client/commons/widgets/senior/login/view/input_field.dart';
 import 'package:weve_client/commons/widgets/toast/view/toast.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/custom_svg_image.dart';
+import 'package:weve_client/features/senior/presentation/views/login/senior_login_screen.dart';
 
 class JuniorHomeScreen extends ConsumerWidget {
   const JuniorHomeScreen({super.key});
@@ -29,11 +30,7 @@ class JuniorHomeScreen extends ConsumerWidget {
     }
 
     return Column(
-      children: [
-        LetterButtonOff(
-            countryName: "대한민국", countryEmoji: "🇰🇷", onTap: () {}),
-        LetterButtonOn(countryName: "대한민국", countryEmoji: "🇰🇷", onTap: () {})
-      ],
+      children: [SeniorLoginScreen()],
     );
   }
 }

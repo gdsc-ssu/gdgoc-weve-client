@@ -18,7 +18,7 @@ class QuestionBox extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SoundButton(audioUrl: audioUrl),
+        SoundPlayerButton(audioUrl: audioUrl),
         SizedBox(width: 12),
         Expanded(
           child: Text(
