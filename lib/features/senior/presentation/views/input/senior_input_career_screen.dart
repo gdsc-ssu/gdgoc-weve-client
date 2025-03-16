@@ -37,6 +37,7 @@ class SeniorInputCareerScreen extends ConsumerWidget {
                 height: 64,
               ),
               SeniorButton(
+                  // @todo : 유저가 텍스트 50자 입력하기 전에 disabled
                   text: "다음",
                   backgroundColor: WeveColor.main.yellow1_100,
                   textColor: WeveColor.main.yellowText,
