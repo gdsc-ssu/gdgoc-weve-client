@@ -77,59 +77,43 @@ class AppLocalizations {
     },
   };
 
-  String get appTitle =>
-      _localizedValues[locale.languageCode]?['appTitle'] ?? 'weve';
-  String get appSubtitle =>
-      _localizedValues[locale.languageCode]?['appSubtitle'] ??
-      'A warm conversation\nbetween generations';
-  String get english =>
-      _localizedValues[locale.languageCode]?['english'] ?? 'English';
-  String get korean =>
-      _localizedValues[locale.languageCode]?['korean'] ?? '한국어';
-  String get japanese =>
-      _localizedValues[locale.languageCode]?['japanese'] ?? '日本語';
-  String get junior =>
-      _localizedValues[locale.languageCode]?['junior'] ?? 'Junior';
-  String get senior =>
-      _localizedValues[locale.languageCode]?['senior'] ?? 'Senior';
+  // 언어 코드에 해당하는 문자열을 가져오는 헬퍼 메서드
+  // 현재 언어에 해당하는 문자열이 없으면 영어 문자열을 반환
+  String _getString(String key) {
+    return _localizedValues[locale.languageCode]?[key] ??
+        _localizedValues['en']?[key] ??
+        '';
+  }
+
+  // 앱 기본 정보
+  String get appTitle => _getString('appTitle');
+  String get appSubtitle => _getString('appSubtitle');
+  String get english => _getString('english');
+  String get korean => _getString('korean');
+  String get japanese => _getString('japanese');
+  String get junior => _getString('junior');
+  String get senior => _getString('senior');
 
   // 주니어 네비게이션 바 아이템
-  String get juniorNavHome =>
-      _localizedValues[locale.languageCode]?['juniorNavHome'] ?? 'Home';
-  String get juniorNavWrite =>
-      _localizedValues[locale.languageCode]?['juniorNavWrite'] ?? 'Write';
-  String get juniorNavMy =>
-      _localizedValues[locale.languageCode]?['juniorNavMy'] ?? 'My';
+  String get juniorNavHome => _getString('juniorNavHome');
+  String get juniorNavWrite => _getString('juniorNavWrite');
+  String get juniorNavMy => _getString('juniorNavMy');
 
   // 시니어 네비게이션 바 아이템
-  String get seniorNavHome =>
-      _localizedValues[locale.languageCode]?['seniorNavHome'] ?? 'Home';
-  String get seniorNavLetterBox =>
-      _localizedValues[locale.languageCode]?['seniorNavLetterBox'] ?? 'Letter';
-  String get seniorNavMy =>
-      _localizedValues[locale.languageCode]?['seniorNavMy'] ?? 'My';
+  String get seniorNavHome => _getString('seniorNavHome');
+  String get seniorNavLetterBox => _getString('seniorNavLetterBox');
+  String get seniorNavMy => _getString('seniorNavMy');
 
   // 주니어 헤더 타이틀
-  String get juniorHeaderHomeTitle =>
-      _localizedValues[locale.languageCode]?['juniorHeaderHomeTitle'] ??
-      'My Problems List';
-  String get juniorHeaderWriteTitle =>
-      _localizedValues[locale.languageCode]?['juniorHeaderWriteTitle'] ??
-      'Write a Problem';
-  String get juniorHeaderMyTitle =>
-      _localizedValues[locale.languageCode]?['juniorHeaderMyTitle'] ??
-      'My Page';
+  String get juniorHeaderHomeTitle => _getString('juniorHeaderHomeTitle');
+  String get juniorHeaderWriteTitle => _getString('juniorHeaderWriteTitle');
+  String get juniorHeaderMyTitle => _getString('juniorHeaderMyTitle');
 
   // 시니어 헤더 타이틀
-  String get seniorHeaderHomeTitle =>
-      _localizedValues[locale.languageCode]?['seniorHeaderHomeTitle'] ??
-      'Junior Problems List';
+  String get seniorHeaderHomeTitle => _getString('seniorHeaderHomeTitle');
   String get seniorHeaderLetterBoxTitle =>
-      _localizedValues[locale.languageCode]?['seniorHeaderLetterBoxTitle'] ??
-      'Thank You Letters';
-  String get seniorHeaderMyTitle =>
-      _localizedValues[locale.languageCode]?['seniorHeaderMyTitle'] ??
-      'My Page';
+      _getString('seniorHeaderLetterBoxTitle');
+  String get seniorHeaderMyTitle => _getString('seniorHeaderMyTitle');
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
