@@ -101,6 +101,7 @@ class _SpeechToTextBoxState extends State<SpeechToTextBox> {
       children: [
         Container(
           width: double.infinity,
+          height: 130,
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: WeveColor.bg.bg2,
@@ -108,6 +109,9 @@ class _SpeechToTextBoxState extends State<SpeechToTextBox> {
           ),
           child: Text(
             _text,
+            maxLines: 5,
+            overflow: TextOverflow.ellipsis,
+            softWrap: true,
             style: WeveText.header4(color: WeveColor.gray.gray1),
           ),
         ),
