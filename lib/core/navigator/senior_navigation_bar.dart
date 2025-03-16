@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/provider/StateNotifierProvider.dart';
 import 'package:weve_client/core/constants/custom_icon.dart';
+import 'package:weve_client/core/localization/app_localizations.dart';
 
 class SeniorNavigationBar extends ConsumerWidget {
   const SeniorNavigationBar({super.key});
@@ -11,6 +12,8 @@ class SeniorNavigationBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedIndex = ref.watch(navigationProvider);
     final navigationNotifier = ref.read(navigationProvider.notifier);
+    final locale = ref.watch(localeProvider);
+    final appLocalizations = AppLocalizations(locale);
 
     return Theme(
       data: Theme.of(context).copyWith(
@@ -34,7 +37,7 @@ class SeniorNavigationBar extends ConsumerWidget {
                   ? CustomIcons.getIcon(CustomIcons.navHomeOn)
                   : CustomIcons.getIcon(CustomIcons.navHomeOff),
             ),
-            label: '홈',
+            label: appLocalizations.seniorNavHome,
           ),
           BottomNavigationBarItem(
             icon: Padding(
@@ -43,7 +46,7 @@ class SeniorNavigationBar extends ConsumerWidget {
                   ? CustomIcons.getIcon(CustomIcons.navLetterOn)
                   : CustomIcons.getIcon(CustomIcons.navLetterOff),
             ),
-            label: '편지함',
+            label: appLocalizations.seniorNavLetterBox,
           ),
           BottomNavigationBarItem(
             icon: Padding(
@@ -52,7 +55,7 @@ class SeniorNavigationBar extends ConsumerWidget {
                   ? CustomIcons.getIcon(CustomIcons.navUserOn)
                   : CustomIcons.getIcon(CustomIcons.navUserOff),
             ),
-            label: '마이페이지',
+            label: appLocalizations.seniorNavMy,
           ),
         ],
         currentIndex: selectedIndex,

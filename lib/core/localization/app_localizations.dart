@@ -20,6 +20,12 @@ class AppLocalizations {
       'japanese': '日本語',
       'junior': 'Junior',
       'senior': 'Senior',
+      'juniorNavHome': 'Home',
+      'juniorNavWrite': 'Write',
+      'juniorNavMy': 'My',
+      'seniorNavHome': 'Home',
+      'seniorNavLetterBox': 'Letter',
+      'seniorNavMy': 'My',
     },
     'ko': {
       'appTitle': 'weve',
@@ -29,6 +35,12 @@ class AppLocalizations {
       'japanese': '日本語',
       'junior': '주니어',
       'senior': '시니어',
+      'juniorNavHome': '홈',
+      'juniorNavWrite': '작성',
+      'juniorNavMy': '마이',
+      'seniorNavHome': '홈',
+      'seniorNavLetterBox': '편지함',
+      'seniorNavMy': '마이',
     },
     'ja': {
       'appTitle': 'weve',
@@ -38,6 +50,12 @@ class AppLocalizations {
       'japanese': '日本語',
       'junior': 'ジュニア',
       'senior': 'シニア',
+      'juniorNavHome': 'ホーム',
+      'juniorNavWrite': '書く',
+      'juniorNavMy': 'マイ',
+      'seniorNavHome': 'ホーム',
+      'seniorNavLetterBox': '手紙',
+      'seniorNavMy': 'マイ',
     },
   };
 
@@ -56,6 +74,22 @@ class AppLocalizations {
       _localizedValues[locale.languageCode]?['junior'] ?? 'Junior';
   String get senior =>
       _localizedValues[locale.languageCode]?['senior'] ?? 'Senior';
+
+  // 주니어 네비게이션 바 아이템
+  String get juniorNavHome =>
+      _localizedValues[locale.languageCode]?['juniorNavHome'] ?? 'Home';
+  String get juniorNavWrite =>
+      _localizedValues[locale.languageCode]?['juniorNavWrite'] ?? 'Write';
+  String get juniorNavMy =>
+      _localizedValues[locale.languageCode]?['juniorNavMy'] ?? 'My';
+
+  // 시니어 네비게이션 바 아이템
+  String get seniorNavHome =>
+      _localizedValues[locale.languageCode]?['seniorNavHome'] ?? 'Home';
+  String get seniorNavLetterBox =>
+      _localizedValues[locale.languageCode]?['seniorNavLetterBox'] ?? 'Letter';
+  String get seniorNavMy =>
+      _localizedValues[locale.languageCode]?['seniorNavMy'] ?? 'My';
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
