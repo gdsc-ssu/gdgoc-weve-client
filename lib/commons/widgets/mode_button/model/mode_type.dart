@@ -23,9 +23,9 @@ class ModeTypeModel {
 
     switch (type) {
       case ModeType.senior:
-        return appLocalizations.senior;
+        return appLocalizations.seniorText;
       case ModeType.junior:
-        return appLocalizations.junior;
+        return appLocalizations.juniorText;
     }
   }
 
