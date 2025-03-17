@@ -25,7 +25,7 @@ class _JuniorHomeScreenState extends ConsumerState<JuniorHomeScreen> {
 
       ref.read(headerProvider.notifier).setHeader(
             HeaderType.juniorTitleLogo,
-            title: appLocalizations.juniorHeaderHomeTitle,
+            title: appLocalizations.junior.juniorHeaderHomeTitle,
           );
     });
   }

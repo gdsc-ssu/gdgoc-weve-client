@@ -22,7 +22,7 @@ class _SeniorHomeScreenState extends ConsumerState<SeniorHomeScreen> {
 
       ref.read(headerProvider.notifier).setHeader(
             HeaderType.seniorTitleLogo,
-            title: appLocalizations.seniorHeaderHomeTitle,
+            title: appLocalizations.senior.seniorHeaderHomeTitle,
           );
     });
   }

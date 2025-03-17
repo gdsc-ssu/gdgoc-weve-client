@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/commons/widgets/junior/button/viewmodel/select_language_provider.dart';
+import 'package:weve_client/core/localization/junior_localizations.dart';
+import 'package:weve_client/core/localization/senior_localizations.dart';
 
 class AppLocalizations {
   final Locale locale;
+  late final JuniorLocalizations junior;
+  late final SeniorLocalizations senior;
 
-  AppLocalizations(this.locale);
+  AppLocalizations(this.locale) {
+    junior = JuniorLocalizations(locale);
+    senior = SeniorLocalizations(locale);
+  }
 
   static AppLocalizations of(BuildContext context) {
     return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
@@ -20,18 +27,6 @@ class AppLocalizations {
       'japanese': '日本語',
       'junior': 'Junior',
       'senior': 'Senior',
-      'juniorNavHome': 'Home',
-      'juniorNavWrite': 'Write',
-      'juniorNavMy': 'My',
-      'seniorNavHome': 'Home',
-      'seniorNavLetterBox': 'Letter',
-      'seniorNavMy': 'My',
-      'juniorHeaderHomeTitle': 'My Problems List',
-      'juniorHeaderWriteTitle': 'Write a Problem',
-      'juniorHeaderMyTitle': 'My Page',
-      'seniorHeaderHomeTitle': 'Problems List',
-      'seniorHeaderLetterBoxTitle': 'Thanks Letters',
-      'seniorHeaderMyTitle': 'My Page',
     },
     'ko': {
       'appTitle': 'weve',
@@ -41,18 +36,6 @@ class AppLocalizations {
       'japanese': '日本語',
       'junior': '청년',
       'senior': '어르신',
-      'juniorNavHome': '홈',
-      'juniorNavWrite': '작성',
-      'juniorNavMy': '마이',
-      'seniorNavHome': '홈',
-      'seniorNavLetterBox': '편지함',
-      'seniorNavMy': '마이',
-      'juniorHeaderHomeTitle': '나의 고민 목록',
-      'juniorHeaderWriteTitle': '고민 작성',
-      'juniorHeaderMyTitle': '마이페이지',
-      'seniorHeaderHomeTitle': '청년 고민 목록',
-      'seniorHeaderLetterBoxTitle': '감사편지함',
-      'seniorHeaderMyTitle': '마이페이지',
     },
     'ja': {
       'appTitle': 'weve',
@@ -62,18 +45,6 @@ class AppLocalizations {
       'japanese': '日本語',
       'junior': 'ジュニア',
       'senior': 'シニア',
-      'juniorNavHome': 'ホーム',
-      'juniorNavWrite': '書く',
-      'juniorNavMy': 'マイ',
-      'seniorNavHome': 'ホーム',
-      'seniorNavLetterBox': '手紙',
-      'seniorNavMy': 'マイ',
-      'juniorHeaderHomeTitle': '私の悩みリスト',
-      'juniorHeaderWriteTitle': '悩みを書く',
-      'juniorHeaderMyTitle': 'マイページ',
-      'seniorHeaderHomeTitle': '青年の悩みリスト',
-      'seniorHeaderLetterBoxTitle': '感謝の手紙',
-      'seniorHeaderMyTitle': 'マイページ',
     },
   };
 
@@ -91,29 +62,8 @@ class AppLocalizations {
   String get english => _getString('english');
   String get korean => _getString('korean');
   String get japanese => _getString('japanese');
-  String get junior => _getString('junior');
-  String get senior => _getString('senior');
-
-  // 주니어 네비게이션 바 아이템
-  String get juniorNavHome => _getString('juniorNavHome');
-  String get juniorNavWrite => _getString('juniorNavWrite');
-  String get juniorNavMy => _getString('juniorNavMy');
-
-  // 시니어 네비게이션 바 아이템
-  String get seniorNavHome => _getString('seniorNavHome');
-  String get seniorNavLetterBox => _getString('seniorNavLetterBox');
-  String get seniorNavMy => _getString('seniorNavMy');
-
-  // 주니어 헤더 타이틀
-  String get juniorHeaderHomeTitle => _getString('juniorHeaderHomeTitle');
-  String get juniorHeaderWriteTitle => _getString('juniorHeaderWriteTitle');
-  String get juniorHeaderMyTitle => _getString('juniorHeaderMyTitle');
-
-  // 시니어 헤더 타이틀
-  String get seniorHeaderHomeTitle => _getString('seniorHeaderHomeTitle');
-  String get seniorHeaderLetterBoxTitle =>
-      _getString('seniorHeaderLetterBoxTitle');
-  String get seniorHeaderMyTitle => _getString('seniorHeaderMyTitle');
+  String get juniorText => _getString('junior');
+  String get seniorText => _getString('senior');
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

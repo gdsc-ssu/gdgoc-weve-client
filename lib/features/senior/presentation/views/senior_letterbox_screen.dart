@@ -24,7 +24,7 @@ class _SeniorLetterboxScreenState extends ConsumerState<SeniorLetterboxScreen> {
 
       ref.read(headerProvider.notifier).setHeader(
             HeaderType.seniorTitleLogo,
-            title: appLocalizations.seniorHeaderLetterBoxTitle,
+            title: appLocalizations.senior.seniorHeaderLetterBoxTitle,
           );
     });
   }

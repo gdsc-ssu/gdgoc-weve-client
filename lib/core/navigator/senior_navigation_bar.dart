@@ -37,7 +37,7 @@ class SeniorNavigationBar extends ConsumerWidget {
                   ? CustomIcons.getIcon(CustomIcons.navHomeOn)
                   : CustomIcons.getIcon(CustomIcons.navHomeOff),
             ),
-            label: appLocalizations.seniorNavHome,
+            label: appLocalizations.senior.seniorNavHome,
           ),
           BottomNavigationBarItem(
             icon: Padding(
@@ -46,7 +46,7 @@ class SeniorNavigationBar extends ConsumerWidget {
                   ? CustomIcons.getIcon(CustomIcons.navLetterOn)
                   : CustomIcons.getIcon(CustomIcons.navLetterOff),
             ),
-            label: appLocalizations.seniorNavLetterBox,
+            label: appLocalizations.senior.seniorNavLetterBox,
           ),
           BottomNavigationBarItem(
             icon: Padding(
@@ -55,7 +55,7 @@ class SeniorNavigationBar extends ConsumerWidget {
                   ? CustomIcons.getIcon(CustomIcons.navUserOn)
                   : CustomIcons.getIcon(CustomIcons.navUserOff),
             ),
-            label: appLocalizations.seniorNavMy,
+            label: appLocalizations.senior.seniorNavMy,
           ),
         ],
         currentIndex: selectedIndex,

@@ -23,7 +23,7 @@ class _JuniorWriteScreenState extends ConsumerState<JuniorWriteScreen> {
 
       ref.read(headerProvider.notifier).setHeader(
             HeaderType.juniorTitleLogo,
-            title: appLocalizations.juniorHeaderWriteTitle,
+            title: appLocalizations.junior.juniorHeaderWriteTitle,
           );
     });
   }

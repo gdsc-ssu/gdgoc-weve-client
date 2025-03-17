@@ -22,7 +22,7 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
 
       ref.read(headerProvider.notifier).setHeader(
             HeaderType.juniorTitleLogo,
-            title: appLocalizations.juniorHeaderMyTitle,
+            title: appLocalizations.junior.juniorHeaderMyTitle,
           );
     });
   }
