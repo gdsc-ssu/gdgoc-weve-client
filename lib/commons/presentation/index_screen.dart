@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:weve_client/commons/widgets/mode_button/view/mode_button.dart';
 import 'package:weve_client/commons/widgets/mode_button/model/mode_type.dart';
 import 'package:weve_client/commons/presentation/main_screen.dart';
 import 'package:weve_client/commons/widgets/junior/header/view/header.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weve_client/core/constants/custom_animation_image.dart';
 
 class IndexScreen extends ConsumerStatefulWidget {
   static const String routeName = 'index';
@@ -50,12 +50,9 @@ class _IndexScreenState extends ConsumerState<IndexScreen> {
             const Spacer(),
             Padding(
               padding: const EdgeInsets.only(bottom: 50.0),
-              child: SizedBox(
+              child: CustomAnimationImages.getAnimation(
+                CustomAnimationImages.weveCharacter,
                 height: 110,
-                child: Lottie.asset(
-                  'assets/animations/weve_character_animation.json',
-                  fit: BoxFit.contain,
-                ),
               ),
             ),
           ],

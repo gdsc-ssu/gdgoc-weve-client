@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:weve_client/commons/widgets/junior/header/view/header.dart';
+import 'package:weve_client/core/constants/custom_animation_image.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -18,12 +18,9 @@ class SplashScreen extends StatelessWidget {
             const Spacer(flex: 2),
             Padding(
               padding: const EdgeInsets.only(bottom: 50.0),
-              child: SizedBox(
+              child: CustomAnimationImages.getAnimation(
+                CustomAnimationImages.weveCharacter,
                 height: 110,
-                child: Lottie.asset(
-                  'assets/animations/weve_character_animation.json',
-                  fit: BoxFit.contain,
-                ),
               ),
             ),
           ],
