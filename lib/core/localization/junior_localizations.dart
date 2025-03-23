@@ -14,7 +14,7 @@ class JuniorLocalizations {
       'juniorHeaderWriteTitle': 'Write a Problem',
       'juniorHeaderMyTitle': 'My Page',
       'inputBoxWorryPlaceholder':
-          'Share your worries freely\nYour worries will be written anonymously, and you can receive warm advice from wise seniors.\nHowever, inappropriate behavior may result in legal liability.',
+          'Share your worries freely\n\nYour worries will be written anonymously, and you can receive warm advice from wise seniors.\n\nHowever, inappropriate behavior may result in legal liability.',
       'toastInputBoxWorryMinLength':
           'Your worry must be at least 50 characters long.',
     },
@@ -26,7 +26,7 @@ class JuniorLocalizations {
       'juniorHeaderWriteTitle': '고민 작성',
       'juniorHeaderMyTitle': '마이페이지',
       'inputBoxWorryPlaceholder':
-          '어떤 고민이든 편하게 남겨주세요 \n당신의 고민은 익명으로 작성되며, 지혜로운 어르신께 따뜻한 조언을 받을 수 있어요.\n 단, 부적절한 언행은 법적 책임을 물을 수도 있어요.',
+          '어떤 고민이든 편하게 남겨주세요 \n\n당신의 고민은 익명으로 작성되며, 지혜로운 어르신께 따뜻한 조언을 받을 수 있어요.\n\n단, 부적절한 언행은 법적 책임을 물을 수도 있어요.',
       'toastInputBoxWorryMinLength': '고민은 최소 50자 이상 작성해야합니다.',
     },
     'ja': {
@@ -37,7 +37,7 @@ class JuniorLocalizations {
       'juniorHeaderWriteTitle': '悩みを書く',
       'juniorHeaderMyTitle': 'マイページ',
       'inputBoxWorryPlaceholder':
-          'どんな悩みでも自由に書いてください\nあなたの悩みは匿名で書かれ、賢明な先輩から温かいアドバイスを受けられます。\nただし、不適切な言動は法的責任を問われる場合があります。',
+          'どんな悩みでも自由に書いてください\n\nあなたの悩みは匿名で書かれ、賢明な先輩から温かいアドバイスを受けられます。\n\nただし、不適切な言動は法的責任を問われる場合があります。',
       'toastInputBoxWorryMinLength': '悩みは最低50文字以上で書く必要があります。',
     },
   };
