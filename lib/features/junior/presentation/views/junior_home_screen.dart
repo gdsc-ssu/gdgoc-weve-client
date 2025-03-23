@@ -21,7 +21,7 @@ class JuniorHomeScreen extends ConsumerStatefulWidget {
 
 class _JuniorHomeScreenState extends ConsumerState<JuniorHomeScreen> {
   // TODO: API 연동 후 실제 데이터로 교체
-  final bool _hasData = false; // 임시 데이터 상태
+  final bool _hasData = true; // 임시 데이터 상태
   final List<Map<String, String>> _items = [
     {'type': 'complete', 'text': 'N?A'},
     {'type': 'responded', 'text': 'N?A'},
@@ -52,58 +52,66 @@ class _JuniorHomeScreenState extends ConsumerState<JuniorHomeScreen> {
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(
-          children: [
-            const SizedBox(height: 30),
-            const BannerWidget(),
-            const SizedBox(height: 30),
-            if (_hasData) ...[
-              ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: _items.length,
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 15),
-                itemBuilder: (context, index) {
-                  final item = _items[index];
-                  switch (item['type']) {
-                    case 'complete':
-                      return ListItemComplete(text: item['text'] ?? '');
-                    case 'responded':
-                      return ListItemResponded(text: item['text'] ?? '');
-                    case 'waiting':
-                      return ListItemWaiting(text: item['text'] ?? '');
-                    default:
-                      return const SizedBox.shrink();
-                  }
-                },
-              ),
-            ] else ...[
-              const SizedBox(height: 60),
-              Center(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.45,
-                  child: SvgPicture.asset(
-                    CustomSvgImages.blankImage,
-                    fit: BoxFit.contain,
+      child: RefreshIndicator(
+        onRefresh: () async {
+          // TODO: API 연동 후 실제 데이터 새로고침 로직 추가
+          await Future.delayed(const Duration(seconds: 1));
+        },
+        color: WeveColor.main.orange1,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            children: [
+              const SizedBox(height: 30),
+              const BannerWidget(),
+              const SizedBox(height: 30),
+              if (_hasData) ...[
+                ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: _items.length,
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 15),
+                  itemBuilder: (context, index) {
+                    final item = _items[index];
+                    switch (item['type']) {
+                      case 'complete':
+                        return ListItemComplete(text: item['text'] ?? '');
+                      case 'responded':
+                        return ListItemResponded(text: item['text'] ?? '');
+                      case 'waiting':
+                        return ListItemWaiting(text: item['text'] ?? '');
+                      default:
+                        return const SizedBox.shrink();
+                    }
+                  },
+                ),
+              ] else ...[
+                const SizedBox(height: 60),
+                Center(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.45,
+                    child: SvgPicture.asset(
+                      CustomSvgImages.blankImage,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              Center(
-                child: Text(
-                  AppLocalizations(ref.watch(localeProvider))
-                      .junior
-                      .noWorryMessage,
-                  style: WeveText.body4(color: WeveColor.main.yellow4),
-                  textAlign: TextAlign.center,
+                const SizedBox(height: 20),
+                Center(
+                  child: Text(
+                    AppLocalizations(ref.watch(localeProvider))
+                        .junior
+                        .noWorryMessage,
+                    style: WeveText.body4(color: WeveColor.main.yellow4),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
+                const SizedBox(height: 50),
+              ],
+              const SizedBox(height: 50),
             ],
-            const SizedBox(height: 50),
-          ],
+          ),
         ),
       ),
     ));
