@@ -7,6 +7,10 @@ import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_comp
 import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_responsed.dart';
 import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_waiting.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
+import 'package:weve_client/core/constants/custom_svg_image.dart';
+import 'package:weve_client/core/constants/fonts.dart';
+import 'package:weve_client/core/constants/colors.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class JuniorHomeScreen extends ConsumerStatefulWidget {
   const JuniorHomeScreen({super.key});
@@ -17,7 +21,7 @@ class JuniorHomeScreen extends ConsumerStatefulWidget {
 
 class _JuniorHomeScreenState extends ConsumerState<JuniorHomeScreen> {
   // TODO: API 연동 후 실제 데이터로 교체
-  final bool _hasData = true; // 임시 데이터 상태
+  final bool _hasData = false; // 임시 데이터 상태
   final List<Map<String, String>> _items = [
     {'type': 'complete', 'text': 'N?A'},
     {'type': 'responded', 'text': 'N?A'},
@@ -49,6 +53,7 @@ class _JuniorHomeScreenState extends ConsumerState<JuniorHomeScreen> {
         body: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
           children: [
             const SizedBox(height: 30),
@@ -76,11 +81,26 @@ class _JuniorHomeScreenState extends ConsumerState<JuniorHomeScreen> {
                 },
               ),
             ] else ...[
-              const Center(
-                child: Text('데이터가 없습니다.'),
+              const SizedBox(height: 60),
+              Center(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.45,
+                  child: SvgPicture.asset(
+                    CustomSvgImages.blankImage,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Center(
+                child: Text(
+                  '작성된 고민이 없어요.\n작성 페이지에서 당신의 고민을 작성해보세요!',
+                  style: WeveText.body4(color: WeveColor.main.yellow4),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ],
-            const SizedBox(height: 50), // 하단 여백 추가
+            const SizedBox(height: 50),
           ],
         ),
       ),
