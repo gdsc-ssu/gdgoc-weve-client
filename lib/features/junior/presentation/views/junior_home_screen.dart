@@ -94,7 +94,9 @@ class _JuniorHomeScreenState extends ConsumerState<JuniorHomeScreen> {
               const SizedBox(height: 20),
               Center(
                 child: Text(
-                  '작성된 고민이 없어요.\n작성 페이지에서 당신의 고민을 작성해보세요!',
+                  AppLocalizations(ref.watch(localeProvider))
+                      .junior
+                      .noWorryMessage,
                   style: WeveText.body4(color: WeveColor.main.yellow4),
                   textAlign: TextAlign.center,
                 ),
