@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lottie/lottie.dart';
 import 'package:weve_client/commons/widgets/button/view/button.dart';
 import 'package:weve_client/commons/widgets/header/model/header_type.dart';
 import 'package:weve_client/commons/widgets/header/view/header_widget.dart';
 import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/fonts.dart';
+import 'package:weve_client/core/constants/custom_animation_image.dart';
 import 'package:weve_client/features/junior/presentation/views/junior_main_screen.dart';
 
 class JuniorSuccessScreen extends ConsumerStatefulWidget {
@@ -52,12 +52,9 @@ class _JuniorSuccessScreenState extends ConsumerState<JuniorSuccessScreen> {
               ),
               const Spacer(),
               Center(
-                child: SizedBox(
+                child: CustomAnimationImages.getAnimation(
+                  CustomAnimationImages.weveCharacter,
                   height: 100,
-                  child: Lottie.asset(
-                    'assets/animations/weve_character_animation.json',
-                    fit: BoxFit.contain,
-                  ),
                 ),
               ),
               const Spacer(),
