@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:weve_client/commons/widgets/header/model/header_type.dart';
 import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
 import 'package:weve_client/commons/widgets/junior/box/view/input_box_worry.dart';
@@ -11,6 +10,8 @@ import 'package:weve_client/core/localization/app_localizations.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/commons/widgets/junior/button/view/button.dart';
+import 'package:weve_client/core/constants/custom_svg_image.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 final nameSelectionProvider =
     StateNotifierProvider<NameSelectionNotifier, NameSelectionState>((ref) {
@@ -164,7 +165,7 @@ class _JuniorWriteScreenState extends ConsumerState<JuniorWriteScreen> {
                   const SizedBox(height: 24),
                   // 상단 이미지
                   SvgPicture.asset(
-                    'assets/image/image_write_top.svg',
+                    CustomSvgImages.writeTop,
                     width: MediaQuery.of(context).size.width * 0.8,
                   ),
 
@@ -175,7 +176,7 @@ class _JuniorWriteScreenState extends ConsumerState<JuniorWriteScreen> {
 
                   // 하단 이미지
                   SvgPicture.asset(
-                    'assets/image/image_write_bottom.svg',
+                    CustomSvgImages.writeBottom,
                     width: MediaQuery.of(context).size.width * 0.8,
                   ),
                   const SizedBox(height: 50),
