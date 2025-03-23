@@ -16,6 +16,18 @@ class JuniorHomeScreen extends ConsumerStatefulWidget {
 }
 
 class _JuniorHomeScreenState extends ConsumerState<JuniorHomeScreen> {
+  // TODO: API 연동 후 실제 데이터로 교체
+  final bool _hasData = true; // 임시 데이터 상태
+  final List<Map<String, String>> _items = [
+    {'type': 'complete', 'text': 'N?A'},
+    {'type': 'responded', 'text': 'N?A'},
+    {'type': 'complete', 'text': 'N?A'},
+    {'type': 'responded', 'text': 'N?A'},
+    {'type': 'waiting', 'text': 'N?A'},
+    {'type': 'responded', 'text': 'N?A'},
+    {'type': 'waiting', 'text': 'N?A'},
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -36,15 +48,41 @@ class _JuniorHomeScreenState extends ConsumerState<JuniorHomeScreen> {
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        children: [
-          const SizedBox(height: 30),
-          const BannerWidget(),
-          const SizedBox(height: 30),
-          ListItemComplete(text: "N?A"),
-          ListItemResponded(text: "N?A"),
-          ListItemWaiting(text: "N?A")
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 30),
+            const BannerWidget(),
+            const SizedBox(height: 30),
+            if (_hasData) ...[
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: _items.length,
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 15),
+                itemBuilder: (context, index) {
+                  final item = _items[index];
+                  switch (item['type']) {
+                    case 'complete':
+                      return ListItemComplete(text: item['text'] ?? '');
+                    case 'responded':
+                      return ListItemResponded(text: item['text'] ?? '');
+                    case 'waiting':
+                      return ListItemWaiting(text: item['text'] ?? '');
+                    default:
+                      return const SizedBox.shrink();
+                  }
+                },
+              ),
+            ] else ...[
+              const Center(
+                child: Text('데이터가 없습니다.'),
+              ),
+            ],
+            const SizedBox(height: 50), // 하단 여백 추가
+          ],
+        ),
       ),
     ));
   }
