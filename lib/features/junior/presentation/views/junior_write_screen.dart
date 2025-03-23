@@ -100,20 +100,23 @@ class _JuniorWriteScreenState extends ConsumerState<JuniorWriteScreen> {
           final state = ref.watch(nameSelectionProvider);
           final isButtonEnabled =
               state.isRealNameSelected || state.isAnonymousSelected;
+          final locale = ref.read(localeProvider);
+          final appLocalizations = AppLocalizations(locale);
 
           return Column(
             children: [
               const SizedBox(height: 10),
               // 설명
               Text(
-                "당신의 고민이 실명 또는 익명으로 세계의 어르신들에게 보여집니다.",
+                appLocalizations.junior.popupWriteDescription,
                 style: WeveText.body2(color: WeveColor.gray.gray3),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
               SelectButton(
-                title: "실명",
-                description: "Ex. \${gov}의 \${age}세 \${name}",
+                title: appLocalizations.junior.popupWriteOption1,
+                description:
+                    appLocalizations.junior.popupWriteOption1Description,
                 isSelected: state.isRealNameSelected,
                 onTap: () {
                   ref.read(nameSelectionProvider.notifier).selectRealName();
@@ -121,8 +124,9 @@ class _JuniorWriteScreenState extends ConsumerState<JuniorWriteScreen> {
               ),
               const SizedBox(height: 15),
               SelectButton(
-                title: "익명",
-                description: "Ex. \${gov}의 \${age}세 위비",
+                title: appLocalizations.junior.popupWriteOption2,
+                description:
+                    appLocalizations.junior.popupWriteOption2Description,
                 isSelected: state.isAnonymousSelected,
                 onTap: () {
                   ref.read(nameSelectionProvider.notifier).selectAnonymous();
@@ -130,7 +134,7 @@ class _JuniorWriteScreenState extends ConsumerState<JuniorWriteScreen> {
               ),
               const SizedBox(height: 20),
               JuniorButton(
-                text: "고민 보내기",
+                text: appLocalizations.junior.popupWriteButton,
                 backgroundColor: isButtonEnabled
                     ? WeveColor.main.yellow1_100
                     : WeveColor.main.yellow3,
@@ -153,6 +157,8 @@ class _JuniorWriteScreenState extends ConsumerState<JuniorWriteScreen> {
   @override
   Widget build(BuildContext context) {
     final popupState = ref.watch(popupProvider);
+    final locale = ref.read(localeProvider);
+    final appLocalizations = AppLocalizations(locale);
 
     return Scaffold(
       body: Stack(
@@ -184,7 +190,8 @@ class _JuniorWriteScreenState extends ConsumerState<JuniorWriteScreen> {
               ),
             ),
           ),
-          if (popupState.isVisible) const Popup(title: "실명 공개 여부"),
+          if (popupState.isVisible)
+            Popup(title: appLocalizations.junior.popupWriteTitle),
         ],
       ),
     );
