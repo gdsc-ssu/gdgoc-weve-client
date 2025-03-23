@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/commons/widgets/header/model/header_type.dart';
 import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
+import 'package:weve_client/commons/widgets/junior/banner/view/banner_widget.dart';
 import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_complete.dart';
 import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_responsed.dart';
 import 'package:weve_client/commons/widgets/junior/list_item/view/list_item_waiting.dart';
@@ -33,12 +34,18 @@ class _JuniorHomeScreenState extends ConsumerState<JuniorHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: [
-        ListItemComplete(text: "N?A"),
-        ListItemResponded(text: "N?A"),
-        ListItemWaiting(text: "N?A")
-      ],
+        body: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: [
+          const SizedBox(height: 30),
+          const BannerWidget(),
+          const SizedBox(height: 30),
+          ListItemComplete(text: "N?A"),
+          ListItemResponded(text: "N?A"),
+          ListItemWaiting(text: "N?A")
+        ],
+      ),
     ));
   }
 }

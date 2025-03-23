@@ -11,8 +11,6 @@ class CustomSvgImages {
   static const String writeBottom = 'assets/image/image_write_bottom.svg';
   static const String writeFull = 'assets/image/image_write_full.svg';
   static const String writeTop = 'assets/image/image_write_top.svg';
-  static const String banner1 = 'assets/banner/banner_1.svg';
-  static const String banner2 = 'assets/banner/banner_2.svg';
   static const String profileBlue = 'assets/icons/profile_blue.svg';
   static const String profileGreen = 'assets/icons/profile_green.svg';
   static const String profileOrange = 'assets/icons/profile_orange.svg';
