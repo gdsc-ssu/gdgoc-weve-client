@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:weve_client/commons/widgets/button/view/select_button.dart';
-import 'package:weve_client/commons/widgets/popup/viewmodel/popup_viewmodel.dart';
 import 'package:weve_client/commons/widgets/toast/view/toast.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/custom_icon.dart';
@@ -9,7 +7,12 @@ import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
 
 class InputBoxWorry extends ConsumerStatefulWidget {
-  const InputBoxWorry({super.key});
+  final Function(String text)? onSendPressed;
+
+  const InputBoxWorry({
+    super.key,
+    this.onSendPressed,
+  });
 
   @override
   ConsumerState<InputBoxWorry> createState() => _InputBoxWorryState();
@@ -46,7 +49,8 @@ class _InputBoxWorryState extends ConsumerState<InputBoxWorry> {
         duration: 3,
       );
     } else {
-      // 실명/익명 선택 팝업 표시
+      // 50자 이상일 경우 상위 컴포넌트에 알림
+      widget.onSendPressed?.call(_controller.text);
     }
   }
 

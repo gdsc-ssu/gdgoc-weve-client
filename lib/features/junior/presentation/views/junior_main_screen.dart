@@ -49,10 +49,7 @@ class JuniorMainScreen extends ConsumerWidget {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: pages[selectedIndex],
-      ),
+      body: pages[selectedIndex],
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
