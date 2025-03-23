@@ -8,6 +8,56 @@ import 'package:weve_client/commons/widgets/button/view/select_button.dart';
 import 'package:weve_client/commons/widgets/popup/view/popup.dart';
 import 'package:weve_client/commons/widgets/popup/viewmodel/popup_viewmodel.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
+import 'package:weve_client/core/constants/colors.dart';
+import 'package:weve_client/core/constants/fonts.dart';
+import 'package:weve_client/commons/widgets/junior/button/view/button.dart';
+
+final nameSelectionProvider =
+    StateNotifierProvider<NameSelectionNotifier, NameSelectionState>((ref) {
+  return NameSelectionNotifier();
+});
+
+class NameSelectionState {
+  final bool isRealNameSelected;
+  final bool isAnonymousSelected;
+
+  NameSelectionState({
+    this.isRealNameSelected = false,
+    this.isAnonymousSelected = false,
+  });
+
+  NameSelectionState copyWith({
+    bool? isRealNameSelected,
+    bool? isAnonymousSelected,
+  }) {
+    return NameSelectionState(
+      isRealNameSelected: isRealNameSelected ?? this.isRealNameSelected,
+      isAnonymousSelected: isAnonymousSelected ?? this.isAnonymousSelected,
+    );
+  }
+}
+
+class NameSelectionNotifier extends StateNotifier<NameSelectionState> {
+  NameSelectionNotifier() : super(NameSelectionState());
+
+  void selectRealName() {
+    state = state.copyWith(
+      isRealNameSelected: true,
+      isAnonymousSelected: false,
+    );
+  }
+
+  void selectAnonymous() {
+    state = state.copyWith(
+      isRealNameSelected: false,
+      isAnonymousSelected: true,
+    );
+  }
+
+  void reset() {
+    state = NameSelectionState();
+  }
+}
 
 class JuniorWriteScreen extends ConsumerStatefulWidget {
   const JuniorWriteScreen({super.key});
@@ -40,31 +90,63 @@ class _JuniorWriteScreenState extends ConsumerState<JuniorWriteScreen> {
   }
 
   void _showNameSelectionPopup() {
+    // 팝업이 열릴 때 선택 상태 초기화
+    ref.read(nameSelectionProvider.notifier).reset();
+
     ref.read(popupProvider.notifier).showPopup(
-          Column(
+      Consumer(
+        builder: (context, ref, child) {
+          final state = ref.watch(nameSelectionProvider);
+          final isButtonEnabled =
+              state.isRealNameSelected || state.isAnonymousSelected;
+
+          return Column(
             children: [
-              SelectButton(
-                title: "실명",
-                description: "Ex. \${gov}의 \${age}세 \${name}",
-                isSelected: false,
-                onTap: () {
-                  // TODO: 실명 선택 시 처리
-                  ref.read(popupProvider.notifier).closePopup();
-                },
+              const SizedBox(height: 10),
+              // 설명
+              Text(
+                "당신의 고민이 실명 또는 익명으로 세계의 어르신들에게 보여집니다.",
+                style: WeveText.body2(color: WeveColor.gray.gray3),
+                textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
               SelectButton(
-                title: "익명",
-                description: "Ex. \${gov}의 \${age}세 위비",
-                isSelected: false,
+                title: "실명",
+                description: "Ex. \${gov}의 \${age}세 \${name}",
+                isSelected: state.isRealNameSelected,
                 onTap: () {
-                  // TODO: 익명 선택 시 처리
-                  ref.read(popupProvider.notifier).closePopup();
+                  ref.read(nameSelectionProvider.notifier).selectRealName();
                 },
               ),
+              const SizedBox(height: 15),
+              SelectButton(
+                title: "익명",
+                description: "Ex. \${gov}의 \${age}세 위비",
+                isSelected: state.isAnonymousSelected,
+                onTap: () {
+                  ref.read(nameSelectionProvider.notifier).selectAnonymous();
+                },
+              ),
+              const SizedBox(height: 20),
+              JuniorButton(
+                text: "고민 보내기",
+                backgroundColor: isButtonEnabled
+                    ? WeveColor.main.yellow1_100
+                    : WeveColor.main.yellow3,
+                textColor: isButtonEnabled
+                    ? WeveColor.main.yellowText
+                    : WeveColor.main.yellow4,
+                onPressed: isButtonEnabled
+                    ? () {
+                        ref.read(popupProvider.notifier).closePopup();
+                      }
+                    : () {},
+              ),
             ],
-          ),
-        );
+          );
+        },
+      ),
+    );
   }
 
   @override
