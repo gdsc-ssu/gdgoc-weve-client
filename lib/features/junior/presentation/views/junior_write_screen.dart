@@ -12,6 +12,7 @@ import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/commons/widgets/junior/button/view/button.dart';
 import 'package:weve_client/core/constants/custom_svg_image.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:weve_client/features/junior/presentation/views/junior_success_screen.dart';
 
 final nameSelectionProvider =
     StateNotifierProvider<NameSelectionNotifier, NameSelectionState>((ref) {
@@ -144,6 +145,14 @@ class _JuniorWriteScreenState extends ConsumerState<JuniorWriteScreen> {
                 onPressed: isButtonEnabled
                     ? () {
                         ref.read(popupProvider.notifier).closePopup();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const JuniorSuccessScreen(
+                              message: "어르신에게\n고민이 전달되었어요!",
+                            ),
+                          ),
+                        );
                       }
                     : () {},
               ),
