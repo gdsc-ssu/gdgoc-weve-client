@@ -148,8 +148,9 @@ class _JuniorWriteScreenState extends ConsumerState<JuniorWriteScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const JuniorSuccessScreen(
-                              message: "어르신에게\n고민이 전달되었어요!",
+                            builder: (context) => JuniorSuccessScreen(
+                              message:
+                                  appLocalizations.junior.writeSuccessMessage,
                             ),
                           ),
                         );

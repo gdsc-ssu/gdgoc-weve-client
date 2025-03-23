@@ -24,6 +24,10 @@ class JuniorLocalizations {
       'popupWriteOption2': 'Anonymous',
       'popupWriteOption2Description': 'Ex. \${gov}, \${age} Wevy',
       'popupWriteButton': 'Send Worry',
+      'writeSuccessMessage':
+          'Your worry has been sent to the seniors worldwide!',
+      'defaultSuccessMessage': 'Go to Home',
+      'gotoMainButton': 'Go to Home',
     },
     'ko': {
       'juniorNavHome': '홈',
@@ -42,6 +46,9 @@ class JuniorLocalizations {
       'popupWriteOption2': '익명',
       'popupWriteOption2Description': 'Ex. \${gov}의 \${age}세 위비',
       'popupWriteButton': '고민 보내기',
+      'writeSuccessMessage': '세계의 어르신에게\n고민이 전달되었어요!',
+      'defaultSuccessMessage': '홈 화면으로 돌아가세요.',
+      'gotoMainButton': '홈으로 돌아가기',
     },
     'ja': {
       'juniorNavHome': 'ホーム',
@@ -60,6 +67,9 @@ class JuniorLocalizations {
       'popupWriteOption2': '匿名',
       'popupWriteOption2Description': 'Ex. \${gov}の\${age}歳 うえび',
       'popupWriteButton': '悩みを送る',
+      'writeSuccessMessage': '世界の先輩に\n悩みが届きました!',
+      'defaultSuccessMessage': 'ホーム 화면으로 돌아가세요.',
+      'gotoMainButton': 'ホームに戻る',
     },
   };
 
@@ -90,4 +100,9 @@ class JuniorLocalizations {
   String get popupWriteOption2Description =>
       _getString('popupWriteOption2Description');
   String get popupWriteButton => _getString('popupWriteButton');
+
+  // 성공 화면 관련 getter들
+  String get writeSuccessMessage => _getString('writeSuccessMessage');
+  String get defaultSuccessMessage => _getString('defaultSuccessMessage');
+  String get gotoMainButton => _getString('gotoMainButton');
 }

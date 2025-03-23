@@ -7,6 +7,7 @@ import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.da
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/core/constants/custom_animation_image.dart';
+import 'package:weve_client/core/localization/app_localizations.dart';
 import 'package:weve_client/features/junior/presentation/views/junior_main_screen.dart';
 
 class JuniorSuccessScreen extends ConsumerStatefulWidget {
@@ -33,6 +34,9 @@ class _JuniorSuccessScreenState extends ConsumerState<JuniorSuccessScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = ref.read(localeProvider);
+    final appLocalizations = AppLocalizations(locale);
+
     return Scaffold(
       backgroundColor: WeveColor.bg.bg1,
       appBar: const HeaderWidget(),
@@ -45,7 +49,8 @@ class _JuniorSuccessScreenState extends ConsumerState<JuniorSuccessScreen> {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  widget.message ?? "홈 화면으로 돌아가세요.",
+                  widget.message ??
+                      appLocalizations.junior.defaultSuccessMessage,
                   style: WeveText.header3(color: WeveColor.gray.gray1),
                   textAlign: TextAlign.left,
                 ),
@@ -62,7 +67,7 @@ class _JuniorSuccessScreenState extends ConsumerState<JuniorSuccessScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 50),
                   child: Button(
-                    text: "홈으로 돌아가기",
+                    text: appLocalizations.junior.gotoMainButton,
                     backgroundColor: WeveColor.main.yellow1_100,
                     textColor: WeveColor.main.yellowText,
                     onPressed: () {
