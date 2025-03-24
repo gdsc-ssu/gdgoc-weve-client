@@ -28,6 +28,8 @@ class JuniorLocalizations {
           'Your worry has been sent to the seniors worldwide!',
       'defaultSuccessMessage': 'Go to Home',
       'gotoMainButton': 'Go to Home',
+      'noWorryMessage':
+          'There are no worries written yet.\nWrite your worry on the writing page!',
     },
     'ko': {
       'juniorNavHome': '홈',
@@ -49,6 +51,7 @@ class JuniorLocalizations {
       'writeSuccessMessage': '세계의 어르신에게\n고민이 전달되었어요!',
       'defaultSuccessMessage': '홈 화면으로 돌아가세요.',
       'gotoMainButton': '홈으로 돌아가기',
+      'noWorryMessage': '작성된 고민이 없어요.\n작성 페이지에서 당신의 고민을 작성해보세요!',
     },
     'ja': {
       'juniorNavHome': 'ホーム',
@@ -70,6 +73,7 @@ class JuniorLocalizations {
       'writeSuccessMessage': '世界の先輩に\n悩みが届きました!',
       'defaultSuccessMessage': 'ホーム 화면으로 돌아가세요.',
       'gotoMainButton': 'ホームに戻る',
+      'noWorryMessage': 'まだ悩みが書かれていません。\n書くページであなたの悩みを書いてください!',
     },
   };
 
@@ -86,11 +90,13 @@ class JuniorLocalizations {
   String get juniorHeaderHomeTitle => _getString('juniorHeaderHomeTitle');
   String get juniorHeaderWriteTitle => _getString('juniorHeaderWriteTitle');
   String get juniorHeaderMyTitle => _getString('juniorHeaderMyTitle');
+
+  // [주니어 작성] 입력 박스 관련 getter들
   String get inputBoxWorryPlaceholder => _getString('inputBoxWorryPlaceholder');
   String get toastInputBoxWorryMinLength =>
       _getString('toastInputBoxWorryMinLength');
 
-  // 팝업 관련 getter들
+  // [주니어 작성] 팝업 관련 getter들
   String get popupWriteTitle => _getString('popupWriteTitle');
   String get popupWriteDescription => _getString('popupWriteDescription');
   String get popupWriteOption1 => _getString('popupWriteOption1');
@@ -101,8 +107,11 @@ class JuniorLocalizations {
       _getString('popupWriteOption2Description');
   String get popupWriteButton => _getString('popupWriteButton');
 
-  // 성공 화면 관련 getter들
+  // [주니어 작성] 성공 화면 관련 getter들
   String get writeSuccessMessage => _getString('writeSuccessMessage');
   String get defaultSuccessMessage => _getString('defaultSuccessMessage');
   String get gotoMainButton => _getString('gotoMainButton');
+
+  // [주니어 홈] 고민 없음 화면 관련 getter들
+  String get noWorryMessage => _getString('noWorryMessage');
 }
