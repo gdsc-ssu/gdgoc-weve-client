@@ -41,7 +41,14 @@ class SeniorInputCareerScreen extends ConsumerWidget {
                   text: "다음",
                   backgroundColor: WeveColor.main.yellow1_100,
                   textColor: WeveColor.main.yellowText,
-                  onPressed: () {})
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const SeniorInputCareerScreen(),
+                      ),
+                    );
+                  })
             ],
           ),
         ),
