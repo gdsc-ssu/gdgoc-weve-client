@@ -10,11 +10,25 @@ import 'package:weve_client/features/junior/presentation/views/junior_home_scree
 import 'package:weve_client/features/junior/presentation/views/junior_my_screen.dart';
 import 'package:weve_client/features/junior/presentation/views/junior_write_screen.dart';
 
-class JuniorMainScreen extends ConsumerWidget {
+class JuniorMainScreen extends ConsumerStatefulWidget {
   const JuniorMainScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<JuniorMainScreen> createState() => _JuniorMainScreenState();
+}
+
+class _JuniorMainScreenState extends ConsumerState<JuniorMainScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // 홈 화면을 기본으로 선택
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(navigationProvider.notifier).changeIndex(0);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final selectedIndex = ref.watch(navigationProvider);
     // 헤더 상태 감시
     final headerState = ref.watch(headerProvider);
@@ -49,10 +63,7 @@ class JuniorMainScreen extends ConsumerWidget {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: pages[selectedIndex],
-      ),
+      body: pages[selectedIndex],
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

@@ -52,7 +52,14 @@ class HeaderWidget extends ConsumerWidget implements PreferredSizeWidget {
               ],
             )
           : hasLogo
-              ? CustomIcons.getIcon(CustomIcons.logo)
+              ? config.type == HeaderType.backLogo2
+                  ? Row(
+                      children: [
+                        CustomIcons.getIcon(CustomIcons.logo),
+                        const Spacer(),
+                      ],
+                    )
+                  : CustomIcons.getIcon(CustomIcons.logo)
               : hasTitle
                   ? Text(
                       config.title!,
