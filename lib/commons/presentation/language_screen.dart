@@ -27,9 +27,9 @@ class _LanguageScreenState extends ConsumerState<LanguageScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const SizedBox(height: 50),
+            const SizedBox(height: 80),
             const JuniorHeader(),
-            const Spacer(),
+            const SizedBox(height: 50),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -38,12 +38,12 @@ class _LanguageScreenState extends ConsumerState<LanguageScreen> {
                     text: "English",
                     language: LanguageOption.english,
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   SelectLanguageButton(
                     text: "한국어",
                     language: LanguageOption.korean,
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   SelectLanguageButton(
                     text: "日本語",
                     language: LanguageOption.japanese,
