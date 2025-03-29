@@ -27,6 +27,13 @@ class AppLocalizations {
       'japanese': '日本語',
       'junior': 'Junior',
       'senior': 'Senior',
+      'editProfile': 'Edit Profile',
+      'changeLanguage': 'Change Language',
+      'editPhoneNumber': 'Edit Phone Number',
+      'contact': 'Contact Us',
+      'termsAndPolicies': 'Terms and Policies',
+      'logout': 'Logout',
+      'withdrawal': 'Withdraw Account',
     },
     'ko': {
       'appTitle': 'weve',
@@ -36,6 +43,13 @@ class AppLocalizations {
       'japanese': '日本語',
       'junior': '청년',
       'senior': '어르신',
+      'editProfile': '프로필 수정',
+      'changeLanguage': '언어 변경',
+      'editPhoneNumber': '전화번호 수정',
+      'contact': '문의하기',
+      'termsAndPolicies': '약관 및 정책',
+      'logout': '로그아웃',
+      'withdrawal': '회원탈퇴',
     },
     'ja': {
       'appTitle': 'weve',
@@ -45,6 +59,13 @@ class AppLocalizations {
       'japanese': '日本語',
       'junior': 'ジュニア',
       'senior': 'シニア',
+      'editProfile': 'プロフィール編集',
+      'changeLanguage': '言語変更',
+      'editPhoneNumber': '電話番号の編集',
+      'contact': 'お問い合わせ',
+      'termsAndPolicies': '利用規約とポリシー',
+      'logout': 'ログアウト',
+      'withdrawal': '退会する',
     },
   };
 
@@ -64,6 +85,17 @@ class AppLocalizations {
   String get japanese => _getString('japanese');
   String get juniorText => _getString('junior');
   String get seniorText => _getString('senior');
+
+  // 프로필 버튼 텍스트
+  String get editProfile => _getString('editProfile');
+  String get changeLanguage => _getString('changeLanguage');
+  String get editPhoneNumber => _getString('editPhoneNumber');
+  String get contact => _getString('contact');
+  String get termsAndPolicies => _getString('termsAndPolicies');
+
+  // 로그아웃 및 회원탈퇴
+  String get logout => _getString('logout');
+  String get withdrawal => _getString('withdrawal');
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

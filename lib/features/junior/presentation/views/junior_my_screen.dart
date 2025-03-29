@@ -40,6 +40,9 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = ref.watch(localeProvider);
+    final appLocalizations = AppLocalizations(locale);
+
     return Scaffold(
       backgroundColor: WeveColor.bg.bg1,
       body: SingleChildScrollView(
@@ -80,28 +83,28 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
               Center(
                 child: Column(
                   children: [
-                    const JuniorProfileButton(
-                      text: '프로필 수정',
+                    JuniorProfileButton(
+                      text: appLocalizations.editProfile,
                       profileType: ProfileType.profile,
                     ),
                     const SizedBox(height: 20),
-                    const JuniorProfileButton(
-                      text: '언어 변경',
+                    JuniorProfileButton(
+                      text: appLocalizations.changeLanguage,
                       profileType: ProfileType.language,
                     ),
                     const SizedBox(height: 20),
-                    const JuniorProfileButton(
-                      text: '전화번호 수정',
+                    JuniorProfileButton(
+                      text: appLocalizations.editPhoneNumber,
                       profileType: ProfileType.phone,
                     ),
                     const SizedBox(height: 20),
-                    const JuniorProfileButton(
-                      text: '문의하기',
+                    JuniorProfileButton(
+                      text: appLocalizations.contact,
                       profileType: ProfileType.ask,
                     ),
                     const SizedBox(height: 20),
-                    const JuniorProfileButton(
-                      text: '약관 및 정책',
+                    JuniorProfileButton(
+                      text: appLocalizations.termsAndPolicies,
                       profileType: ProfileType.etc,
                     ),
                   ],
@@ -120,7 +123,7 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
                         // 로그아웃 처리
                       },
                       child: Text(
-                        '로그아웃',
+                        appLocalizations.logout,
                         style: WeveText.body3(color: WeveColor.gray.gray4),
                       ),
                     ),
@@ -136,7 +139,7 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
                         // 회원탈퇴 처리
                       },
                       child: Text(
-                        '회원탈퇴',
+                        appLocalizations.withdrawal,
                         style: WeveText.body3(color: WeveColor.gray.gray4),
                       ),
                     ),
