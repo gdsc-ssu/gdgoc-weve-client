@@ -7,6 +7,9 @@ import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
 import 'package:weve_client/core/constants/custom_profile.dart';
+import 'package:weve_client/commons/widgets/popup/view/popup.dart';
+import 'package:weve_client/commons/widgets/popup/viewmodel/popup_viewmodel.dart';
+import 'package:weve_client/commons/widgets/junior/button/view/button.dart';
 
 class JuniorMyScreen extends ConsumerStatefulWidget {
   const JuniorMyScreen({super.key});
@@ -23,6 +26,9 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
   // 현재 선택된 프로필 이미지 색상 (임의로 선택, 실제로는 유저 데이터에서 가져와야 함)
   ProfileColor selectedProfileColor = ProfileColor.green;
 
+  // 팝업 타이틀 저장 변수
+  String _popupTitle = "";
+
   @override
   void initState() {
     super.initState();
@@ -38,118 +44,190 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
     });
   }
 
+  void _showLogoutPopup() {
+    final locale = ref.read(localeProvider);
+    final appLocalizations = AppLocalizations(locale);
+
+    // 팝업 타이틀 설정
+    setState(() {
+      _popupTitle = appLocalizations.logout;
+    });
+
+    ref.read(popupProvider.notifier).showPopup(
+          Column(
+            children: [
+              const SizedBox(height: 30),
+              Text(
+                appLocalizations.logoutConfirm,
+                style: WeveText.body2(color: WeveColor.gray.gray3),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 40),
+              JuniorButton(
+                text: appLocalizations.logout,
+                backgroundColor: WeveColor.main.yellow1_100,
+                textColor: WeveColor.main.yellowText,
+                onPressed: () {
+                  // 로그아웃 처리 로직
+                  ref.read(popupProvider.notifier).closePopup();
+                  // 여기에 로그아웃 후 처리 로직 추가
+                },
+              ),
+            ],
+          ),
+        );
+  }
+
+  void _showWithdrawalPopup() {
+    final locale = ref.read(localeProvider);
+    final appLocalizations = AppLocalizations(locale);
+
+    // 팝업 타이틀 설정
+    setState(() {
+      _popupTitle = appLocalizations.withdrawal;
+    });
+
+    ref.read(popupProvider.notifier).showPopup(
+          Column(
+            children: [
+              const SizedBox(height: 30),
+              Text(
+                appLocalizations.withdrawalConfirm,
+                style: WeveText.body2(color: WeveColor.gray.gray3),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 40),
+              JuniorButton(
+                text: appLocalizations.withdrawal,
+                backgroundColor: WeveColor.main.yellow1_100,
+                textColor: WeveColor.main.yellowText,
+                onPressed: () {
+                  // 회원탈퇴 처리 로직
+                  ref.read(popupProvider.notifier).closePopup();
+                  // 여기에 회원탈퇴 후 처리 로직 추가
+                },
+              ),
+            ],
+          ),
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
     final locale = ref.watch(localeProvider);
     final appLocalizations = AppLocalizations(locale);
+    final popupState = ref.watch(popupProvider);
 
     return Scaffold(
       backgroundColor: WeveColor.bg.bg1,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 30),
-              // 프로필 정보 섹션
-              Row(
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // 프로필 이미지
-                  CustomProfile.getProfileIcon(selectedProfileColor, size: 100),
-                  const SizedBox(width: 15),
-                  // 유저 정보 텍스트
-                  Expanded(
-                    child: RichText(
-                      text: TextSpan(
-                        style: WeveText.body2(color: WeveColor.gray.gray1),
-                        children: [
-                          TextSpan(text: '$userName 님은 \n'),
-                          TextSpan(
-                              text: '"$userLocation에 사는 $userAge세 위비"',
-                              style: WeveText.body2(color: WeveColor.gray.gray1)
-                                  .copyWith(fontWeight: FontWeight.bold)),
-                          TextSpan(text: '\n으로 소개됩니다.'),
-                        ],
+                  const SizedBox(height: 30),
+                  // 프로필 정보 섹션
+                  Row(
+                    children: [
+                      // 프로필 이미지
+                      CustomProfile.getProfileIcon(selectedProfileColor,
+                          size: 100),
+                      const SizedBox(width: 15),
+                      // 유저 정보 텍스트
+                      Expanded(
+                        child: RichText(
+                          text: TextSpan(
+                            style: WeveText.body2(color: WeveColor.gray.gray1),
+                            children: [
+                              TextSpan(text: '$userName 님은 \n'),
+                              TextSpan(
+                                  text: '"$userLocation에 사는 $userAge세 위비"',
+                                  style: WeveText.body2(
+                                          color: WeveColor.gray.gray1)
+                                      .copyWith(fontWeight: FontWeight.bold)),
+                              TextSpan(text: '\n으로 소개됩니다.'),
+                            ],
+                          ),
+                        ),
                       ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 50),
+
+                  // 프로필 버튼 섹션
+                  Center(
+                    child: Column(
+                      children: [
+                        JuniorProfileButton(
+                          text: appLocalizations.editProfile,
+                          profileType: ProfileType.profile,
+                        ),
+                        const SizedBox(height: 20),
+                        JuniorProfileButton(
+                          text: appLocalizations.changeLanguage,
+                          profileType: ProfileType.language,
+                        ),
+                        const SizedBox(height: 20),
+                        JuniorProfileButton(
+                          text: appLocalizations.editPhoneNumber,
+                          profileType: ProfileType.phone,
+                        ),
+                        const SizedBox(height: 20),
+                        JuniorProfileButton(
+                          text: appLocalizations.contact,
+                          profileType: ProfileType.ask,
+                        ),
+                        const SizedBox(height: 20),
+                        JuniorProfileButton(
+                          text: appLocalizations.termsAndPolicies,
+                          profileType: ProfileType.etc,
+                        ),
+                      ],
                     ),
                   ),
+
+                  const SizedBox(height: 30),
+
+                  // 로그아웃 및 회원탈퇴 텍스트
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: _showLogoutPopup,
+                          child: Text(
+                            appLocalizations.logout,
+                            style: WeveText.body3(color: WeveColor.gray.gray4),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: Text(
+                            '/',
+                            style: WeveText.body3(color: WeveColor.gray.gray6),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: _showWithdrawalPopup,
+                          child: Text(
+                            appLocalizations.withdrawal,
+                            style: WeveText.body3(color: WeveColor.gray.gray4),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 30),
                 ],
               ),
-
-              const SizedBox(height: 50),
-
-              // 프로필 버튼 섹션
-              Center(
-                child: Column(
-                  children: [
-                    JuniorProfileButton(
-                      text: appLocalizations.editProfile,
-                      profileType: ProfileType.profile,
-                    ),
-                    const SizedBox(height: 20),
-                    JuniorProfileButton(
-                      text: appLocalizations.changeLanguage,
-                      profileType: ProfileType.language,
-                    ),
-                    const SizedBox(height: 20),
-                    JuniorProfileButton(
-                      text: appLocalizations.editPhoneNumber,
-                      profileType: ProfileType.phone,
-                    ),
-                    const SizedBox(height: 20),
-                    JuniorProfileButton(
-                      text: appLocalizations.contact,
-                      profileType: ProfileType.ask,
-                    ),
-                    const SizedBox(height: 20),
-                    JuniorProfileButton(
-                      text: appLocalizations.termsAndPolicies,
-                      profileType: ProfileType.etc,
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 30),
-
-              // 로그아웃 및 회원탈퇴 텍스트
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        // 로그아웃 처리
-                      },
-                      child: Text(
-                        appLocalizations.logout,
-                        style: WeveText.body3(color: WeveColor.gray.gray4),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Text(
-                        '/',
-                        style: WeveText.body3(color: WeveColor.gray.gray6),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        // 회원탈퇴 처리
-                      },
-                      child: Text(
-                        appLocalizations.withdrawal,
-                        style: WeveText.body3(color: WeveColor.gray.gray4),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 30),
-            ],
+            ),
           ),
-        ),
+          if (popupState.isVisible) Popup(title: _popupTitle),
+        ],
       ),
     );
   }

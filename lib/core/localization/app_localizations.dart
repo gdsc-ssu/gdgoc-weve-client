@@ -34,6 +34,9 @@ class AppLocalizations {
       'termsAndPolicies': 'Terms and Policies',
       'logout': 'Logout',
       'withdrawal': 'Withdraw Account',
+      'logoutConfirm': 'Are you sure you want to logout?',
+      'withdrawalConfirm':
+          'Are you sure you want to withdraw? After withdrawal, all data will be deleted and cannot be restored.',
     },
     'ko': {
       'appTitle': 'weve',
@@ -50,6 +53,8 @@ class AppLocalizations {
       'termsAndPolicies': '약관 및 정책',
       'logout': '로그아웃',
       'withdrawal': '회원탈퇴',
+      'logoutConfirm': '정말로 로그아웃하시겠어요?',
+      'withdrawalConfirm': '정말로 회원탈퇴하시겠어요?\n탈퇴 후 모든 데이터가 삭제되며,\n복구할 수 없습니다.',
     },
     'ja': {
       'appTitle': 'weve',
@@ -66,6 +71,8 @@ class AppLocalizations {
       'termsAndPolicies': '利用規約とポリシー',
       'logout': 'ログアウト',
       'withdrawal': '退会する',
+      'logoutConfirm': '本当にログアウトしますか？',
+      'withdrawalConfirm': '本当に退会しますか？\n退会後、すべてのデータが削除され、\n復元できなくなります。',
     },
   };
 
@@ -96,6 +103,8 @@ class AppLocalizations {
   // 로그아웃 및 회원탈퇴
   String get logout => _getString('logout');
   String get withdrawal => _getString('withdrawal');
+  String get logoutConfirm => _getString('logoutConfirm');
+  String get withdrawalConfirm => _getString('withdrawalConfirm');
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
