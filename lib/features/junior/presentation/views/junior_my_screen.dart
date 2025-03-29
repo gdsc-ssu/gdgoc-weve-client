@@ -11,6 +11,7 @@ import 'package:weve_client/core/constants/custom_profile.dart';
 import 'package:weve_client/commons/widgets/popup/view/popup.dart';
 import 'package:weve_client/commons/widgets/popup/viewmodel/popup_viewmodel.dart';
 import 'package:weve_client/commons/widgets/junior/button/view/button.dart';
+import 'package:weve_client/features/junior/presentation/views/junior_edit_language_screen.dart';
 
 class JuniorMyScreen extends ConsumerStatefulWidget {
   const JuniorMyScreen({super.key});
@@ -131,6 +132,16 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
     }
   }
 
+  // 언어 변경 화면으로 이동하는 함수
+  void _navigateToLanguageScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const JuniorEditLanguageScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final locale = ref.watch(localeProvider);
@@ -189,6 +200,7 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
                         JuniorProfileButton(
                           text: appLocalizations.changeLanguage,
                           profileType: ProfileType.language,
+                          onTap: _navigateToLanguageScreen,
                         ),
                         const SizedBox(height: 20),
                         JuniorProfileButton(

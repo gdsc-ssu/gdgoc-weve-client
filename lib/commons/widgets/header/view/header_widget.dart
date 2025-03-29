@@ -27,12 +27,21 @@ class HeaderWidget extends ConsumerWidget implements PreferredSizeWidget {
     final config = ref.watch(headerProvider);
     final bool hasTitle = config.title != null;
     final bool hasLogo = config.showLogo;
+    final bool hasBackButton = config.showBackButton;
 
     return AppBar(
       backgroundColor: WeveColor.bg.bg1,
       elevation: 0,
       automaticallyImplyLeading: false, // 자동으로 백버튼을 표시하지 않도록 설정
       centerTitle: !hasTitle || !hasLogo,
+      leading: hasBackButton
+          ? IconButton(
+              icon: CustomIcons.getIcon(CustomIcons.headerLeftArrow),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          : null,
       title: hasTitle && hasLogo
           ? Row(
               children: [
