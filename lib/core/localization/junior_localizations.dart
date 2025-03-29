@@ -71,7 +71,7 @@ class JuniorLocalizations {
       'popupWriteOption2Description': 'Ex. \${gov}の\${age}歳 うえび',
       'popupWriteButton': '悩みを送る',
       'writeSuccessMessage': '世界の先輩に\n悩みが届きました!',
-      'defaultSuccessMessage': 'ホーム 화면으로 돌아가세요.',
+      'defaultSuccessMessage': 'ホーム画面に戻ります',
       'gotoMainButton': 'ホームに戻る',
       'noWorryMessage': 'まだ悩みが書かれていません。\n書くページであなたの悩みを書いてください!',
     },
