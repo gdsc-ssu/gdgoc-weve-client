@@ -35,7 +35,7 @@ class JuniorProfileButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 350,
-      height: 64,
+      height: 60,
       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
       decoration: BoxDecoration(
         color: WeveColor.bg.bg3,
@@ -43,13 +43,13 @@ class JuniorProfileButton extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CustomIcons.getIcon(findIconData(profileType), size: 24),
           const SizedBox(width: 10),
           Text(
             text,
-            style: WeveText.body2(color: WeveColor.main.yellowText),
+            style: WeveText.body2(color: WeveColor.gray.gray2),
           ),
         ],
       ),
