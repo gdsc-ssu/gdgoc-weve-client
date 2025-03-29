@@ -8,11 +8,13 @@ enum ProfileType { profile, language, phone, ask, etc }
 class JuniorProfileButton extends StatelessWidget {
   final String text;
   final ProfileType profileType;
+  final VoidCallback? onTap;
 
   const JuniorProfileButton({
     super.key,
     required this.text,
     required this.profileType,
+    this.onTap,
   });
 
   // 아이콘을 동적으로 찾는 함수
@@ -33,25 +35,28 @@ class JuniorProfileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 350,
-      height: 60,
-      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
-      decoration: BoxDecoration(
-        color: WeveColor.bg.bg3,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CustomIcons.getIcon(findIconData(profileType), size: 24),
-          const SizedBox(width: 10),
-          Text(
-            text,
-            style: WeveText.body2(color: WeveColor.gray.gray2),
-          ),
-        ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 350,
+        height: 60,
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+        decoration: BoxDecoration(
+          color: WeveColor.bg.bg3,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomIcons.getIcon(findIconData(profileType), size: 24),
+            const SizedBox(width: 10),
+            Text(
+              text,
+              style: WeveText.body2(color: WeveColor.gray.gray2),
+            ),
+          ],
+        ),
       ),
     );
   }

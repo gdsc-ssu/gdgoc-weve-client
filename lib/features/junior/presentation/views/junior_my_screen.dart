@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:weve_client/commons/widgets/header/model/header_type.dart';
 import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
 import 'package:weve_client/commons/widgets/junior/button/view/junior_profile_button.dart';
@@ -112,6 +113,24 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
         );
   }
 
+  // 구글 폼 URL을 여는 함수
+  Future<void> _launchContactForm() async {
+    final Uri url = Uri.parse(
+        'https://docs.google.com/forms/d/e/1FAIpQLSfSYKnrGLSTulTSWTGcQzPRbrDOHrn3usbVqhVczx8Opeyjqg/viewform');
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch ask page');
+    }
+  }
+
+  // 약관 및 정책 URL을 여는 함수
+  Future<void> _launchTermsAndPolicies() async {
+    final Uri url = Uri.parse(
+        'https://nine-grade-d65.notion.site/WEVE-1c5b5a1edfe480b5bae7f0b71e09a20f?pvs=74');
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch terms and policies page');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final locale = ref.watch(localeProvider);
@@ -180,11 +199,13 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
                         JuniorProfileButton(
                           text: appLocalizations.contact,
                           profileType: ProfileType.ask,
+                          onTap: _launchContactForm,
                         ),
                         const SizedBox(height: 20),
                         JuniorProfileButton(
                           text: appLocalizations.termsAndPolicies,
                           profileType: ProfileType.etc,
+                          onTap: _launchTermsAndPolicies,
                         ),
                       ],
                     ),
