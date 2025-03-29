@@ -48,22 +48,44 @@ class _JuniorEditLanguageScreenState
 
   // 언어 변경 후 마이 페이지로 돌아가는 함수
   void _applyLanguageChange() {
+    final locale = ref.read(localeProvider);
+    final appLocalizations = AppLocalizations(locale);
     // 선택한 언어를 실제로 적용
     if (_tempSelectedLanguage != null) {
       ref
           .read(selectedLanguageProvider.notifier)
           .selectLanguage(_tempSelectedLanguage!);
-    }
 
-    // 토스트 메시지 표시
-    CustomToast.show(
-      context,
-      "언어가 변경되었습니다.",
-      backgroundColor: WeveColor.main.orange1,
-      textColor: Colors.white,
-      borderRadius: 20,
-      duration: 3,
-    );
+      // 선택한 언어에 따른 토스트 메시지
+      String toastMessage = "언어가 변경되었습니다."; // 기본 메시지
+
+      // 선택한 언어에 따라 토스트 메시지 변경
+      switch (_tempSelectedLanguage) {
+        case LanguageOption.english:
+          toastMessage =
+              appLocalizations.languageChangeApplyToastMessageEnglish;
+          break;
+        case LanguageOption.korean:
+          toastMessage = appLocalizations.languageChangeApplyToastMessageKorean;
+          break;
+        case LanguageOption.japanese:
+          toastMessage =
+              appLocalizations.languageChangeApplyToastMessageJapanese;
+          break;
+        default:
+          break;
+      }
+
+      // 토스트 메시지 표시
+      CustomToast.show(
+        context,
+        toastMessage,
+        backgroundColor: WeveColor.main.orange1,
+        textColor: Colors.white,
+        borderRadius: 20,
+        duration: 3,
+      );
+    }
 
     // 마이페이지로 돌아가기 전에 헤더를 원래대로 복원
     _restoreMyPageHeader();
@@ -107,27 +129,30 @@ class _JuniorEditLanguageScreenState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "언어 변경",
+                  appLocalizations.languageChange,
                   style: WeveText.header3(color: WeveColor.gray.gray1),
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  "'weve'는 다국어 지원 서비스로,\n한국어, 영어, 일본어 중 언어 변경이 가능해요.",
+                  appLocalizations.languageChangeDescription,
                   style: WeveText.body2(color: WeveColor.gray.gray3),
                 ),
                 const SizedBox(height: 50),
                 // 기존 SelectLanguageButton 컴포넌트들
-                _buildCustomLanguageButton("English", LanguageOption.english),
+                _buildCustomLanguageButton(
+                    appLocalizations.english, LanguageOption.english),
                 const SizedBox(height: 20),
-                _buildCustomLanguageButton("한국어", LanguageOption.korean),
+                _buildCustomLanguageButton(
+                    appLocalizations.korean, LanguageOption.korean),
                 const SizedBox(height: 20),
-                _buildCustomLanguageButton("日本語", LanguageOption.japanese),
+                _buildCustomLanguageButton(
+                    appLocalizations.japanese, LanguageOption.japanese),
                 const Spacer(),
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 30),
                     child: JuniorButton(
-                      text: "수정하기",
+                      text: appLocalizations.languageChangeApply,
                       enabled: true, // 항상 활성화
                       onPressed: _applyLanguageChange,
                     ),
