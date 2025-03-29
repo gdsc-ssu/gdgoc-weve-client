@@ -38,7 +38,9 @@ class HeaderWidget extends ConsumerWidget implements PreferredSizeWidget {
           ? IconButton(
               icon: CustomIcons.getIcon(CustomIcons.headerLeftArrow),
               onPressed: () {
-                Navigator.of(context).pop();
+                // 여기서 Navigator.pop을 직접 호출하기 전에
+                // WillPopScope에서 처리되도록 함
+                Navigator.maybePop(context);
               },
             )
           : null,
