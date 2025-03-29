@@ -27,7 +27,7 @@ class JuniorProfileButton extends StatelessWidget {
       case ProfileType.phone:
         return CustomIcons.myPhone;
       case ProfileType.ask:
-        return CustomIcons.mySendActive;
+        return CustomIcons.mySendDeactive;
       case ProfileType.etc:
         return CustomIcons.myEtc;
     }
