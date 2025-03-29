@@ -21,7 +21,7 @@ class _LanguageScreenState extends ConsumerState<LanguageScreen> {
   Widget build(BuildContext context) {
     final selectedLanguage = ref.watch(selectedLanguageProvider);
     final locale = ref.watch(localeProvider);
-
+    final appLocalizations = AppLocalizations(locale);
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -35,17 +35,17 @@ class _LanguageScreenState extends ConsumerState<LanguageScreen> {
               child: Column(
                 children: [
                   SelectLanguageButton(
-                    text: "English",
+                    text: appLocalizations.english,
                     language: LanguageOption.english,
                   ),
                   const SizedBox(height: 20),
                   SelectLanguageButton(
-                    text: "한국어",
+                    text: appLocalizations.korean,
                     language: LanguageOption.korean,
                   ),
                   const SizedBox(height: 20),
                   SelectLanguageButton(
-                    text: "日本語",
+                    text: appLocalizations.japanese,
                     language: LanguageOption.japanese,
                   ),
                 ],
