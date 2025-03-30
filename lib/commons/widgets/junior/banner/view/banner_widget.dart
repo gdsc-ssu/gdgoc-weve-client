@@ -18,7 +18,9 @@ class _BannerWidgetState extends ConsumerState<BannerWidget> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 6), (timer) {
+
+    // 배너 전환 타이머 설정
+    _timer = Timer.periodic(const Duration(seconds: 7), (timer) {
       if (mounted) {
         setState(() {
           _showBanner1 = !_showBanner1;
@@ -57,20 +59,37 @@ class _BannerWidgetState extends ConsumerState<BannerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
-      child: AnimatedSwitcher(
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: AnimatedCrossFade(
         duration: const Duration(milliseconds: 500),
-        transitionBuilder: (Widget child, Animation<double> animation) {
-          return FadeTransition(
-            opacity: animation,
-            child: child,
+        firstChild: CustomBannerImages.getBannerImage(
+          _getBannerPath(true),
+        ),
+        secondChild: CustomBannerImages.getBannerImage(
+          _getBannerPath(false),
+        ),
+        crossFadeState:
+            _showBanner1 ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+        layoutBuilder: (topChild, topChildKey, bottomChild, bottomChildKey) {
+          return Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.center,
+            children: <Widget>[
+              Positioned(
+                key: bottomChildKey,
+                child: bottomChild,
+              ),
+              Positioned(
+                key: topChildKey,
+                child: topChild,
+              ),
+            ],
           );
         },
-        child: CustomBannerImages.getBannerImage(
-          _getBannerPath(_showBanner1),
-          key: ValueKey<bool>(_showBanner1),
-        ),
       ),
     );
   }
