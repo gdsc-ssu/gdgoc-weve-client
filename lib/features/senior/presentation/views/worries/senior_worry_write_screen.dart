@@ -20,8 +20,9 @@ class SeniorWorryWriteScreen extends ConsumerStatefulWidget {
 class _SeniorWorryWriteScreenState
     extends ConsumerState<SeniorWorryWriteScreen> {
   CameraController? _cameraController;
-  late Future<void> _initializeControllerFuture;
+  late Future<void>? _initializeControllerFuture;
   XFile? _capturedImage;
+  bool _hasCamera = true;
 
   @override
   void initState() {
@@ -30,14 +31,30 @@ class _SeniorWorryWriteScreenState
       final headerViewModel = ref.read(headerProvider.notifier);
       headerViewModel.setHeader(HeaderType.backLogo2, title: "");
 
-      final cameras = await availableCameras();
-      _cameraController = CameraController(
-        cameras.first,
-        ResolutionPreset.medium,
-        enableAudio: false,
-      );
-      _initializeControllerFuture = _cameraController!.initialize();
-      setState(() {});
+      try {
+        final cameras = await availableCameras();
+        if (cameras.isEmpty) {
+          setState(() {
+            _hasCamera = false;
+          });
+          debugPrint("❗ No cameras found on this device.");
+          return;
+        }
+
+        _cameraController = CameraController(
+          cameras.first,
+          ResolutionPreset.medium,
+          enableAudio: false,
+        );
+
+        _initializeControllerFuture = _cameraController!.initialize();
+        if (mounted) setState(() {});
+      } catch (e) {
+        setState(() {
+          _hasCamera = false;
+        });
+        debugPrint("❗ Camera initialization error: $e");
+      }
     });
   }
 
@@ -88,53 +105,58 @@ class _SeniorWorryWriteScreenState
                 decoration: BoxDecoration(
                   color: Colors.grey[300],
                 ),
-                child: _capturedImage != null
-                    ? Image.file(
-                        File(_capturedImage!.path),
-                        fit: BoxFit.cover,
-                      )
-                    : (_cameraController == null)
-                        ? const Center(child: CircularProgressIndicator())
-                        : FutureBuilder(
-                            future: _initializeControllerFuture,
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.done) {
-                                return CameraPreview(_cameraController!);
-                              } else {
-                                return const Center(
-                                    child: CircularProgressIndicator());
-                              }
-                            },
-                          ),
+                child: !_hasCamera
+                    ? const Center(child: Text("📷 카메라를 사용할 수 없습니다."))
+                    : _capturedImage != null
+                        ? Image.file(
+                            File(_capturedImage!.path),
+                            fit: BoxFit.cover,
+                          )
+                        : (_cameraController == null)
+                            ? const Center(child: CircularProgressIndicator())
+                            : FutureBuilder(
+                                future: _initializeControllerFuture,
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    return CameraPreview(_cameraController!);
+                                  } else {
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  }
+                                },
+                              ),
               ),
             ),
             const SizedBox(height: 24),
-            Center(
-              child: GestureDetector(
-                onTap: _takePicture,
-                child: Container(
-                  width: 64,
-                  height: 64,
-                  decoration: BoxDecoration(
-                    color: WeveColor.main.orange2,
-                    shape: BoxShape.circle,
-                  ),
-                  alignment: Alignment.center,
+            if (_hasCamera)
+              Center(
+                child: GestureDetector(
+                  onTap: _takePicture,
                   child: Container(
-                    width: 56,
-                    height: 56,
+                    width: 64,
+                    height: 64,
                     decoration: BoxDecoration(
-                      color: WeveColor.main.orange1,
+                      color: WeveColor.main.orange2,
                       shape: BoxShape.circle,
                     ),
                     alignment: Alignment.center,
-                    child:
-                        CustomIcons.getIcon(CustomIcons.seniorCamera, size: 50),
+                    child: Container(
+                      width: 56,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        color: WeveColor.main.orange1,
+                        shape: BoxShape.circle,
+                      ),
+                      alignment: Alignment.center,
+                      child: CustomIcons.getIcon(
+                        CustomIcons.seniorCamera,
+                        size: 50,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
             const SizedBox(height: 24),
           ],
         ),
