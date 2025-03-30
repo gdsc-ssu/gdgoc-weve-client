@@ -53,17 +53,68 @@ class _JuniorEditProfileScreenState
 
   // 프로필 변경 적용
   void _applyProfileChange() {
+    final locale = ref.read(localeProvider);
+    final appLocalizations = AppLocalizations(locale);
+
     // 여기에 실제 프로필 저장 로직 구현
     // 컨트롤러에서 값 가져오기
     final name = nameController.text;
     final birth = birthController.text;
 
-    // 여기서 서버에 데이터를 전송하는 로직이 들어갈 수 있습니다
+    // 생년월일 형식 검증 (YYYYMMDD)
+    final RegExp birthRegExp = RegExp(r'^[0-9]{8}$');
+    if (!birthRegExp.hasMatch(birth)) {
+      // 생년월일 형식이 잘못된 경우
+      CustomToast.show(
+        context,
+        appLocalizations.junior.editProfileBirthErrorToastMessage,
+        backgroundColor: WeveColor.main.orange1,
+        textColor: Colors.white,
+        borderRadius: 20,
+        duration: 3,
+      );
+      return; // 함수 종료
+    }
+
+    // 사용 예시: 더 구체적인 유효성 검사
+    try {
+      final year = int.parse(birth.substring(0, 4));
+      final month = int.parse(birth.substring(4, 6));
+      final day = int.parse(birth.substring(6, 8));
+
+      // 날짜 유효성 검사
+      if (year < 1900 ||
+          year > DateTime.now().year ||
+          month < 1 ||
+          month > 12 ||
+          day < 1 ||
+          day > 31) {
+        CustomToast.show(
+          context,
+          appLocalizations.junior.editProfileBirthErrorToastMessage2,
+          backgroundColor: WeveColor.main.orange1,
+          textColor: Colors.white,
+          borderRadius: 20,
+          duration: 3,
+        );
+        return;
+      }
+    } catch (e) {
+      // 숫자 파싱 실패시
+      CustomToast.show(
+        context,
+        appLocalizations.junior.editProfileBirthErrorToastMessage,
+        backgroundColor: WeveColor.main.orange1,
+        textColor: Colors.white,
+        borderRadius: 20,
+        duration: 3,
+      );
+      return;
+    }
+
+    // TODO : 여기서 서버에 데이터를 전송하는 로직이 들어가야함
 
     // 토스트 메시지 표시
-    final locale = ref.read(localeProvider);
-    final appLocalizations = AppLocalizations(locale);
-
     CustomToast.show(
       context,
       appLocalizations.junior.editProfileApplyToastMessage,

@@ -40,6 +40,10 @@ class JuniorLocalizations {
       'editProfileBirthPlaceholder': 'Enter your birthday',
       'editProfileApplyButton': 'Edit',
       'editProfileApplyToastMessage': 'Profile has been edited',
+      'editProfileBirthErrorToastMessage':
+          'Please enter your birthday in YYYYMMDD format.',
+      'editProfileBirthErrorToastMessage2':
+          'Please enter a valid date of birth.',
     },
     'ko': {
       'juniorNavHome': '홈',
@@ -71,6 +75,8 @@ class JuniorLocalizations {
       'editProfileBirthPlaceholder': '생년월일을 입력해주세요',
       'editProfileApplyButton': '수정하기',
       'editProfileApplyToastMessage': '프로필이 수정되었습니다',
+      'editProfileBirthErrorToastMessage': '생년월일을 YYYYMMDD 형식에 맞게 작성해주세요.',
+      'editProfileBirthErrorToastMessage2': '유효한 생년월일을 입력해주세요.',
     },
     'ja': {
       'juniorNavHome': 'ホーム',
@@ -102,6 +108,8 @@ class JuniorLocalizations {
       'editProfileBirthPlaceholder': '誕生日を入力してください',
       'editProfileApplyButton': '修正する',
       'editProfileApplyToastMessage': 'プロフィールが修正されました',
+      'editProfileBirthErrorToastMessage': '生年月日をYYYYMMDD形式で入力してください。',
+      'editProfileBirthErrorToastMessage2': '有効な生年月日を入力してください。',
     },
   };
 
@@ -155,4 +163,8 @@ class JuniorLocalizations {
   String get editProfileApplyButton => _getString('editProfileApplyButton');
   String get editProfileApplyToastMessage =>
       _getString('editProfileApplyToastMessage');
+  String get editProfileBirthErrorToastMessage =>
+      _getString('editProfileBirthErrorToastMessage');
+  String get editProfileBirthErrorToastMessage2 =>
+      _getString('editProfileBirthErrorToastMessage2');
 }
