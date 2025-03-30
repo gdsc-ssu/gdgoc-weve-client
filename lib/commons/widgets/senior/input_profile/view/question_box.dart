@@ -20,7 +20,10 @@ class QuestionBox extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SoundPlayerButton(audioUrl: audioUrl),
+        SoundPlayerButton(
+          audioUrl: audioUrl,
+          text: text,
+        ),
         SizedBox(width: 12),
         SizedBox(
           height: gap,

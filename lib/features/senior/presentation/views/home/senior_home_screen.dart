@@ -7,6 +7,7 @@ import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/custom_icon.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
+import 'package:weve_client/features/senior/presentation/views/worries/senior_worry_detail.dart';
 
 class SeniorHomeScreen extends ConsumerStatefulWidget {
   const SeniorHomeScreen({super.key});
@@ -106,7 +107,12 @@ class CategorySection extends StatelessWidget {
                   text: '고민 내용을 AI가 10자로 보여줍니다.',
                   color: color,
                   onTap: () {
-                    // TODO: 각 고민 항목 클릭 시 동작 정의
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SeniorWorryDetailScreen(),
+                      ),
+                    );
                   },
                 ),
               ),
