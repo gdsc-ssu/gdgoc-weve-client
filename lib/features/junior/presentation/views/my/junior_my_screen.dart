@@ -13,6 +13,7 @@ import 'package:weve_client/commons/widgets/popup/viewmodel/popup_viewmodel.dart
 import 'package:weve_client/commons/widgets/junior/button/view/button.dart';
 import 'package:weve_client/features/junior/presentation/views/my/junior_edit_language_screen.dart';
 import 'package:weve_client/features/junior/presentation/views/my/junior_edit_profile_screen.dart';
+import 'package:weve_client/features/junior/presentation/views/my/junoir_edit_phone_number_screen.dart';
 
 class JuniorMyScreen extends ConsumerStatefulWidget {
   const JuniorMyScreen({super.key});
@@ -153,6 +154,16 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
     );
   }
 
+  // 전화번호 수정 화면으로 이동하는 함수
+  void _navigateToPhoneNumberScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const JuniorEditPhoneNumberScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final locale = ref.watch(localeProvider);
@@ -218,6 +229,7 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
                         JuniorProfileButton(
                           text: appLocalizations.editPhoneNumber,
                           profileType: ProfileType.phone,
+                          onTap: _navigateToPhoneNumberScreen,
                         ),
                         const SizedBox(height: 20),
                         JuniorProfileButton(
