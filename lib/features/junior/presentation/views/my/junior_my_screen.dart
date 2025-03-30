@@ -11,7 +11,7 @@ import 'package:weve_client/core/constants/custom_profile.dart';
 import 'package:weve_client/commons/widgets/popup/view/popup.dart';
 import 'package:weve_client/commons/widgets/popup/viewmodel/popup_viewmodel.dart';
 import 'package:weve_client/commons/widgets/junior/button/view/button.dart';
-import 'package:weve_client/features/junior/presentation/views/junior_edit_language_screen.dart';
+import 'package:weve_client/features/junior/presentation/views/my/junior_edit_language_screen.dart';
 
 class JuniorMyScreen extends ConsumerStatefulWidget {
   const JuniorMyScreen({super.key});

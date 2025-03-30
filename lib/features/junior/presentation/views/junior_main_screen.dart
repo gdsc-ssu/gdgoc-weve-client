@@ -6,9 +6,9 @@ import 'package:weve_client/core/constants/custom_icon.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/core/navigator/junior_navigation_bar.dart';
 import 'package:weve_client/core/provider/StateNotifierProvider.dart';
-import 'package:weve_client/features/junior/presentation/views/junior_home_screen.dart';
-import 'package:weve_client/features/junior/presentation/views/junior_my_screen.dart';
-import 'package:weve_client/features/junior/presentation/views/junior_write_screen.dart';
+import 'package:weve_client/features/junior/presentation/views/home/junior_home_screen.dart';
+import 'package:weve_client/features/junior/presentation/views/my/junior_my_screen.dart';
+import 'package:weve_client/features/junior/presentation/views/write/junior_write_screen.dart';
 
 class JuniorMainScreen extends ConsumerStatefulWidget {
   const JuniorMainScreen({super.key});

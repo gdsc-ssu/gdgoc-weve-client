@@ -12,7 +12,7 @@ import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/commons/widgets/junior/button/view/button.dart';
 import 'package:weve_client/core/constants/custom_svg_image.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:weve_client/features/junior/presentation/views/junior_success_screen.dart';
+import 'package:weve_client/features/junior/presentation/views/write/junior_success_screen.dart';
 
 final nameSelectionProvider =
     StateNotifierProvider<NameSelectionNotifier, NameSelectionState>((ref) {
