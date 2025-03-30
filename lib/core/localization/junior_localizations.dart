@@ -30,6 +30,16 @@ class JuniorLocalizations {
       'gotoMainButton': 'Go to Home',
       'noWorryMessage':
           'There are no worries written yet.\nWrite your worry on the writing page!',
+      'editProfileTitle':
+          'Edit the content of your profile that is shown to seniors.',
+      'editProfileDescription':
+          'The profile information written will be disclosed to the senior citizen as a profile of a ‘25-year-old young man living in Korea’ along with his concerns.',
+      'editProfileNameTitle': 'Name',
+      'editProfileNamePlaceholder': 'Enter your name',
+      'editProfileBirthTitle': 'Birthday',
+      'editProfileBirthPlaceholder': 'Enter your birthday',
+      'editProfileApplyButton': 'Edit',
+      'editProfileApplyToastMessage': 'Profile has been edited',
     },
     'ko': {
       'juniorNavHome': '홈',
@@ -52,6 +62,15 @@ class JuniorLocalizations {
       'defaultSuccessMessage': '홈 화면으로 돌아가세요.',
       'gotoMainButton': '홈으로 돌아가기',
       'noWorryMessage': '작성된 고민이 없어요.\n작성 페이지에서 당신의 고민을 작성해보세요!',
+      'editProfileTitle': '어르신들에게 보여지는\n당신의 프로필 내용을 수정해보세요',
+      'editProfileDescription':
+          '작성된 프로필 내용은 고민과 함께 \"ex. 한국에 사는 25세 청년\" 이라는 프로필로 어르신에게 공개돼요',
+      'editProfileNameTitle': '이름',
+      'editProfileNamePlaceholder': '이름을 입력해주세요',
+      'editProfileBirthTitle': '생년월일',
+      'editProfileBirthPlaceholder': '생년월일을 입력해주세요',
+      'editProfileApplyButton': '수정하기',
+      'editProfileApplyToastMessage': '프로필이 수정되었습니다',
     },
     'ja': {
       'juniorNavHome': 'ホーム',
@@ -74,6 +93,15 @@ class JuniorLocalizations {
       'defaultSuccessMessage': 'ホーム画面に戻ります',
       'gotoMainButton': 'ホームに戻る',
       'noWorryMessage': 'まだ悩みが書かれていません。\n書くページであなたの悩みを書いてください!',
+      'editProfileTitle': 'お年寄りに表示されるプロフィールの内容を編集してください',
+      'editProfileDescription':
+          '作成されたプロフィール内容は悩みとともに「韓国に住む25歳の青年」というプロフィールで大人に公開されます。',
+      'editProfileNameTitle': '名前',
+      'editProfileNamePlaceholder': '名前を入力してください',
+      'editProfileBirthTitle': '誕生日',
+      'editProfileBirthPlaceholder': '誕生日を入力してください',
+      'editProfileApplyButton': '修正する',
+      'editProfileApplyToastMessage': 'プロフィールが修正されました',
     },
   };
 
@@ -114,4 +142,17 @@ class JuniorLocalizations {
 
   // [주니어 홈] 고민 없음 화면 관련 getter들
   String get noWorryMessage => _getString('noWorryMessage');
+
+  // [주니어 마이] 프로필 수정 화면 관련 getter들
+  String get editProfileTitle => _getString('editProfileTitle');
+  String get editProfileDescription => _getString('editProfileDescription');
+  String get editProfileNameTitle => _getString('editProfileNameTitle');
+  String get editProfileNamePlaceholder =>
+      _getString('editProfileNamePlaceholder');
+  String get editProfileBirthTitle => _getString('editProfileBirthTitle');
+  String get editProfileBirthPlaceholder =>
+      _getString('editProfileBirthPlaceholder');
+  String get editProfileApplyButton => _getString('editProfileApplyButton');
+  String get editProfileApplyToastMessage =>
+      _getString('editProfileApplyToastMessage');
 }

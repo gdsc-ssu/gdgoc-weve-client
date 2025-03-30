@@ -61,9 +61,12 @@ class _JuniorEditProfileScreenState
     // 여기서 서버에 데이터를 전송하는 로직이 들어갈 수 있습니다
 
     // 토스트 메시지 표시
+    final locale = ref.read(localeProvider);
+    final appLocalizations = AppLocalizations(locale);
+
     CustomToast.show(
       context,
-      "프로필이 수정되었습니다",
+      appLocalizations.junior.editProfileApplyToastMessage,
       backgroundColor: WeveColor.main.orange1,
       textColor: Colors.white,
       borderRadius: 20,
@@ -98,6 +101,9 @@ class _JuniorEditProfileScreenState
 
   @override
   Widget build(BuildContext context) {
+    final locale = ref.read(localeProvider);
+    final appLocalizations = AppLocalizations(locale);
+
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -110,22 +116,23 @@ class _JuniorEditProfileScreenState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InputHeader(
-                  title: "어르신들에게 보여지는\n당신의 프로필 내용을 수정해보세요",
-                  text:
-                      "작성된 프로필 내용은 고민과 함께 \"ex. 한국에 사는 25세 청년\" 이라는 프로필로 어르신에게 공개돼요",
+                  title: appLocalizations.junior.editProfileTitle,
+                  text: appLocalizations.junior.editProfileDescription,
                 ),
                 const SizedBox(height: 50),
                 // 수정된 InputField 사용
                 InputField(
-                  title: "이름",
-                  placeholder: "이름을 입력해주세요",
+                  title: appLocalizations.junior.editProfileNameTitle,
+                  placeholder:
+                      appLocalizations.junior.editProfileNamePlaceholder,
                   controller: nameController,
                 ),
                 const SizedBox(height: 30),
                 // 수정된 InputField 사용
                 InputField(
-                  title: "생년월일",
-                  placeholder: "생년월일을 입력해주세요",
+                  title: appLocalizations.junior.editProfileBirthTitle,
+                  placeholder:
+                      appLocalizations.junior.editProfileBirthPlaceholder,
                   controller: birthController,
                 ),
                 const Spacer(),
@@ -133,7 +140,7 @@ class _JuniorEditProfileScreenState
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 30),
                     child: JuniorButton(
-                      text: "수정하기",
+                      text: appLocalizations.junior.editProfileApplyButton,
                       enabled: true, // 항상 활성화
                       onPressed: _applyProfileChange,
                     ),
