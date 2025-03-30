@@ -8,6 +8,12 @@
 	<string>We need access to speech recognition for voice input.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We need access to the microphone for voice input.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>사진 촬영을 위해 카메라 접근 권한이 필요합니다.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>사진을 불러오기 위해 사진 앨범 접근 권한이 필요합니다.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>촬영한 사진을 저장하기 위해 사진 앨범 접근 권한이 필요합니다.</string>
 	<key>CFBundleDisplayName</key>
 	<string>Weve Client</string>
 	<key>CFBundleExecutable</key>
