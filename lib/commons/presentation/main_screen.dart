@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weve_client/commons/widgets/mode_button/model/mode_type.dart';
 import 'package:weve_client/features/junior/presentation/views/junior_main_screen.dart';
-import 'package:weve_client/features/senior/presentation/views/senior_main_screen.dart';
+import 'package:weve_client/features/senior/presentation/views/login/senior_login_screen.dart';
 
 class MainScreen extends StatelessWidget {
   final ModeType? modeType;
@@ -12,7 +12,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // 모드에 따라 다른 화면을 보여줍니다.
     if (modeType == ModeType.senior) {
-      return const SeniorMainScreen();
+      return const SeniorLoginScreen();
     } else {
       return const JuniorMainScreen();
     }
