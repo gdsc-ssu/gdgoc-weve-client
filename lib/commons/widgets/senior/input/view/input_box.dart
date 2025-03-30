@@ -31,29 +31,40 @@ class _InputBoxState extends State<InputBox> {
     return Column(
       children: [
         Container(
+          height: 400,
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: WeveColor.bg.bg2,
             borderRadius: BorderRadius.circular(16),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Stack(
             children: [
-              TextField(
-                controller: _controller,
-                maxLines: 5,
-                maxLength: 300,
-                decoration: InputDecoration(
+              Padding(
+                padding: const EdgeInsets.only(bottom: 24),
+                child: TextField(
+                  controller: _controller,
+                  maxLines: 5,
+                  maxLength: 300,
+                  buildCounter: (_,
+                          {required currentLength,
+                          required isFocused,
+                          maxLength}) =>
+                      null,
+                  decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: placeholder,
-                    hintStyle: WeveText.header4(color: WeveColor.gray.gray5)),
-                style: WeveText.header4(color: WeveColor.gray.gray1),
+                    hintStyle: WeveText.header4(color: WeveColor.gray.gray5),
+                  ),
+                  style: WeveText.header4(color: WeveColor.gray.gray1),
+                ),
               ),
-              Column(
-                children: [
-                  Text("($_textLength / 300)",
-                      style: WeveText.body3(color: WeveColor.gray.gray5)),
-                ],
+              Positioned(
+                bottom: 0,
+                left: 0,
+                child: Text(
+                  "($_textLength / 300)",
+                  style: WeveText.body3(color: WeveColor.gray.gray5),
+                ),
               ),
             ],
           ),
