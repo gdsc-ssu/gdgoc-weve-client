@@ -12,6 +12,7 @@ import 'package:weve_client/commons/widgets/popup/view/popup.dart';
 import 'package:weve_client/commons/widgets/popup/viewmodel/popup_viewmodel.dart';
 import 'package:weve_client/commons/widgets/junior/button/view/button.dart';
 import 'package:weve_client/features/junior/presentation/views/my/junior_edit_language_screen.dart';
+import 'package:weve_client/features/junior/presentation/views/my/junior_edit_profile_screen.dart';
 
 class JuniorMyScreen extends ConsumerStatefulWidget {
   const JuniorMyScreen({super.key});
@@ -142,6 +143,16 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
     );
   }
 
+  // 프로필 편집 화면으로 이동하는 함수
+  void _navigateToProfileScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const JuniorEditProfileScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final locale = ref.watch(localeProvider);
@@ -195,6 +206,7 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
                         JuniorProfileButton(
                           text: appLocalizations.editProfile,
                           profileType: ProfileType.profile,
+                          onTap: _navigateToProfileScreen,
                         ),
                         const SizedBox(height: 20),
                         JuniorProfileButton(

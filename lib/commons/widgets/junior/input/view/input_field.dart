@@ -5,11 +5,15 @@ import 'package:weve_client/core/constants/fonts.dart';
 class InputField extends StatelessWidget {
   final String title;
   final String placeholder;
+  final TextEditingController? controller;
+  final ValueChanged<String>? onChanged;
 
   const InputField({
     super.key,
     required this.title,
     required this.placeholder,
+    this.controller,
+    this.onChanged,
   });
 
   @override
@@ -31,6 +35,8 @@ class InputField extends StatelessWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: TextField(
+            controller: controller,
+            onChanged: onChanged,
             textAlign: TextAlign.left,
             decoration: InputDecoration(
               hintText: placeholder,
