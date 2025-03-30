@@ -5,10 +5,10 @@ import 'package:weve_client/commons/widgets/header/model/header_type.dart';
 import 'package:weve_client/commons/widgets/header/view/header_widget.dart';
 import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
 import 'package:weve_client/commons/widgets/junior/button/viewmodel/select_language_provider.dart';
+import 'package:weve_client/commons/widgets/junior/input/view/input_header.dart';
 import 'package:weve_client/commons/widgets/toast/view/toast.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/custom_icon.dart';
-import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
 
 class JuniorEditLanguageScreen extends ConsumerStatefulWidget {
@@ -142,15 +142,10 @@ class _JuniorEditLanguageScreenState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  appLocalizations.languageChange,
-                  style: WeveText.header3(color: WeveColor.gray.gray1),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  appLocalizations.languageChangeDescription,
-                  style: WeveText.body2(color: WeveColor.gray.gray3),
-                ),
+                InputHeader(
+                    title: appLocalizations.languageChange,
+                    text: appLocalizations.languageChangeDescription),
+
                 const SizedBox(height: 50),
                 // 기존 SelectLanguageButton 컴포넌트들
                 _buildCustomLanguageButton(
