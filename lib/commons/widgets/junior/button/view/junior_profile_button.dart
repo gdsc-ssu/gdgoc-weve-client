@@ -38,7 +38,7 @@ class JuniorProfileButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 350,
+        width: double.infinity,
         height: 60,
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
         decoration: BoxDecoration(

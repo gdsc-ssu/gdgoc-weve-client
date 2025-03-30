@@ -29,7 +29,7 @@ class JuniorButton extends StatelessWidget {
     return GestureDetector(
       onTap: enabled ? onPressed : null,
       child: Container(
-        width: 350,
+        width: double.infinity,
         height: 53,
         decoration: BoxDecoration(
           color: bgColor,
