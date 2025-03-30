@@ -13,14 +13,16 @@ class SplashScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Spacer(flex: 2),
+            const Spacer(),
             const JuniorHeader(),
-            const Spacer(flex: 2),
+            const Spacer(),
             Padding(
               padding: const EdgeInsets.only(bottom: 50.0),
-              child: CustomAnimationImages.getAnimation(
-                CustomAnimationImages.weveCharacter,
-                height: 110,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.75,
+                child: CustomAnimationImages.getAnimation(
+                  CustomAnimationImages.weveCharacter,
+                ),
               ),
             ),
           ],
