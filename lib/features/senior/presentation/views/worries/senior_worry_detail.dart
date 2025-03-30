@@ -9,6 +9,7 @@ import 'package:weve_client/commons/widgets/senior/header/view/profile_header.da
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/custom_svg_image.dart';
 import 'package:weve_client/core/constants/fonts.dart';
+import 'package:weve_client/features/senior/presentation/views/worries/senior_worry_method_screen.dart';
 
 class SeniorWorryDetailScreen extends ConsumerStatefulWidget {
   const SeniorWorryDetailScreen({super.key});
@@ -83,7 +84,14 @@ class _SeniorWorryDetailScreenState
                     text: "고민을 다 들었어요",
                     backgroundColor: WeveColor.main.yellow1_100,
                     textColor: WeveColor.main.yellowText,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SeniorWorryMethodScreen(),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
