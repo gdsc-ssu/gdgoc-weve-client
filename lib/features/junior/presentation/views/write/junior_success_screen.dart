@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:weve_client/commons/widgets/button/view/button.dart';
+import 'package:weve_client/commons/widgets/junior/button/view/button.dart';
 import 'package:weve_client/commons/widgets/header/model/header_type.dart';
 import 'package:weve_client/commons/widgets/header/view/header_widget.dart';
 import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
@@ -66,7 +66,7 @@ class _JuniorSuccessScreenState extends ConsumerState<JuniorSuccessScreen> {
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 50),
-                  child: Button(
+                  child: JuniorButton(
                     text: appLocalizations.junior.gotoMainButton,
                     backgroundColor: WeveColor.main.yellow1_100,
                     textColor: WeveColor.main.yellowText,
