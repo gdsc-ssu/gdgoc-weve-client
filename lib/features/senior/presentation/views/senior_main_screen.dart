@@ -6,9 +6,9 @@ import 'package:weve_client/core/constants/custom_icon.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/core/navigator/senior_navigation_bar.dart';
 import 'package:weve_client/core/provider/StateNotifierProvider.dart';
-import 'package:weve_client/features/senior/presentation/views/senior_home_screen.dart';
-import 'package:weve_client/features/senior/presentation/views/senior_letterbox_screen.dart';
-import 'package:weve_client/features/senior/presentation/views/senior_my_screen.dart';
+import 'package:weve_client/features/senior/presentation/views/home/senior_home_screen.dart';
+import 'package:weve_client/features/senior/presentation/views/letter/senior_letterbox_screen.dart';
+import 'package:weve_client/features/senior/presentation/views/my/senior_my_screen.dart';
 
 class SeniorMainScreen extends ConsumerWidget {
   const SeniorMainScreen({super.key});
