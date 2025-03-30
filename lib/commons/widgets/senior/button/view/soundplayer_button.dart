@@ -45,6 +45,8 @@ class _SoundPlayerButtonState extends State<SoundPlayerButton> {
     return GestureDetector(
       onTap: _togglePlay,
       child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             width: 50,
@@ -68,7 +70,7 @@ class _SoundPlayerButtonState extends State<SoundPlayerButton> {
             ),
             alignment: Alignment.center,
             child: Text(widget.text,
-                style: WeveText.semiHeader4(color: WeveColor.main.orange1)),
+                style: WeveText.header4(color: WeveColor.main.orange1)),
           )
         ],
       ),
