@@ -175,10 +175,10 @@ class _JuniorWriteScreenState extends ConsumerState<JuniorWriteScreen> {
         children: [
           SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               child: Column(
                 children: [
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 30),
                   // 상단 이미지
                   SvgPicture.asset(
                     CustomSvgImages.writeTop,
