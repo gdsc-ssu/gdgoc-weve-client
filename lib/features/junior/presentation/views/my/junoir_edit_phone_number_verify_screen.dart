@@ -78,6 +78,12 @@ class _JuniorEditPhoneNumberVerifyScreenState
         duration: 3,
       );
 
+      // 마이페이지 헤더 복원 (인증 성공 시)
+      ref.read(headerProvider.notifier).setHeader(
+            HeaderType.juniorTitleLogo,
+            title: appLocalizations.junior.juniorHeaderMyTitle,
+          );
+
       // 마이페이지로 돌아가기
       Navigator.of(context).pop(); // 인증 화면에서 전화번호 입력 화면으로 돌아가기
       Navigator.of(context).pop(); // 전화번호 입력 화면에서 마이페이지로 돌아가기
@@ -104,9 +110,6 @@ class _JuniorEditPhoneNumberVerifyScreenState
 
   // 마이페이지 헤더 복원
   void _restoreMyPageHeader() {
-    final locale = ref.read(localeProvider);
-    final appLocalizations = AppLocalizations(locale);
-
     ref.read(headerProvider.notifier).setHeader(
           HeaderType.backOnly,
           title: "",
