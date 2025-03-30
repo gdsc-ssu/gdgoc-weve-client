@@ -27,6 +27,7 @@ final class _MainColors {
   final Color yellowText = Color(0xFF4B2816);
   final Color yellow4 = Color(0xFFA3844B);
   final Color yellow3 = Color(0xFFFBE180);
+  final Color orange3 = Color(0XFFFFA41C);
 }
 
 final class _BgColors {

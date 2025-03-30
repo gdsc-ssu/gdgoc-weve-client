@@ -7,6 +7,7 @@ import 'package:weve_client/commons/widgets/junior/header/view/header.dart';
 import 'package:weve_client/commons/widgets/senior/button/view/button.dart';
 import 'package:weve_client/commons/widgets/senior/login/view/input_field.dart';
 import 'package:weve_client/core/constants/colors.dart';
+import 'package:weve_client/features/senior/presentation/views/input/senior_input_birth_screen.dart';
 
 class SeniorLoginScreen extends ConsumerWidget {
   const SeniorLoginScreen({super.key});
@@ -18,6 +19,8 @@ class SeniorLoginScreen extends ConsumerWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       headerViewModel.setHeader(HeaderType.backOnly, title: "");
     });
+
+    // @TODO : 로그인정보가 있다면 바로 SeniorMainScreen으로 넘어가게 수정
 
     return Scaffold(
       backgroundColor: WeveColor.bg.bg1,
@@ -40,7 +43,12 @@ class SeniorLoginScreen extends ConsumerWidget {
                 backgroundColor: WeveColor.main.yellow1_100,
                 textColor: WeveColor.main.yellowText,
                 onPressed: () {
-                  // 로그인 처리 후 이동
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SeniorInputBirthScreen(),
+                    ),
+                  );
                 },
               ),
             ],

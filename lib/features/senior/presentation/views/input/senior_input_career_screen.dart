@@ -7,6 +7,8 @@ import 'package:weve_client/commons/widgets/senior/button/view/button.dart';
 import 'package:weve_client/commons/widgets/senior/input_profile/view/question_box.dart';
 import 'package:weve_client/commons/widgets/senior/input_profile/view/stt_box.dart';
 import 'package:weve_client/core/constants/colors.dart';
+import 'package:weve_client/features/senior/presentation/views/input/senior_input_struggle_screen.dart';
+import 'package:weve_client/features/senior/presentation/views/input/senior_input_value_screen.dart';
 
 class SeniorInputCareerScreen extends ConsumerWidget {
   const SeniorInputCareerScreen({super.key});
@@ -41,7 +43,14 @@ class SeniorInputCareerScreen extends ConsumerWidget {
                   text: "다음",
                   backgroundColor: WeveColor.main.yellow1_100,
                   textColor: WeveColor.main.yellowText,
-                  onPressed: () {})
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SeniorInputValueScreen(),
+                      ),
+                    );
+                  })
             ],
           ),
         ),

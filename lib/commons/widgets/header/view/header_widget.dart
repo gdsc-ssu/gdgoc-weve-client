@@ -25,55 +25,37 @@ class HeaderWidget extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final config = ref.watch(headerProvider);
-    final bool hasTitle = config.title != null;
-    final bool hasLogo = config.showLogo;
+    final hasTitle = config.title != null;
 
     return AppBar(
       backgroundColor: WeveColor.bg.bg1,
       elevation: 0,
-      automaticallyImplyLeading: false, // 자동으로 백버튼을 표시하지 않도록 설정
-      centerTitle: !hasTitle || !hasLogo,
-      title: hasTitle && hasLogo
-          ? Row(
-              children: [
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      config.title!,
-                      style: _getFont(config.type),
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: CustomIcons.getIcon(CustomIcons.logo),
-                ),
-              ],
+      automaticallyImplyLeading: false,
+      leading: config.showBackButton
+          ? IconButton(
+              icon: CustomIcons.getIcon(CustomIcons.headerLeftArrow),
+              onPressed: () => Navigator.pop(context),
             )
-          : hasLogo
-              ? config.type == HeaderType.backLogo2
-                  ? Row(
-                      children: [
-                        CustomIcons.getIcon(CustomIcons.logo),
-                        const Spacer(),
-                      ],
-                    )
-                  : CustomIcons.getIcon(CustomIcons.logo)
-              : hasTitle
-                  ? Text(
-                      config.title!,
-                      style: _getFont(config.type),
-                    )
-                  : null,
-      actions: config.showCancelButton
-          ? [
-              IconButton(
-                icon: CustomIcons.getIcon(CustomIcons.headerCancel),
-                onPressed: () {},
-              ),
-            ]
           : null,
+      centerTitle: true,
+      title: hasTitle
+          ? Text(
+              config.title!,
+              style: _getFont(config.type),
+            )
+          : null,
+      actions: [
+        if (config.showLogo)
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: CustomIcons.getIcon(CustomIcons.logo),
+          ),
+        if (config.showCancelButton)
+          IconButton(
+            icon: CustomIcons.getIcon(CustomIcons.headerCancel),
+            onPressed: () => Navigator.pop(context),
+          ),
+      ],
     );
   }
 
