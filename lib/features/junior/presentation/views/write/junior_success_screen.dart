@@ -28,7 +28,7 @@ class _JuniorSuccessScreenState extends ConsumerState<JuniorSuccessScreen> {
     super.initState();
     // 헤더 설정
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(headerProvider.notifier).setHeader(HeaderType.backLogo2);
+      ref.read(headerProvider.notifier).setHeader(HeaderType.leftLogo);
     });
   }
 
@@ -45,7 +45,7 @@ class _JuniorSuccessScreenState extends ConsumerState<JuniorSuccessScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
-              const SizedBox(height: 24),
+              const SizedBox(height: 30),
               SizedBox(
                 width: double.infinity,
                 child: Text(
@@ -57,9 +57,11 @@ class _JuniorSuccessScreenState extends ConsumerState<JuniorSuccessScreen> {
               ),
               const Spacer(),
               Center(
-                child: CustomAnimationImages.getAnimation(
-                  CustomAnimationImages.weveCharacter,
-                  height: 100,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.75,
+                  child: CustomAnimationImages.getAnimation(
+                    CustomAnimationImages.weveCharacter,
+                  ),
                 ),
               ),
               const Spacer(),

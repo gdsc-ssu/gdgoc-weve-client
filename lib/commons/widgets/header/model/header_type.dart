@@ -8,4 +8,5 @@ enum HeaderType {
   juniorBackTitle,
   seniorTitleLogo,
   juniorTitleLogo,
+  leftLogo,
 }

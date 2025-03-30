@@ -32,7 +32,7 @@ class HeaderWidget extends ConsumerWidget implements PreferredSizeWidget {
       backgroundColor: WeveColor.bg.bg1,
       elevation: 0,
       automaticallyImplyLeading: false,
-      leading: config.showBackButton
+      leading: !config.logoLeftAligned && config.showBackButton
           ? IconButton(
               icon: CustomIcons.getIcon(CustomIcons.headerLeftArrow),
               onPressed: () {
@@ -41,15 +41,20 @@ class HeaderWidget extends ConsumerWidget implements PreferredSizeWidget {
               },
             )
           : null,
-      centerTitle: true,
-      title: hasTitle
-          ? Text(
-              config.title!,
-              style: _getFont(config.type),
+      centerTitle: !config.logoLeftAligned,
+      title: config.logoLeftAligned
+          ? Padding(
+              padding: const EdgeInsets.only(left: 4),
+              child: CustomIcons.getIcon(CustomIcons.logo),
             )
-          : null,
+          : hasTitle
+              ? Text(
+                  config.title!,
+                  style: _getFont(config.type),
+                )
+              : null,
       actions: [
-        if (config.showLogo)
+        if (!config.logoLeftAligned && config.showLogo)
           Padding(
             padding: const EdgeInsets.only(right: 16),
             child: CustomIcons.getIcon(CustomIcons.logo),
