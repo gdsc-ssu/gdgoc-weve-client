@@ -28,8 +28,13 @@ class _JuniorEditLanguageScreenState
   void initState() {
     super.initState();
     // 헤더 설정
+    final headerViewModel = ref.read(headerProvider.notifier);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(headerProvider.notifier).setHeader(HeaderType.backOnly);
+      headerViewModel.setHeader(HeaderType.backOnly, title: "");
+
+      // 백버튼 콜백 설정
+      headerViewModel.setBackPressedCallback(_restoreMyPageHeader);
 
       // 현재 언어를 임시 상태로 설정
       final currentLanguage = ref.read(selectedLanguageProvider);
@@ -37,6 +42,13 @@ class _JuniorEditLanguageScreenState
         _tempSelectedLanguage = currentLanguage;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    // 화면이 소멸될 때 콜백 제거
+    ref.read(headerProvider.notifier).clearBackPressedCallback();
+    super.dispose();
   }
 
   // 임시 언어 선택 핸들러
@@ -57,7 +69,8 @@ class _JuniorEditLanguageScreenState
           .selectLanguage(_tempSelectedLanguage!);
 
       // 선택한 언어에 따른 토스트 메시지
-      String toastMessage = "언어가 변경되었습니다."; // 기본 메시지
+      String toastMessage =
+          appLocalizations.languageChangeApplyToastMessageEnglish; // 기본 메시지
 
       // 선택한 언어에 따라 토스트 메시지 변경
       switch (_tempSelectedLanguage) {
@@ -98,7 +111,8 @@ class _JuniorEditLanguageScreenState
   Future<bool> _onWillPop() async {
     // 마이페이지로 돌아가기 전에 헤더를 원래대로 복원
     _restoreMyPageHeader();
-    return true;
+    Navigator.pop(context);
+    return false;
   }
 
   // 마이페이지 헤더 복원
@@ -121,7 +135,7 @@ class _JuniorEditLanguageScreenState
       onWillPop: _onWillPop,
       child: Scaffold(
         backgroundColor: WeveColor.bg.bg1,
-        appBar: const HeaderWidget(),
+        appBar: HeaderWidget(),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),

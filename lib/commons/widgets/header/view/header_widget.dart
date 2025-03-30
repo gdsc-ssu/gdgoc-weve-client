@@ -25,6 +25,7 @@ class HeaderWidget extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final config = ref.watch(headerProvider);
+    final headerViewModel = ref.read(headerProvider.notifier);
     final hasTitle = config.title != null;
 
     return AppBar(
@@ -34,7 +35,10 @@ class HeaderWidget extends ConsumerWidget implements PreferredSizeWidget {
       leading: config.showBackButton
           ? IconButton(
               icon: CustomIcons.getIcon(CustomIcons.headerLeftArrow),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                headerViewModel.onBackPressed();
+                Navigator.pop(context);
+              },
             )
           : null,
       centerTitle: true,
