@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/commons/widgets/junior/button/view/button.dart';
+import 'package:weve_client/commons/widgets/junior/errorText/error_text.dart';
 import 'package:weve_client/commons/widgets/header/model/header_type.dart';
 import 'package:weve_client/commons/widgets/header/view/header_widget.dart';
 import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
@@ -23,6 +24,8 @@ class _JuniorEditProfileScreenState
   // 임시 프로필 데이터
   TextEditingController nameController = TextEditingController();
   TextEditingController birthController = TextEditingController();
+  bool isBirthValid = true; // 초기값은 true로 설정 (기존 데이터가 있을 것으로 가정)
+  bool showErrorMessage = false;
 
   @override
   void initState() {
@@ -40,15 +43,52 @@ class _JuniorEditProfileScreenState
       nameController.text = "홍길동";
       birthController.text = "19901201";
     });
+
+    // 생년월일 입력 변경 감지를 위한 리스너 등록
+    birthController.addListener(_validateBirth);
   }
 
   @override
   void dispose() {
     // 화면이 소멸될 때 콜백 제거
     ref.read(headerProvider.notifier).clearBackPressedCallback();
+    birthController.removeListener(_validateBirth);
     nameController.dispose();
     birthController.dispose();
     super.dispose();
+  }
+
+  // 생년월일 유효성 검사
+  void _validateBirth() {
+    // 생년월일 형식 검증 (YYYYMMDD)
+    final RegExp birthRegExp = RegExp(r'^[0-9]{8}$');
+
+    bool isValid = false;
+    if (birthRegExp.hasMatch(birthController.text)) {
+      try {
+        final year = int.parse(birthController.text.substring(0, 4));
+        final month = int.parse(birthController.text.substring(4, 6));
+        final day = int.parse(birthController.text.substring(6, 8));
+
+        // 날짜 유효성 검사
+        if (year >= 1900 &&
+            year <= DateTime.now().year &&
+            month >= 1 &&
+            month <= 12 &&
+            day >= 1 &&
+            day <= 31) {
+          isValid = true;
+        }
+      } catch (e) {
+        isValid = false;
+      }
+    }
+
+    setState(() {
+      isBirthValid = isValid;
+      // 입력이 있고 유효하지 않은 경우에만 에러 메시지 표시
+      showErrorMessage = birthController.text.isNotEmpty && !isValid;
+    });
   }
 
   // 프로필 변경 적용
@@ -186,13 +226,19 @@ class _JuniorEditProfileScreenState
                       appLocalizations.junior.editProfileBirthPlaceholder,
                   controller: birthController,
                 ),
+                if (showErrorMessage)
+                  ErrorText(
+                    text: appLocalizations
+                        .junior.editProfileBirthErrorToastMessage,
+                  ),
                 const Spacer(),
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 30),
                     child: JuniorButton(
                       text: appLocalizations.junior.editProfileApplyButton,
-                      enabled: true, // 항상 활성화
+                      enabled: nameController.text.isNotEmpty &&
+                          isBirthValid, // 이름이 비어있지 않고 생년월일이 유효한 경우에만 활성화
                       onPressed: _applyProfileChange,
                     ),
                   ),

@@ -111,7 +111,7 @@ class JuniorLocalizations {
       'editProfileBirthPlaceholder': '생년월일을 입력해주세요',
       'editProfileApplyButton': '수정하기',
       'editProfileApplyToastMessage': '프로필이 수정되었습니다',
-      'editProfileBirthErrorToastMessage': '생년월일을 YYYYMMDD 형식에 맞게 작성해주세요.',
+      'editProfileBirthErrorToastMessage': 'YYYYMMDD 형식에 맞게 작성해주세요.',
       'editProfileBirthErrorToastMessage2': '유효한 생년월일을 입력해주세요.',
       'editPhoneNumberTitle': '전화번호 수정',
       'editPhoneNumberDescription':
