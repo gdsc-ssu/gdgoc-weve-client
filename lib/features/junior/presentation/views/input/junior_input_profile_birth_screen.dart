@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/commons/widgets/junior/button/view/button.dart';
+import 'package:weve_client/commons/widgets/junior/errorText/error_text.dart';
 import 'package:weve_client/commons/widgets/header/model/header_type.dart';
 import 'package:weve_client/commons/widgets/header/view/header_widget.dart';
 import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
@@ -28,6 +29,7 @@ class _JuniorInputProfileBirthScreenState
     extends ConsumerState<JuniorInputProfileBirthScreen> {
   TextEditingController birthController = TextEditingController();
   bool isBirthValid = false;
+  bool showErrorMessage = false;
 
   @override
   void initState() {
@@ -80,6 +82,8 @@ class _JuniorInputProfileBirthScreenState
 
     setState(() {
       isBirthValid = isValid;
+      // 입력이 있고 유효하지 않은 경우에만 에러 메시지 표시
+      showErrorMessage = birthController.text.isNotEmpty && !isValid;
     });
   }
 
@@ -176,6 +180,11 @@ class _JuniorInputProfileBirthScreenState
                     appLocalizations.junior.inputProfileBirthInputPlaceholder,
                 controller: birthController,
               ),
+              if (showErrorMessage)
+                ErrorText(
+                  text:
+                      appLocalizations.junior.editProfileBirthErrorToastMessage,
+                ),
               const Spacer(),
               Center(
                 child: Padding(
