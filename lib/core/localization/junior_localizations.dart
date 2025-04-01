@@ -66,8 +66,6 @@ class JuniorLocalizations {
       'loginTitle': 'Login with Phone Number',
       'loginDescription':
           'Welcome to “WEVE”!\nPlease enter your phone number to login.\nYour personal information is securely stored according to the Information and Communication Network Act.',
-      'loginInputPhoneNumberErrorToastMessage':
-          'Please enter a valid phone number format.',
       'loginVerifySuccessToastMessage': 'Login has been completed',
       'inputProfilePageTitle':
           'Show your profile content to seniors around the world',
@@ -131,7 +129,6 @@ class JuniorLocalizations {
       'loginTitle': '전화번호로 로그인',
       'loginDescription':
           '“WEVE” 에 오신걸 환영해요!\n로그인을 위해 본인의 전화번호를 입력해주세요.\n개인정보는 정보통신망법에 따라 안전하게 보관됩니다.',
-      'loginInputPhoneNumberErrorToastMessage': '올바른 전화번호 형식이 아니예요',
       'loginVerifySuccessToastMessage': '로그인이 완료되었어요',
       'inputProfilePageTitle': '세계의 어르신에게 보여지는\n당신의 프로필 내용을 입력해주세요',
       'inputProfilePageText':
@@ -193,7 +190,6 @@ class JuniorLocalizations {
       'editPhoneNumberVerifySuccessToastMessage': '電話番号が変更されました',
       'loginTitle': '電話番号でログイン',
       'loginDescription': '“WEVE” にごようびました!\nログインするためには、正確な本人的な電話番号を入力してください。',
-      'loginInputPhoneNumberErrorToastMessage': '有効な電話番号の形式ではありません。',
       'loginVerifySuccessToastMessage': 'ログインが完了しました',
       'inputProfilePageTitle': '世界のお年寄りに表示される\nあなたのプロフィールの内容を入力してください',
       'inputProfilePageText':
@@ -294,8 +290,6 @@ class JuniorLocalizations {
   // [주니어 로그인] 화면 관련 getter들
   String get loginTitle => _getString('loginTitle');
   String get loginDescription => _getString('loginDescription');
-  String get loginInputPhoneNumberErrorToastMessage =>
-      _getString('loginInputPhoneNumberErrorToastMessage');
   String get loginVerifySuccessToastMessage =>
       _getString('loginVerifySuccessToastMessage');
 
