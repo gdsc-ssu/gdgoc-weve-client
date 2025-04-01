@@ -63,6 +63,11 @@ class JuniorLocalizations {
           'The verification code is invalid',
       'editPhoneNumberVerifySuccessToastMessage':
           'The phone number has been changed',
+      'loginTitle': 'Login with Phone Number',
+      'loginDescription':
+          'Welcome to “WEVE”!\nPlease enter your phone number to login.\nYour personal information is securely stored according to the Information and Communication Network Act.',
+      'loginInputPhoneNumberErrorToastMessage':
+          'Please enter a valid phone number format.',
     },
     'ko': {
       'juniorNavHome': '홈',
@@ -107,10 +112,15 @@ class JuniorLocalizations {
       'editPhoneNumberVerifyDescription':
           '앞서 작성한 전화번호로 인증번호가 발송되었습니다. 5분 안에 인증번호 6자리를 입력해주세요',
       'editPhoneNumberVerifyInputTitle': '인증번호',
-      'editPhoneNumberVerifyInputPlaceholder': '인증번호 6자리를 입력해주세요',
+      'editPhoneNumberVerifyInputPlaceholder': '6자리 인증번호를 입력해주세요',
       'editPhoneNumberVerifyButton': '인증하기',
-      'editPhoneNumberVerifyErrorToastMessage': '인증번호가 유효하지 않아요',
+      'editPhoneNumberVerifyErrorToastMessage': '올바른 인증번호가 아니예요',
       'editPhoneNumberVerifySuccessToastMessage': '전화번호가 변경되었어요',
+      'loginTitle': '전화번호로 로그인',
+      'loginDescription':
+          '“WEVE” 에 오신걸 환영해요!\n로그인을 위해 본인의 전화번호를 입력해주세요.\n개인정보는 정보통신망법에 따라 안전하게 보관됩니다.',
+      'loginInputPhoneNumberErrorToastMessage': '올바른 전화번호 형식이 아니예요',
+      'loginVerifySuccessToastMessage': '로그인이 완료되었어요',
     },
     'ja': {
       'juniorNavHome': 'ホーム',
@@ -160,6 +170,9 @@ class JuniorLocalizations {
       'editPhoneNumberVerifyButton': '認証する',
       'editPhoneNumberVerifyErrorToastMessage': '認証コードが無効です',
       'editPhoneNumberVerifySuccessToastMessage': '電話番号が変更されました',
+      'loginTitle': '電話番号でログイン',
+      'loginDescription': '“WEVE” にごようびました!\nログインするためには、正確な本人的な電話番号を入力してください。',
+      'loginInputPhoneNumberErrorToastMessage': '有効な電話番号の形式ではありません。',
     },
   };
 
@@ -246,4 +259,12 @@ class JuniorLocalizations {
       _getString('editPhoneNumberVerifyErrorToastMessage');
   String get editPhoneNumberVerifySuccessToastMessage =>
       _getString('editPhoneNumberVerifySuccessToastMessage');
+
+  // [주니어 로그인] 화면 관련 getter들
+  String get loginTitle => _getString('loginTitle');
+  String get loginDescription => _getString('loginDescription');
+  String get loginInputPhoneNumberErrorToastMessage =>
+      _getString('loginInputPhoneNumberErrorToastMessage');
+  String get loginVerifySuccessToastMessage =>
+      _getString('loginVerifySuccessToastMessage');
 }
