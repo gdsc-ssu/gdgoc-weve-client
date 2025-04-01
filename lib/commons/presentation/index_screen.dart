@@ -23,9 +23,9 @@ class _IndexScreenState extends ConsumerState<IndexScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const SizedBox(height: 50),
-            const JuniorHeader(),
             const Spacer(),
+            const JuniorHeader(),
+            const SizedBox(height: 80),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
@@ -50,9 +50,11 @@ class _IndexScreenState extends ConsumerState<IndexScreen> {
             const Spacer(),
             Padding(
               padding: const EdgeInsets.only(bottom: 50.0),
-              child: CustomAnimationImages.getAnimation(
-                CustomAnimationImages.weveCharacter,
-                height: 110,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.75,
+                child: CustomAnimationImages.getAnimation(
+                  CustomAnimationImages.weveCharacter,
+                ),
               ),
             ),
           ],

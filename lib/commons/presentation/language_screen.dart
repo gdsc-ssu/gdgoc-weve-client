@@ -21,31 +21,31 @@ class _LanguageScreenState extends ConsumerState<LanguageScreen> {
   Widget build(BuildContext context) {
     final selectedLanguage = ref.watch(selectedLanguageProvider);
     final locale = ref.watch(localeProvider);
-
+    final appLocalizations = AppLocalizations(locale);
     return Scaffold(
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const SizedBox(height: 50),
-            const JuniorHeader(),
             const Spacer(),
+            const JuniorHeader(),
+            const SizedBox(height: 80),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
                   SelectLanguageButton(
-                    text: "English",
+                    text: appLocalizations.english,
                     language: LanguageOption.english,
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 30),
                   SelectLanguageButton(
-                    text: "한국어",
+                    text: appLocalizations.korean,
                     language: LanguageOption.korean,
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 30),
                   SelectLanguageButton(
-                    text: "日本語",
+                    text: appLocalizations.japanese,
                     language: LanguageOption.japanese,
                   ),
                 ],
@@ -54,9 +54,11 @@ class _LanguageScreenState extends ConsumerState<LanguageScreen> {
             const Spacer(),
             Padding(
               padding: const EdgeInsets.only(bottom: 50.0),
-              child: CustomAnimationImages.getAnimation(
-                CustomAnimationImages.weveCharacter,
-                height: 110,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.75,
+                child: CustomAnimationImages.getAnimation(
+                  CustomAnimationImages.weveCharacter,
+                ),
               ),
             ),
           ],

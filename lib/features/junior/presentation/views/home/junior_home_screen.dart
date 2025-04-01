@@ -71,7 +71,7 @@ class _JuniorHomeScreenState extends ConsumerState<JuniorHomeScreen> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: _items.length,
                   separatorBuilder: (context, index) =>
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 20),
                   itemBuilder: (context, index) {
                     final item = _items[index];
                     switch (item['type']) {

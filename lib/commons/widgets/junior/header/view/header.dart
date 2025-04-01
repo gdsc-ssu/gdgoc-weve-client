@@ -20,13 +20,17 @@ class JuniorHeader extends ConsumerWidget {
           child: CustomIcons.getIcon(CustomIcons.logo),
         ),
         const SizedBox(height: 10),
-        Text(
-          AppLocalizations(locale).appSubtitle,
-          textAlign: TextAlign.center,
-          style: WeveText.body3(color: WeveColor.main.orange2).copyWith(
-            height: 1.0,
+        Container(
+          width: 260,
+          height: 36,
+          child: Text(
+            AppLocalizations(locale).appSubtitle,
+            textAlign: TextAlign.center,
+            style: WeveText.body3(color: WeveColor.main.orange2).copyWith(
+              height: 1.0,
+            ),
           ),
-        )
+        ),
       ],
     );
   }

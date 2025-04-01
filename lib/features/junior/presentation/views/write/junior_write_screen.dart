@@ -12,7 +12,7 @@ import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/commons/widgets/junior/button/view/button.dart';
 import 'package:weve_client/core/constants/custom_svg_image.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:weve_client/features/junior/presentation/views/junior_success_screen.dart';
+import 'package:weve_client/features/junior/presentation/views/write/junior_success_screen.dart';
 
 final nameSelectionProvider =
     StateNotifierProvider<NameSelectionNotifier, NameSelectionState>((ref) {
@@ -175,10 +175,10 @@ class _JuniorWriteScreenState extends ConsumerState<JuniorWriteScreen> {
         children: [
           SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               child: Column(
                 children: [
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 30),
                   // 상단 이미지
                   SvgPicture.asset(
                     CustomSvgImages.writeTop,

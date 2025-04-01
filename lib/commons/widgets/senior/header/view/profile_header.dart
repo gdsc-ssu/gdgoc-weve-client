@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weve_client/core/constants/colors.dart';
-import 'package:weve_client/core/constants/custom_svg_image.dart';
 import 'package:weve_client/core/constants/fonts.dart';
+import 'package:weve_client/core/constants/custom_profile.dart';
 
 class ProfileHeader extends StatelessWidget {
   final String gov;
@@ -25,7 +25,7 @@ class ProfileHeader extends StatelessWidget {
         SizedBox(
           width: 80,
           height: 80,
-          child: CustomSvgImages.getSvgImage(avatarImage),
+          child: CustomProfile.getProfileIcon(ProfileColor.green, size: 100),
         ),
         SizedBox(width: 12),
         Column(

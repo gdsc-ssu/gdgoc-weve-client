@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:weve_client/commons/widgets/button/view/button.dart';
+import 'package:weve_client/commons/widgets/junior/button/view/button.dart';
 import 'package:weve_client/commons/widgets/header/model/header_type.dart';
 import 'package:weve_client/commons/widgets/header/view/header_widget.dart';
 import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
@@ -28,7 +28,7 @@ class _JuniorSuccessScreenState extends ConsumerState<JuniorSuccessScreen> {
     super.initState();
     // 헤더 설정
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(headerProvider.notifier).setHeader(HeaderType.backLogo2);
+      ref.read(headerProvider.notifier).setHeader(HeaderType.leftLogo);
     });
   }
 
@@ -45,7 +45,7 @@ class _JuniorSuccessScreenState extends ConsumerState<JuniorSuccessScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
-              const SizedBox(height: 24),
+              const SizedBox(height: 30),
               SizedBox(
                 width: double.infinity,
                 child: Text(
@@ -57,16 +57,18 @@ class _JuniorSuccessScreenState extends ConsumerState<JuniorSuccessScreen> {
               ),
               const Spacer(),
               Center(
-                child: CustomAnimationImages.getAnimation(
-                  CustomAnimationImages.weveCharacter,
-                  height: 100,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.75,
+                  child: CustomAnimationImages.getAnimation(
+                    CustomAnimationImages.weveCharacter,
+                  ),
                 ),
               ),
               const Spacer(),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 50),
-                  child: Button(
+                  child: JuniorButton(
                     text: appLocalizations.junior.gotoMainButton,
                     backgroundColor: WeveColor.main.yellow1_100,
                     textColor: WeveColor.main.yellowText,

@@ -25,27 +25,36 @@ class HeaderWidget extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final config = ref.watch(headerProvider);
+    final headerViewModel = ref.read(headerProvider.notifier);
     final hasTitle = config.title != null;
 
     return AppBar(
       backgroundColor: WeveColor.bg.bg1,
       elevation: 0,
       automaticallyImplyLeading: false,
-      leading: config.showBackButton
+      leading: !config.logoLeftAligned && config.showBackButton
           ? IconButton(
               icon: CustomIcons.getIcon(CustomIcons.headerLeftArrow),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                headerViewModel.onBackPressed();
+                Navigator.pop(context);
+              },
             )
           : null,
-      centerTitle: true,
-      title: hasTitle
-          ? Text(
-              config.title!,
-              style: _getFont(config.type),
+      centerTitle: !config.logoLeftAligned,
+      title: config.logoLeftAligned
+          ? Padding(
+              padding: const EdgeInsets.only(left: 4),
+              child: CustomIcons.getIcon(CustomIcons.logo),
             )
-          : null,
+          : hasTitle
+              ? Text(
+                  config.title!,
+                  style: _getFont(config.type),
+                )
+              : null,
       actions: [
-        if (config.showLogo)
+        if (!config.logoLeftAligned && config.showLogo)
           Padding(
             padding: const EdgeInsets.only(right: 16),
             child: CustomIcons.getIcon(CustomIcons.logo),

@@ -10,17 +10,18 @@ class CustomBannerImages {
   static const String banner2Kr = 'assets/banner/banner2_kr.svg';
 
   static Widget getBannerImage(String assetName, {Color? color, Key? key}) {
-    return SvgPicture.asset(
-      key: key,
-      fit: BoxFit.cover,
-      width: double.infinity,
-      height: 100,
-      assetName,
-      colorFilter:
-          color != null ? ColorFilter.mode(color, BlendMode.srcIn) : null,
-      placeholderBuilder: (context) => SizedBox(
-        height: 100,
-        child: Center(child: CircularProgressIndicator()),
+    return AspectRatio(
+      aspectRatio: 3.5 / 1,
+      child: SvgPicture.asset(
+        key: key,
+        fit: BoxFit.contain,
+        width: double.infinity,
+        assetName,
+        colorFilter:
+            color != null ? ColorFilter.mode(color, BlendMode.srcIn) : null,
+        placeholderBuilder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
       ),
     );
   }

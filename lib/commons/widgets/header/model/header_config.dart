@@ -6,6 +6,7 @@ class HeaderConfig {
   final bool showBackButton;
   final bool showCancelButton;
   final bool showLogo;
+  final bool logoLeftAligned;
 
   HeaderConfig({
     required this.type,
@@ -13,6 +14,7 @@ class HeaderConfig {
     this.showBackButton = false,
     this.showCancelButton = false,
     this.showLogo = false,
+    this.logoLeftAligned = false,
   });
   factory HeaderConfig.fromType(HeaderType type, {String? title}) {
     switch (type) {
@@ -39,6 +41,12 @@ class HeaderConfig {
         return HeaderConfig(type: type, title: title, showLogo: true);
       case HeaderType.juniorTitleLogo:
         return HeaderConfig(type: type, title: title, showLogo: true);
+      case HeaderType.leftLogo:
+        return HeaderConfig(
+          type: type,
+          showLogo: true,
+          logoLeftAligned: true,
+        );
     }
   }
 }

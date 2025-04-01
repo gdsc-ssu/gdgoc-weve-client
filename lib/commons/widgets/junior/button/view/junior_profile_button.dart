@@ -8,11 +8,13 @@ enum ProfileType { profile, language, phone, ask, etc }
 class JuniorProfileButton extends StatelessWidget {
   final String text;
   final ProfileType profileType;
+  final VoidCallback? onTap;
 
   const JuniorProfileButton({
     super.key,
     required this.text,
     required this.profileType,
+    this.onTap,
   });
 
   // 아이콘을 동적으로 찾는 함수
@@ -25,7 +27,7 @@ class JuniorProfileButton extends StatelessWidget {
       case ProfileType.phone:
         return CustomIcons.myPhone;
       case ProfileType.ask:
-        return CustomIcons.mySendActive;
+        return CustomIcons.mySendDeactive;
       case ProfileType.etc:
         return CustomIcons.myEtc;
     }
@@ -33,25 +35,28 @@ class JuniorProfileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 350,
-      height: 64,
-      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
-      decoration: BoxDecoration(
-        color: WeveColor.bg.bg3,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CustomIcons.getIcon(findIconData(profileType), size: 24),
-          const SizedBox(width: 10),
-          Text(
-            text,
-            style: WeveText.body2(color: WeveColor.main.yellowText),
-          ),
-        ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        height: 60,
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+        decoration: BoxDecoration(
+          color: WeveColor.bg.bg3,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomIcons.getIcon(findIconData(profileType), size: 24),
+            const SizedBox(width: 10),
+            Text(
+              text,
+              style: WeveText.body2(color: WeveColor.gray.gray2),
+            ),
+          ],
+        ),
       ),
     );
   }
