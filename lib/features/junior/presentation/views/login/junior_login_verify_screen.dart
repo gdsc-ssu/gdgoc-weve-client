@@ -10,6 +10,7 @@ import 'package:weve_client/commons/widgets/toast/view/toast.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
 import 'package:weve_client/features/junior/presentation/views/junior_main_screen.dart';
+import 'package:weve_client/features/junior/presentation/views/input/junior_input_profile_name_screen.dart';
 
 class JuniorLoginVerifyScreen extends ConsumerStatefulWidget {
   const JuniorLoginVerifyScreen({super.key});
@@ -76,15 +77,26 @@ class _JuniorLoginVerifyScreenState
         duration: 3,
       );
 
-      // 로그인 성공 시 주니어 메인 화면으로 이동
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          // TODO : MainScreen 에서 로그인 여부에 따라 화면 전환 처리 필요
-          // builder: (context) => const MainScreen(modeType: ModeType.junior),
-          builder: (context) => const JuniorMainScreen(),
-        ),
-        (route) => false, // 모든 이전 화면 제거
-      );
+      // 프로필 정보 존재 여부 확인
+      bool hasProfileInfo = false; // 임시로 false로 설정 (실제로는 API 호출 결과에 따라 설정)
+
+      if (hasProfileInfo) {
+        // 프로필 정보가 있으면 메인 화면으로 이동
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const JuniorMainScreen(),
+          ),
+          (route) => false, // 모든 이전 화면 제거
+        );
+      } else {
+        // 프로필 정보가 없으면 프로필 입력 화면으로 이동
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const JuniorInputProfileNameScreen(),
+          ),
+          (route) => false, // 모든 이전 화면 제거
+        );
+      }
     } else {
       // 올바르지 않은 인증번호일 경우 토스트 메시지 표시
       CustomToast.show(
