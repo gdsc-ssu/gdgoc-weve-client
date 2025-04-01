@@ -9,7 +9,7 @@ import 'package:weve_client/commons/widgets/junior/input/view/input_phone_field.
 import 'package:weve_client/commons/widgets/toast/view/toast.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
-import 'package:weve_client/features/junior/presentation/views/my/junoir_edit_phone_number_verify_screen.dart';
+import 'package:weve_client/features/junior/presentation/views/my/junior_edit_phone_number_verify_screen.dart';
 
 class JuniorEditPhoneNumberScreen extends ConsumerStatefulWidget {
   const JuniorEditPhoneNumberScreen({super.key});
