@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/commons/widgets/junior/button/view/button.dart';
+import 'package:weve_client/commons/widgets/junior/errorText/error_text.dart';
 import 'package:weve_client/commons/widgets/header/model/header_type.dart';
 import 'package:weve_client/commons/widgets/header/view/header_widget.dart';
 import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
@@ -24,6 +25,7 @@ class _JuniorLoginVerifyScreenState
     extends ConsumerState<JuniorLoginVerifyScreen> {
   TextEditingController verificationCodeController = TextEditingController();
   bool isVerificationCodeValid = false;
+  bool showErrorMessage = false;
 
   @override
   void initState() {
@@ -52,10 +54,12 @@ class _JuniorLoginVerifyScreenState
   void _validateVerificationCode() {
     // 6자리 숫자 인증번호 검사
     final RegExp codeRegExp = RegExp(r'^[0-9]{6}$');
+    String code = verificationCodeController.text;
 
     setState(() {
-      isVerificationCodeValid =
-          codeRegExp.hasMatch(verificationCodeController.text);
+      isVerificationCodeValid = codeRegExp.hasMatch(code);
+      // 입력이 있고 유효하지 않은 경우에만 에러 메시지 표시
+      showErrorMessage = code.isNotEmpty && !isVerificationCodeValid;
     });
   }
 
@@ -135,6 +139,11 @@ class _JuniorLoginVerifyScreenState
                     .junior.editPhoneNumberVerifyInputPlaceholder,
                 controller: verificationCodeController,
               ),
+              if (showErrorMessage)
+                ErrorText(
+                  text: appLocalizations
+                      .junior.editPhoneNumberVerifyInputPlaceholder,
+                ),
               const Spacer(),
               Center(
                 child: Padding(
