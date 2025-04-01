@@ -166,13 +166,14 @@ class _JuniorInputProfileBirthScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               InputHeader(
-                title: "세계의 어르신에게 보여지는\n당신의 프로필 내용을 입력해주세요",
-                text: "작성된 프로필 내용은 '한국에 사는 25세 청년'으로 어르신에게 공개돼요",
+                title: appLocalizations.junior.inputProfilePageTitle,
+                text: appLocalizations.junior.inputProfilePageText,
               ),
               const SizedBox(height: 50),
               InputField(
-                title: "생년월일",
-                placeholder: "생년월일 8자리를 입력하세요 (예: 19901201)",
+                title: appLocalizations.junior.inputProfileBirthInputTitle,
+                placeholder:
+                    appLocalizations.junior.inputProfileBirthInputPlaceholder,
                 controller: birthController,
               ),
               const Spacer(),
@@ -180,7 +181,7 @@ class _JuniorInputProfileBirthScreenState
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 30),
                   child: JuniorButton(
-                    text: "프로필 입력 완료",
+                    text: appLocalizations.junior.inputProfileBirthApplyButton,
                     enabled: isBirthValid,
                     onPressed: _completeProfileSetup,
                   ),

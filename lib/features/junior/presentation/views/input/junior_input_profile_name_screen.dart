@@ -72,13 +72,14 @@ class _JuniorInputProfileNameScreenState
             children: [
               const SizedBox(height: 56),
               InputHeader(
-                title: "세계의 어르신에게 보여지는\n당신의 프로필 내용을 입력해주세요",
-                text: "작성된 프로필 내용은 '한국에 사는 25세 청년'으로 어르신에게 공개돼요",
+                title: appLocalizations.junior.inputProfilePageTitle,
+                text: appLocalizations.junior.inputProfilePageText,
               ),
               const SizedBox(height: 50),
               InputField(
-                title: "이름",
-                placeholder: "이름을 입력하세요",
+                title: appLocalizations.junior.inputProfileNameInputTitle,
+                placeholder:
+                    appLocalizations.junior.inputProfileNameInputPlaceholder,
                 controller: nameController,
               ),
               const Spacer(),
@@ -86,7 +87,7 @@ class _JuniorInputProfileNameScreenState
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 30),
                   child: JuniorButton(
-                    text: "다음",
+                    text: appLocalizations.junior.inputProfileNameApplyButton,
                     enabled: isNameValid,
                     onPressed: _goToNextScreen,
                   ),

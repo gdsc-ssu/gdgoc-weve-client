@@ -69,6 +69,17 @@ class JuniorLocalizations {
       'loginInputPhoneNumberErrorToastMessage':
           'Please enter a valid phone number format.',
       'loginVerifySuccessToastMessage': 'Login has been completed',
+      'inputProfilePageTitle':
+          'Show your profile content to seniors around the world',
+      'inputProfilePageText':
+          'The profile information written will be disclosed to the senior citizen as a profile of a ‘25-year-old young man living in Korea’ along with his concerns.',
+      'inputProfileNameInputTitle': 'Name',
+      'inputProfileNameInputPlaceholder': 'Enter your name',
+      'inputProfileNameApplyButton': 'Next',
+      'inputProfileBirthInputTitle': 'Birthday',
+      'inputProfileBirthInputPlaceholder':
+          'Enter your 8-digit date of birth (e.g. YYYYMMDD)',
+      'inputProfileBirthApplyButton': 'Complete Profile Input',
     },
     'ko': {
       'juniorNavHome': '홈',
@@ -122,6 +133,15 @@ class JuniorLocalizations {
           '“WEVE” 에 오신걸 환영해요!\n로그인을 위해 본인의 전화번호를 입력해주세요.\n개인정보는 정보통신망법에 따라 안전하게 보관됩니다.',
       'loginInputPhoneNumberErrorToastMessage': '올바른 전화번호 형식이 아니예요',
       'loginVerifySuccessToastMessage': '로그인이 완료되었어요',
+      'inputProfilePageTitle': '세계의 어르신에게 보여지는\n당신의 프로필 내용을 입력해주세요',
+      'inputProfilePageText':
+          '작성된 프로필 내용은 고민과 함께 \"ex. 한국에 사는 25세 청년\" 이라는 프로필로 어르신에게 공개돼요',
+      'inputProfileNameInputTitle': '이름',
+      'inputProfileNameInputPlaceholder': '이름을 입력하세요',
+      'inputProfileNameApplyButton': '다음',
+      'inputProfileBirthInputTitle': '생년월일',
+      'inputProfileBirthInputPlaceholder': '생년월일 8자리를 입력하세요 (예: 19901201)',
+      'inputProfileBirthApplyButton': '프로필 입력 완료',
     },
     'ja': {
       'juniorNavHome': 'ホーム',
@@ -175,6 +195,15 @@ class JuniorLocalizations {
       'loginDescription': '“WEVE” にごようびました!\nログインするためには、正確な本人的な電話番号を入力してください。',
       'loginInputPhoneNumberErrorToastMessage': '有効な電話番号の形式ではありません。',
       'loginVerifySuccessToastMessage': 'ログインが完了しました',
+      'inputProfilePageTitle': '世界のお年寄りに表示される\nあなたのプロフィールの内容を入力してください',
+      'inputProfilePageText':
+          '作成されたプロフィール内容は悩みとともに「韓国に住む25歳の青年」というプロフィールで大人に公開されます。',
+      'inputProfileNameInputTitle': '名前',
+      'inputProfileNameInputPlaceholder': '名前を入力してください',
+      'inputProfileNameApplyButton': '次へ',
+      'inputProfileBirthInputTitle': '誕生日',
+      'inputProfileBirthInputPlaceholder': '生年月日の8桁を入力してください（例：19901201）',
+      'inputProfileBirthApplyButton': 'プロフィール入力完了',
     },
   };
 
@@ -269,4 +298,20 @@ class JuniorLocalizations {
       _getString('loginInputPhoneNumberErrorToastMessage');
   String get loginVerifySuccessToastMessage =>
       _getString('loginVerifySuccessToastMessage');
+
+  // [주니어 프로필 입력] 화면 관련 getter들
+  String get inputProfilePageTitle => _getString('inputProfilePageTitle');
+  String get inputProfilePageText => _getString('inputProfilePageText');
+  String get inputProfileNameInputTitle =>
+      _getString('inputProfileNameInputTitle');
+  String get inputProfileNameInputPlaceholder =>
+      _getString('inputProfileNameInputPlaceholder');
+  String get inputProfileNameApplyButton =>
+      _getString('inputProfileNameApplyButton');
+  String get inputProfileBirthInputTitle =>
+      _getString('inputProfileBirthInputTitle');
+  String get inputProfileBirthInputPlaceholder =>
+      _getString('inputProfileBirthInputPlaceholder');
+  String get inputProfileBirthApplyButton =>
+      _getString('inputProfileBirthApplyButton');
 }
