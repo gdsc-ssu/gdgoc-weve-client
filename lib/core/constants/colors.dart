@@ -4,6 +4,7 @@ final class WeveColor {
   static final main = _MainColors();
   static final bg = _BgColors();
   static final gray = _GrayColors();
+  static final error = _ErrorColors();
 }
 
 final class _MainColors {
@@ -48,4 +49,9 @@ final class _GrayColors {
   final Color gray6 = Color(0XFFafafaf);
   final Color gray7 = Color(0XFFd6d6d6);
   final Color gray8 = Color(0XFFFFFFFF);
+}
+
+final class _ErrorColors {
+  _ErrorColors();
+  final Color error1 = Color(0XFFF26F3A);
 }
