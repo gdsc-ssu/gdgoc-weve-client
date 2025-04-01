@@ -68,6 +68,7 @@ class JuniorLocalizations {
           'Welcome to “WEVE”!\nPlease enter your phone number to login.\nYour personal information is securely stored according to the Information and Communication Network Act.',
       'loginInputPhoneNumberErrorToastMessage':
           'Please enter a valid phone number format.',
+      'loginVerifySuccessToastMessage': 'Login has been completed',
     },
     'ko': {
       'juniorNavHome': '홈',
@@ -173,6 +174,7 @@ class JuniorLocalizations {
       'loginTitle': '電話番号でログイン',
       'loginDescription': '“WEVE” にごようびました!\nログインするためには、正確な本人的な電話番号を入力してください。',
       'loginInputPhoneNumberErrorToastMessage': '有効な電話番号の形式ではありません。',
+      'loginVerifySuccessToastMessage': 'ログインが完了しました',
     },
   };
 
