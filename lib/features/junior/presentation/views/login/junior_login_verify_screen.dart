@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/commons/widgets/junior/button/view/button.dart';
 import 'package:weve_client/commons/widgets/junior/errorText/error_text.dart';
@@ -10,6 +11,7 @@ import 'package:weve_client/commons/widgets/junior/input/view/input_field.dart';
 import 'package:weve_client/commons/widgets/toast/view/toast.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
+import 'package:weve_client/features/junior/presentation/viewmodels/auth_viewmodel.dart';
 import 'package:weve_client/features/junior/presentation/views/junior_main_screen.dart';
 import 'package:weve_client/features/junior/presentation/views/input/junior_input_profile_name_screen.dart';
 
@@ -35,6 +37,12 @@ class _JuniorLoginVerifyScreenState
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       headerViewModel.setHeader(HeaderType.backOnly, title: "");
+
+      // 초기 로딩 상태인 경우 상태 초기화
+      final authState = ref.read(authViewModelProvider);
+      if (authState.status == AuthStatus.loading) {
+        ref.read(authViewModelProvider.notifier).resetState();
+      }
     });
 
     // 인증번호 입력 변경 감지를 위한 리스너 등록
@@ -64,53 +72,88 @@ class _JuniorLoginVerifyScreenState
   }
 
   // 인증번호 확인 버튼 클릭 처리
-  void _verifyCode() {
+  void _verifyCode() async {
+    // 인증번호가 유효하지 않거나 이미 로딩 중이면 동작하지 않음
+    final authState = ref.read(authViewModelProvider);
+    if (!isVerificationCodeValid || authState.status == AuthStatus.loading) {
+      return;
+    }
+
     final locale = ref.read(localeProvider);
     final appLocalizations = AppLocalizations(locale);
 
-    if (isVerificationCodeValid) {
-      // 인증번호 확인 로직 (실제로는 서버 통신이 필요함)
-
-      // 인증 성공 시 토스트 메시지 표시
-      CustomToast.show(
-        context,
-        appLocalizations.junior.loginVerifySuccessToastMessage,
-        backgroundColor: WeveColor.main.orange1,
-        textColor: Colors.white,
-        borderRadius: 20,
-        duration: 3,
-      );
-
-      // 프로필 정보 존재 여부 확인
-      bool hasProfileInfo = false; // 임시로 false로 설정 (실제로는 API 호출 결과에 따라 설정)
-
-      if (hasProfileInfo) {
-        // 프로필 정보가 있으면 메인 화면으로 이동
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) => const JuniorMainScreen(),
-          ),
-          (route) => false, // 모든 이전 화면 제거
-        );
-      } else {
-        // 프로필 정보가 없으면 프로필 입력 화면으로 이동
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) => const JuniorInputProfileNameScreen(),
-          ),
-          (route) => false, // 모든 이전 화면 제거
-        );
+    try {
+      // AuthViewModel을 통해 인증번호 확인
+      if (kDebugMode) {
+        print('인증번호 확인 시작: ${verificationCodeController.text}');
       }
-    } else {
-      // 올바르지 않은 인증번호일 경우 토스트 메시지 표시
+
+      final authViewModel = ref.read(authViewModelProvider.notifier);
+      final response = await authViewModel.verifyCode(
+        verificationCodeController.text,
+        locale,
+      );
+
+      if (kDebugMode) {
+        print('인증번호 확인 결과: ${response?.isSuccess}');
+      }
+
+      if (response != null && response.isSuccess) {
+        // 인증 성공 시 토스트 메시지 표시
+        CustomToast.show(
+          context,
+          appLocalizations.junior.loginVerifySuccessToastMessage,
+          backgroundColor: WeveColor.main.orange1,
+          textColor: Colors.white,
+          borderRadius: 20,
+          duration: 3,
+        );
+
+        if (kDebugMode) {
+          print('isNew: ${response.isNew}');
+        }
+
+        // isNew 값에 따라 다른 화면으로 이동
+        if (!response.isNew) {
+          // 기존 유저는 메인 화면으로 이동
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => const JuniorMainScreen(),
+            ),
+            (route) => false, // 모든 이전 화면 제거
+          );
+        } else {
+          // 신규 유저는 프로필 입력 화면으로 이동
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => const JuniorInputProfileNameScreen(),
+            ),
+            (route) => false, // 모든 이전 화면 제거
+          );
+        }
+      } else {
+        // 실패 시 에러 메시지 표시 (이미 ViewModel에서 처리됨)
+        if (kDebugMode) {
+          print('인증번호 확인 실패');
+        }
+      }
+    } catch (e) {
+      // 예외 발생 시 토스트 메시지 표시
+      if (kDebugMode) {
+        print('인증번호 확인 예외: $e');
+      }
+
       CustomToast.show(
         context,
-        appLocalizations.junior.editPhoneNumberVerifyErrorToastMessage,
+        e.toString(),
         backgroundColor: WeveColor.main.orange1,
         textColor: Colors.white,
         borderRadius: 20,
         duration: 3,
       );
+
+      // 에러 발생 시 상태 초기화
+      ref.read(authViewModelProvider.notifier).resetState();
     }
   }
 
@@ -118,6 +161,24 @@ class _JuniorLoginVerifyScreenState
   Widget build(BuildContext context) {
     final locale = ref.read(localeProvider);
     final appLocalizations = AppLocalizations(locale);
+    final authState = ref.watch(authViewModelProvider);
+
+    // 에러 상태일 때 토스트 메시지 표시
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (authState.status == AuthStatus.error &&
+          authState.errorMessage != null) {
+        CustomToast.show(
+          context,
+          authState.errorMessage!,
+          backgroundColor: WeveColor.main.orange1,
+          textColor: Colors.white,
+          borderRadius: 20,
+          duration: 3,
+        );
+        // 에러 메시지 표시 후 상태 초기화
+        ref.read(authViewModelProvider.notifier).resetState();
+      }
+    });
 
     return Scaffold(
       backgroundColor: WeveColor.bg.bg1,
@@ -148,11 +209,20 @@ class _JuniorLoginVerifyScreenState
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 30),
-                  child: JuniorButton(
-                    text: appLocalizations.junior.editPhoneNumberVerifyButton,
-                    enabled: isVerificationCodeValid,
-                    onPressed: _verifyCode,
-                  ),
+                  child: authState.status == AuthStatus.loading
+                      ? SizedBox(
+                          width: 40,
+                          height: 40,
+                          child: CircularProgressIndicator(
+                            color: WeveColor.main.orange1,
+                          ),
+                        )
+                      : JuniorButton(
+                          text: appLocalizations
+                              .junior.editPhoneNumberVerifyButton,
+                          enabled: isVerificationCodeValid,
+                          onPressed: _verifyCode,
+                        ),
                 ),
               ),
             ],
