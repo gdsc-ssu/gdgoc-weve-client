@@ -39,7 +39,10 @@ class MyApp extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      home: const InitialSplashScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const InitialSplashScreen(),
+      },
     );
   }
 }

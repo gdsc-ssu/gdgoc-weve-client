@@ -14,6 +14,8 @@ import 'package:weve_client/commons/widgets/junior/button/view/button.dart';
 import 'package:weve_client/features/junior/presentation/views/my/junior_edit_language_screen.dart';
 import 'package:weve_client/features/junior/presentation/views/my/junior_edit_profile_screen.dart';
 import 'package:weve_client/features/junior/presentation/views/my/junior_edit_phone_number_screen.dart';
+import 'package:weve_client/core/utils/auth_utils.dart';
+import 'package:weve_client/commons/widgets/toast/view/toast.dart';
 
 class JuniorMyScreen extends ConsumerStatefulWidget {
   const JuniorMyScreen({super.key});
@@ -71,10 +73,28 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
                 text: appLocalizations.logout,
                 backgroundColor: WeveColor.main.yellow1_100,
                 textColor: WeveColor.main.yellowText,
-                onPressed: () {
-                  // 로그아웃 처리 로직
+                onPressed: () async {
+                  // 팝업 닫기
                   ref.read(popupProvider.notifier).closePopup();
-                  // 여기에 로그아웃 후 처리 로직 추가
+
+                  // 로그아웃 실행
+                  await AuthUtils.logout();
+
+                  if (mounted) {
+                    // 로그아웃 성공 토스트 메시지 표시
+                    CustomToast.show(
+                      context,
+                      appLocalizations.logoutSuccess,
+                      backgroundColor: WeveColor.main.orange1,
+                      textColor: Colors.white,
+                      borderRadius: 20,
+                      duration: 3,
+                    );
+
+                    // 앱 메인으로 이동 (초기 스플래시 스크린으로 이동)
+                    Navigator.of(context)
+                        .pushNamedAndRemoveUntil('/', (route) => false);
+                  }
                 },
               ),
             ],
