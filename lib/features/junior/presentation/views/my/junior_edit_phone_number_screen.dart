@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/commons/widgets/junior/button/view/button.dart';
 import 'package:weve_client/commons/widgets/junior/errorText/error_text.dart';
@@ -10,6 +11,7 @@ import 'package:weve_client/commons/widgets/junior/input/view/input_phone_field.
 import 'package:weve_client/commons/widgets/toast/view/toast.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
+import 'package:weve_client/features/junior/presentation/viewmodels/sms_viewmodel.dart';
 import 'package:weve_client/features/junior/presentation/views/my/junior_edit_phone_number_verify_screen.dart';
 
 class JuniorEditPhoneNumberScreen extends ConsumerStatefulWidget {
@@ -25,13 +27,12 @@ class _JuniorEditPhoneNumberScreenState
   TextEditingController phoneController = TextEditingController();
   bool isPhoneNumberValid = false;
   bool showErrorMessage = false;
+  late final headerViewModel = ref.read(headerProvider.notifier);
 
   @override
   void initState() {
     super.initState();
     // 헤더 설정
-    final headerViewModel = ref.read(headerProvider.notifier);
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       headerViewModel.setHeader(HeaderType.backOnly, title: "");
 
@@ -40,6 +41,12 @@ class _JuniorEditPhoneNumberScreenState
 
       // 초기값 설정 (이미 등록된 전화번호가 있다면 여기서 설정)
       phoneController.text = "";
+
+      // 초기 로딩 상태인 경우 상태 초기화
+      final smsState = ref.read(smsViewModelProvider);
+      if (smsState.status == SmsStatus.loading) {
+        ref.read(smsViewModelProvider.notifier).resetState();
+      }
     });
 
     // 전화번호 입력 변경 감지를 위한 리스너 등록
@@ -49,6 +56,7 @@ class _JuniorEditPhoneNumberScreenState
   @override
   void dispose() {
     // dispose에서 ref 사용 제거
+    headerViewModel.clearBackPressedCallback();
     phoneController.removeListener(_validatePhoneNumber);
     phoneController.dispose();
     super.dispose();
@@ -92,30 +100,63 @@ class _JuniorEditPhoneNumberScreenState
   }
 
   // 인증번호 받기 버튼 클릭 처리
-  void _requestVerificationCode() {
-    if (isPhoneNumberValid) {
-      // 인증번호 요청 로직 (실제로는 서버 통신이 필요함)
+  void _requestVerificationCode() async {
+    // 전화번호가 유효하지 않거나 이미 로딩 중이면 동작하지 않음
+    final smsState = ref.read(smsViewModelProvider);
+    if (!isPhoneNumberValid || smsState.status == SmsStatus.loading) {
+      return;
+    }
 
-      // 인증 화면으로 이동
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const JuniorEditPhoneNumberVerifyScreen(),
-        ),
+    final locale = ref.read(localeProvider);
+    final appLocalizations = AppLocalizations(locale);
+    final smsViewModel = ref.read(smsViewModelProvider.notifier);
+
+    try {
+      // SmsViewModel을 통해 인증번호 요청
+      if (kDebugMode) {
+        print('인증번호 요청 시작: ${phoneController.text}');
+      }
+
+      final success = await smsViewModel.requestVerificationCode(
+        phoneController.text,
+        locale,
       );
-    } else {
-      final locale = ref.read(localeProvider);
-      final appLocalizations = AppLocalizations(locale);
 
-      // 올바르지 않은 전화번호 형식일 경우 지역화된 토스트 메시지 표시
+      if (kDebugMode) {
+        print('인증번호 요청 결과: $success');
+      }
+
+      if (success) {
+        // 인증 화면으로 이동
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const JuniorEditPhoneNumberVerifyScreen(),
+          ),
+        );
+      } else {
+        // 실패 시 에러 메시지 표시 (이미 ViewModel에서 처리됨)
+        if (kDebugMode) {
+          print('인증번호 요청 실패');
+        }
+      }
+    } catch (e) {
+      // 예외 발생 시 토스트 메시지 표시
+      if (kDebugMode) {
+        print('인증번호 요청 예외: $e');
+      }
+
       CustomToast.show(
         context,
-        appLocalizations.junior.editPhoneNumberInputErrorToastMessage,
+        e.toString(),
         backgroundColor: WeveColor.main.orange1,
         textColor: Colors.white,
         borderRadius: 20,
         duration: 3,
       );
+
+      // 에러 발생 시 상태 초기화
+      smsViewModel.resetState();
     }
   }
 
@@ -134,16 +175,33 @@ class _JuniorEditPhoneNumberScreenState
     final locale = ref.read(localeProvider);
     final appLocalizations = AppLocalizations(locale);
 
-    ref.read(headerProvider.notifier).setHeader(
-          HeaderType.juniorTitleLogo,
-          title: appLocalizations.junior.juniorHeaderMyTitle,
-        );
+    headerViewModel.setHeader(
+      HeaderType.juniorTitleLogo,
+      title: appLocalizations.junior.juniorHeaderMyTitle,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final locale = ref.read(localeProvider);
     final appLocalizations = AppLocalizations(locale);
+    final smsState = ref.watch(smsViewModelProvider);
+
+    // 에러 상태일 때 토스트 메시지 표시
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (smsState.status == SmsStatus.error && smsState.errorMessage != null) {
+        CustomToast.show(
+          context,
+          smsState.errorMessage!,
+          backgroundColor: WeveColor.main.orange1,
+          textColor: Colors.white,
+          borderRadius: 20,
+          duration: 3,
+        );
+        // 에러 메시지 표시 후 상태 초기화
+        ref.read(smsViewModelProvider.notifier).resetState();
+      }
+    });
 
     return WillPopScope(
       onWillPop: _onWillPop,
@@ -177,12 +235,20 @@ class _JuniorEditPhoneNumberScreenState
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 30),
-                    child: JuniorButton(
-                      text:
-                          appLocalizations.junior.editPhoneNumberGoVerifyButton,
-                      enabled: isPhoneNumberValid,
-                      onPressed: _requestVerificationCode,
-                    ),
+                    child: smsState.status == SmsStatus.loading
+                        ? SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: CircularProgressIndicator(
+                              color: WeveColor.main.orange1,
+                            ),
+                          )
+                        : JuniorButton(
+                            text: appLocalizations
+                                .junior.editPhoneNumberGoVerifyButton,
+                            enabled: isPhoneNumberValid,
+                            onPressed: _requestVerificationCode,
+                          ),
                   ),
                 ),
               ],
