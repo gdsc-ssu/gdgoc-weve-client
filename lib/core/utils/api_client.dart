@@ -169,6 +169,21 @@ class ApiClient {
         ));
   }
 
+  /// PATCH 요청
+  Future<ApiResponse<T>> patch<T>(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) async {
+    return _handleResponse<T>(() => _dio.patch(
+          path,
+          data: data,
+          queryParameters: queryParameters,
+          options: options,
+        ));
+  }
+
   /// DELETE 요청
   Future<ApiResponse<T>> delete<T>(
     String path, {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/foundation.dart';
 import 'package:weve_client/commons/widgets/junior/button/view/button.dart';
 import 'package:weve_client/commons/widgets/junior/errorText/error_text.dart';
 import 'package:weve_client/commons/widgets/header/model/header_type.dart';
@@ -11,6 +12,7 @@ import 'package:weve_client/commons/widgets/toast/view/toast.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
 import 'package:weve_client/features/junior/presentation/views/junior_main_screen.dart';
+import 'package:weve_client/features/junior/presentation/viewmodels/user_profile_viewmodel.dart';
 
 class JuniorInputProfileBirthScreen extends ConsumerStatefulWidget {
   final String name;
@@ -30,6 +32,7 @@ class _JuniorInputProfileBirthScreenState
   TextEditingController birthController = TextEditingController();
   bool isBirthValid = false;
   bool showErrorMessage = false;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -88,7 +91,9 @@ class _JuniorInputProfileBirthScreenState
   }
 
   // 프로필 입력 완료 처리
-  void _completeProfileSetup() {
+  void _completeProfileSetup() async {
+    if (isLoading) return; // 이미 로딩 중이면 중복 실행 방지
+
     final locale = ref.read(localeProvider);
     final appLocalizations = AppLocalizations(locale);
 
@@ -143,22 +148,80 @@ class _JuniorInputProfileBirthScreenState
       return;
     }
 
-    // TODO: 프로필 정보 저장 로직 구현 (서버에 데이터 전송)
-    // widget.name과 birthController.text를 사용하여 프로필 저장
+    // 로딩 상태 시작
+    setState(() {
+      isLoading = true;
+    });
 
-    // 프로필 입력 완료 후 메인 화면으로 이동
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(
-        builder: (context) => const JuniorMainScreen(),
-      ),
-      (route) => false, // 모든 이전 화면 제거
-    );
+    try {
+      // UserProfileViewModel을 통해 프로필 저장
+      if (kDebugMode) {
+        print('프로필 저장 시작: ${widget.name}, ${birthController.text}');
+      }
+
+      final userProfileViewModel =
+          ref.read(userProfileViewModelProvider.notifier);
+      final success = await userProfileViewModel.saveProfile(
+        widget.name,
+        birthController.text,
+      );
+
+      // 로딩 상태 종료
+      setState(() {
+        isLoading = false;
+      });
+
+      if (success) {
+        if (kDebugMode) {
+          print('프로필 저장 성공');
+        }
+
+        // 프로필 입력 완료 후 메인 화면으로 이동
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const JuniorMainScreen(),
+          ),
+          (route) => false, // 모든 이전 화면 제거
+        );
+      } else {
+        // 프로필 저장 실패 시 에러 메시지 표시
+        final profileState = ref.read(userProfileViewModelProvider);
+        CustomToast.show(
+          context,
+          profileState.errorMessage ?? '프로필 저장에 실패했습니다.',
+          backgroundColor: WeveColor.main.orange1,
+          textColor: Colors.white,
+          borderRadius: 20,
+          duration: 3,
+        );
+      }
+    } catch (e) {
+      // 로딩 상태 종료
+      setState(() {
+        isLoading = false;
+      });
+
+      // 예외 발생 시 토스트 메시지 표시
+      if (kDebugMode) {
+        print('프로필 저장 예외: $e');
+      }
+
+      CustomToast.show(
+        context,
+        e.toString(),
+        backgroundColor: WeveColor.main.orange1,
+        textColor: Colors.white,
+        borderRadius: 20,
+        duration: 3,
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final locale = ref.read(localeProvider);
     final appLocalizations = AppLocalizations(locale);
+    final profileState = ref.watch(userProfileViewModelProvider);
 
     return Scaffold(
       backgroundColor: WeveColor.bg.bg1,
@@ -191,7 +254,9 @@ class _JuniorInputProfileBirthScreenState
                   padding: const EdgeInsets.only(bottom: 30),
                   child: JuniorButton(
                     text: appLocalizations.junior.inputProfileBirthApplyButton,
-                    enabled: isBirthValid,
+                    enabled: isBirthValid &&
+                        !isLoading &&
+                        profileState.status != ProfileStatus.loading,
                     onPressed: _completeProfileSetup,
                   ),
                 ),
