@@ -33,13 +33,12 @@ class _JuniorInputProfileBirthScreenState
   bool isBirthValid = false;
   bool showErrorMessage = false;
   bool isLoading = false;
+  late final headerViewModel = ref.read(headerProvider.notifier);
 
   @override
   void initState() {
     super.initState();
     // 헤더 설정
-    final headerViewModel = ref.read(headerProvider.notifier);
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       headerViewModel.setHeader(HeaderType.backOnly, title: "");
     });
@@ -50,8 +49,8 @@ class _JuniorInputProfileBirthScreenState
 
   @override
   void dispose() {
-    // 화면이 소멸될 때 콜백 제거
-    ref.read(headerProvider.notifier).clearBackPressedCallback();
+    // 화면이 소멸될 때 콜백 제거 - 참조된 변수 사용하여 ref 직접 호출 방지
+    headerViewModel.clearBackPressedCallback();
     birthController.removeListener(_validateBirth);
     birthController.dispose();
     super.dispose();
