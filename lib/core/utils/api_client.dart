@@ -154,21 +154,6 @@ class ApiClient {
         ));
   }
 
-  /// PUT 요청
-  Future<ApiResponse<T>> put<T>(
-    String path, {
-    dynamic data,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-  }) async {
-    return _handleResponse<T>(() => _dio.put(
-          path,
-          data: data,
-          queryParameters: queryParameters,
-          options: options,
-        ));
-  }
-
   /// PATCH 요청
   Future<ApiResponse<T>> patch<T>(
     String path, {
