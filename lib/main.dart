@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:weve_client/commons/presentation/language_screen.dart';
 import 'package:weve_client/commons/presentation/splash_screen.dart';
 import 'package:weve_client/core/constants/colors.dart';
@@ -8,7 +9,13 @@ import 'package:weve_client/core/localization/app_localizations.dart';
 import 'package:weve_client/core/utils/auth_utils.dart';
 import 'package:weve_client/features/junior/presentation/views/junior_main_screen.dart';
 
-void main() {
+void main() async {
+  // Flutter 엔진과 위젯 바인딩 초기화
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // 환경 변수 초기화
+  await dotenv.load(fileName: '.env');
+
   runApp(const ProviderScope(child: MyApp()));
 }
 

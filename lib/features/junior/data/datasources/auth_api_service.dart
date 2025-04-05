@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 import 'package:weve_client/core/utils/api_client.dart';
+import 'package:weve_client/core/models/api_response.dart';
+import 'package:weve_client/core/errors/app_error.dart';
 import 'package:weve_client/features/junior/data/models/auth_response.dart';
 
 class AuthApiService {
@@ -76,21 +79,27 @@ class AuthApiService {
       );
 
       if (kDebugMode) {
-        print('SMS 인증번호 요청 응답: ${response.data}');
+        print('SMS 인증번호 요청 응답: ${response.toJson()}');
       }
 
-      return AuthResponse.fromJson(response.data);
+      // 이미 ApiResponse 형태로 받아온 응답을 AuthResponse로 변환
+      return AuthResponse(response: response);
     } on DioException catch (e) {
       if (kDebugMode) {
         print('SMS 인증번호 요청 DioException: ${e.message}');
         print('Response: ${e.response?.data}');
       }
-      throw _handleDioError(e);
+      // 에러 처리 유틸리티 활용
+      final appError = ErrorHandler.handleDioError(e);
+      throw appError;
     } catch (e) {
       if (kDebugMode) {
         print('SMS 인증번호 요청 일반 예외: $e');
       }
-      throw Exception('SMS 인증번호 요청 중 오류가 발생했습니다: $e');
+      throw AppError(
+          code: 'AUTH_SMS_REQUEST_ERROR',
+          message: 'SMS 인증번호 요청 중 오류가 발생했습니다',
+          originalError: e);
     }
   }
 
@@ -117,16 +126,26 @@ class AuthApiService {
       );
 
       if (kDebugMode) {
-        print('SMS 인증번호 확인 응답: ${response.data}');
+        print('SMS 인증번호 확인 응답: ${response.toJson()}');
       }
 
-      final verifyResponse = VerifyResponse.fromJson(response.data);
+      // ApiResponse를 VerifyResponse로 변환
+      // Map<String, dynamic> 타입으로 캐스팅
+      final apiResponseWithMap = ApiResponse<Map<String, dynamic>>(
+        isSuccess: response.isSuccess,
+        code: response.code,
+        message: response.message,
+        result: response.result as Map<String, dynamic>?,
+      );
+
+      final verifyResponse = VerifyResponse(response: apiResponseWithMap);
 
       // 인증 성공 시 토큰 저장
       if (verifyResponse.isSuccess) {
         await _apiClient.saveToken(verifyResponse.token);
         if (kDebugMode) {
-          print('토큰 저장 완료: ${verifyResponse.token.substring(0, 10)}...');
+          print(
+              '토큰 저장 완료: ${verifyResponse.token.substring(0, math.min(10, verifyResponse.token.length))}...');
         }
       }
 
@@ -136,29 +155,17 @@ class AuthApiService {
         print('SMS 인증번호 확인 DioException: ${e.message}');
         print('Response: ${e.response?.data}');
       }
-      throw _handleDioError(e);
+      // 에러 처리 유틸리티 활용
+      final appError = ErrorHandler.handleDioError(e);
+      throw appError;
     } catch (e) {
       if (kDebugMode) {
         print('SMS 인증번호 확인 일반 예외: $e');
       }
-      throw Exception('SMS 인증번호 확인 중 오류가 발생했습니다: $e');
+      throw AppError(
+          code: 'AUTH_SMS_VERIFY_ERROR',
+          message: 'SMS 인증번호 확인 중 오류가 발생했습니다',
+          originalError: e);
     }
-  }
-
-  // 에러 처리 헬퍼 메서드
-  Exception _handleDioError(DioException e) {
-    if (e.response?.data != null && e.response?.data is Map) {
-      try {
-        final errorResponse = AuthResponse.fromJson(e.response?.data);
-        return Exception(errorResponse.message);
-      } catch (_) {
-        // JSON 변환 실패 시 기본 에러 메시지 반환
-        if (kDebugMode) {
-          print('JSON 변환 실패: ${e.response?.data}');
-        }
-      }
-    }
-
-    return Exception('서버 통신 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
   }
 }
