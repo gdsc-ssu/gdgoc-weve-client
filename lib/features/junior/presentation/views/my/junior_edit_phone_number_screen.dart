@@ -48,8 +48,7 @@ class _JuniorEditPhoneNumberScreenState
 
   @override
   void dispose() {
-    // 화면이 소멸될 때 콜백 제거
-    ref.read(headerProvider.notifier).clearBackPressedCallback();
+    // dispose에서 ref 사용 제거
     phoneController.removeListener(_validatePhoneNumber);
     phoneController.dispose();
     super.dispose();
@@ -122,7 +121,6 @@ class _JuniorEditPhoneNumberScreenState
 
   // 뒤로가기 버튼 처리를 위한 오버라이딩
   Future<bool> _onWillPop() async {
-    // 마이페이지로 돌아가기 전에 헤더를 원래대로 복원
     _restoreMyPageHeader();
     Navigator.pop(context);
     return false;
@@ -130,6 +128,9 @@ class _JuniorEditPhoneNumberScreenState
 
   // 마이페이지 헤더 복원
   void _restoreMyPageHeader() {
+    // 위젯이 이미 dispose 되었다면 실행하지 않음
+    if (!mounted) return;
+
     final locale = ref.read(localeProvider);
     final appLocalizations = AppLocalizations(locale);
 
