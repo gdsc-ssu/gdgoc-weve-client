@@ -2,31 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
 import 'package:weve_client/core/errors/app_error.dart';
-import 'package:weve_client/features/junior/data/datasources/auth_api_service.dart';
-import 'package:weve_client/features/junior/data/models/auth_response.dart';
+import 'package:weve_client/features/junior/data/datasources/sms_api_service.dart';
+import 'package:weve_client/features/junior/data/models/sms_response.dart';
 
-enum AuthStatus { initial, loading, success, error }
+enum SmsStatus { initial, loading, success, error }
 
-class AuthState {
-  final AuthStatus status;
+class SmsState {
+  final SmsStatus status;
   final String? errorMessage;
   final String? errorCode;
   final bool isNew;
 
-  AuthState({
-    this.status = AuthStatus.initial,
+  SmsState({
+    this.status = SmsStatus.initial,
     this.errorMessage,
     this.errorCode,
     this.isNew = false,
   });
 
-  AuthState copyWith({
-    AuthStatus? status,
+  SmsState copyWith({
+    SmsStatus? status,
     String? errorMessage,
     String? errorCode,
     bool? isNew,
   }) {
-    return AuthState(
+    return SmsState(
       status: status ?? this.status,
       errorMessage: errorMessage,
       errorCode: errorCode,
@@ -35,30 +35,31 @@ class AuthState {
   }
 }
 
-class AuthViewModel extends StateNotifier<AuthState> {
-  final AuthApiService _authApiService;
-  String? _phoneNumber;
+class SmsViewModel extends StateNotifier<SmsState> {
+  final SmsApiService _smsApiService;
+  String? _phoneNumber; // 인증 완료된 전화번호
+  String? _tempPhoneNumber; // 인증 과정 중 임시 전화번호
 
-  AuthViewModel(this._authApiService) : super(AuthState());
+  SmsViewModel(this._smsApiService) : super(SmsState());
 
   String? get phoneNumber => _phoneNumber;
 
   // SMS 인증번호 요청
   Future<bool> requestVerificationCode(
       String phoneNumber, Locale locale) async {
-    state = state.copyWith(status: AuthStatus.loading);
+    state = state.copyWith(status: SmsStatus.loading);
 
     try {
-      _phoneNumber = phoneNumber; // 전화번호 저장
+      _tempPhoneNumber = phoneNumber; // 임시로 전화번호 저장
       final response =
-          await _authApiService.sendSmsVerification(phoneNumber, locale);
+          await _smsApiService.sendSmsVerification(phoneNumber, locale);
 
       if (response.isSuccess) {
-        state = state.copyWith(status: AuthStatus.success);
+        state = state.copyWith(status: SmsStatus.success);
         return true;
       } else {
         state = state.copyWith(
-          status: AuthStatus.error,
+          status: SmsStatus.error,
           errorMessage: response.message,
           errorCode: response.code,
         );
@@ -70,7 +71,7 @@ class AuthViewModel extends StateNotifier<AuthState> {
       final errorCode = e is AppError ? e.code : 'UNKNOWN_ERROR';
 
       state = state.copyWith(
-        status: AuthStatus.error,
+        status: SmsStatus.error,
         errorMessage: errorMessage,
         errorCode: errorCode,
       );
@@ -80,30 +81,33 @@ class AuthViewModel extends StateNotifier<AuthState> {
 
   // SMS 인증번호 확인
   Future<VerifyResponse?> verifyCode(String code, Locale locale) async {
-    if (_phoneNumber == null) {
+    if (_tempPhoneNumber == null) {
       state = state.copyWith(
-        status: AuthStatus.error,
+        status: SmsStatus.error,
         errorMessage: '전화번호가 없습니다. 다시 시도해주세요.',
         errorCode: 'MISSING_PHONE_NUMBER',
       );
       return null;
     }
 
-    state = state.copyWith(status: AuthStatus.loading);
+    state = state.copyWith(status: SmsStatus.loading);
 
     try {
       final response =
-          await _authApiService.verifySmsCode(_phoneNumber!, code, locale);
+          await _smsApiService.verifySmsCode(_tempPhoneNumber!, code, locale);
 
       if (response.isSuccess) {
+        // 인증 성공 시에만 실제 전화번호 업데이트
+        _phoneNumber = _tempPhoneNumber;
+
         state = state.copyWith(
-          status: AuthStatus.success,
+          status: SmsStatus.success,
           isNew: response.isNew,
         );
         return response;
       } else {
         state = state.copyWith(
-          status: AuthStatus.error,
+          status: SmsStatus.error,
           errorMessage: response.message,
           errorCode: response.code,
         );
@@ -115,7 +119,7 @@ class AuthViewModel extends StateNotifier<AuthState> {
       final errorCode = e is AppError ? e.code : 'UNKNOWN_ERROR';
 
       state = state.copyWith(
-        status: AuthStatus.error,
+        status: SmsStatus.error,
         errorMessage: errorMessage,
         errorCode: errorCode,
       );
@@ -125,16 +129,17 @@ class AuthViewModel extends StateNotifier<AuthState> {
 
   // 상태 초기화
   void resetState() {
-    state = AuthState();
+    _tempPhoneNumber = null; // 임시 전화번호도 초기화
+    state = SmsState();
   }
 }
 
-final authApiServiceProvider = Provider<AuthApiService>((ref) {
-  return AuthApiService();
+final smsApiServiceProvider = Provider<SmsApiService>((ref) {
+  return SmsApiService();
 });
 
-final authViewModelProvider =
-    StateNotifierProvider<AuthViewModel, AuthState>((ref) {
-  final authApiService = ref.watch(authApiServiceProvider);
-  return AuthViewModel(authApiService);
+final smsViewModelProvider =
+    StateNotifierProvider<SmsViewModel, SmsState>((ref) {
+  final smsApiService = ref.watch(smsApiServiceProvider);
+  return SmsViewModel(smsApiService);
 });

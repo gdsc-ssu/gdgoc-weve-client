@@ -5,9 +5,9 @@ import 'dart:math' as math;
 import 'package:weve_client/core/utils/api_client.dart';
 import 'package:weve_client/core/models/api_response.dart';
 import 'package:weve_client/core/errors/app_error.dart';
-import 'package:weve_client/features/junior/data/models/auth_response.dart';
+import 'package:weve_client/features/junior/data/models/sms_response.dart';
 
-class AuthApiService {
+class SmsApiService {
   final ApiClient _apiClient = ApiClient();
 
   // 국가별 전화번호 형식 변환 (예: 한국 010-1234-5678 -> +82 1012345678)
@@ -60,7 +60,7 @@ class AuthApiService {
   }
 
   // SMS 인증번호 요청 API
-  Future<AuthResponse> sendSmsVerification(
+  Future<SmsResponse> sendSmsVerification(
       String phoneNumber, Locale locale) async {
     try {
       final formattedPhoneNumber = _formatPhoneNumberWithCountryCode(
@@ -82,8 +82,8 @@ class AuthApiService {
         print('SMS 인증번호 요청 응답: ${response.toJson()}');
       }
 
-      // 이미 ApiResponse 형태로 받아온 응답을 AuthResponse로 변환
-      return AuthResponse(response: response);
+      // 이미 ApiResponse 형태로 받아온 응답을 SmsResponse로 변환
+      return SmsResponse(response: response);
     } on DioException catch (e) {
       if (kDebugMode) {
         print('SMS 인증번호 요청 DioException: ${e.message}');
@@ -97,7 +97,7 @@ class AuthApiService {
         print('SMS 인증번호 요청 일반 예외: $e');
       }
       throw AppError(
-          code: 'AUTH_SMS_REQUEST_ERROR',
+          code: 'SMS_REQUEST_ERROR',
           message: 'SMS 인증번호 요청 중 오류가 발생했습니다',
           originalError: e);
     }
@@ -163,7 +163,7 @@ class AuthApiService {
         print('SMS 인증번호 확인 일반 예외: $e');
       }
       throw AppError(
-          code: 'AUTH_SMS_VERIFY_ERROR',
+          code: 'SMS_VERIFY_ERROR',
           message: 'SMS 인증번호 확인 중 오류가 발생했습니다',
           originalError: e);
     }

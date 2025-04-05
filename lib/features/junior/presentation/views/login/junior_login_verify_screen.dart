@@ -11,7 +11,7 @@ import 'package:weve_client/commons/widgets/junior/input/view/input_field.dart';
 import 'package:weve_client/commons/widgets/toast/view/toast.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
-import 'package:weve_client/features/junior/presentation/viewmodels/auth_viewmodel.dart';
+import 'package:weve_client/features/junior/presentation/viewmodels/sms_viewmodel.dart';
 import 'package:weve_client/features/junior/presentation/views/junior_main_screen.dart';
 import 'package:weve_client/features/junior/presentation/views/input/junior_input_profile_name_screen.dart';
 
@@ -38,9 +38,9 @@ class _JuniorLoginVerifyScreenState
       headerViewModel.setHeader(HeaderType.backOnly, title: "");
 
       // 초기 로딩 상태인 경우 상태 초기화
-      final authState = ref.read(authViewModelProvider);
-      if (authState.status == AuthStatus.loading) {
-        ref.read(authViewModelProvider.notifier).resetState();
+      final authState = ref.read(smsViewModelProvider);
+      if (authState.status == SmsStatus.loading) {
+        ref.read(smsViewModelProvider.notifier).resetState();
       }
     });
 
@@ -73,8 +73,8 @@ class _JuniorLoginVerifyScreenState
   // 인증번호 확인 버튼 클릭 처리
   void _verifyCode() async {
     // 인증번호가 유효하지 않거나 이미 로딩 중이면 동작하지 않음
-    final authState = ref.read(authViewModelProvider);
-    if (!isVerificationCodeValid || authState.status == AuthStatus.loading) {
+    final authState = ref.read(smsViewModelProvider);
+    if (!isVerificationCodeValid || authState.status == SmsStatus.loading) {
       return;
     }
 
@@ -82,12 +82,12 @@ class _JuniorLoginVerifyScreenState
     final appLocalizations = AppLocalizations(locale);
 
     try {
-      // AuthViewModel을 통해 인증번호 확인
+      // SmsViewModel을 통해 인증번호 확인
       if (kDebugMode) {
         print('인증번호 확인 시작: ${verificationCodeController.text}');
       }
 
-      final authViewModel = ref.read(authViewModelProvider.notifier);
+      final authViewModel = ref.read(smsViewModelProvider.notifier);
       final response = await authViewModel.verifyCode(
         verificationCodeController.text,
         locale,
@@ -152,7 +152,7 @@ class _JuniorLoginVerifyScreenState
       );
 
       // 에러 발생 시 상태 초기화
-      ref.read(authViewModelProvider.notifier).resetState();
+      ref.read(smsViewModelProvider.notifier).resetState();
     }
   }
 
@@ -160,11 +160,11 @@ class _JuniorLoginVerifyScreenState
   Widget build(BuildContext context) {
     final locale = ref.read(localeProvider);
     final appLocalizations = AppLocalizations(locale);
-    final authState = ref.watch(authViewModelProvider);
+    final authState = ref.watch(smsViewModelProvider);
 
     // 에러 상태일 때 토스트 메시지 표시
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (authState.status == AuthStatus.error &&
+      if (authState.status == SmsStatus.error &&
           authState.errorMessage != null) {
         CustomToast.show(
           context,
@@ -175,7 +175,7 @@ class _JuniorLoginVerifyScreenState
           duration: 3,
         );
         // 에러 메시지 표시 후 상태 초기화
-        ref.read(authViewModelProvider.notifier).resetState();
+        ref.read(smsViewModelProvider.notifier).resetState();
       }
     });
 
@@ -208,7 +208,7 @@ class _JuniorLoginVerifyScreenState
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 30),
-                  child: authState.status == AuthStatus.loading
+                  child: authState.status == SmsStatus.loading
                       ? SizedBox(
                           width: 40,
                           height: 40,

@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:weve_client/core/models/api_response.dart';
 
-/// 인증 관련 응답을 처리하는 클래스
-class AuthResponse {
+/// SMS 인증 관련 응답을 처리하는 클래스
+class SmsResponse {
   final ApiResponse<dynamic> response;
 
   bool get isSuccess => response.isSuccess;
@@ -10,16 +10,16 @@ class AuthResponse {
   String get message => response.message;
   dynamic get result => response.result;
 
-  AuthResponse({
+  SmsResponse({
     required this.response,
   });
 
-  factory AuthResponse.fromJson(Map<String, dynamic> json) {
+  factory SmsResponse.fromJson(Map<String, dynamic> json) {
     if (kDebugMode) {
-      print('AuthResponse 생성: $json');
+      print('SmsResponse 생성: $json');
     }
 
-    return AuthResponse(
+    return SmsResponse(
       response: ApiResponse<dynamic>.fromJson(json),
     );
   }
@@ -36,11 +36,11 @@ class AuthResponse {
 
   @override
   String toString() {
-    return 'AuthResponse{isSuccess: $isSuccess, code: $code, message: $message, result: $result}';
+    return 'SmsResponse{isSuccess: $isSuccess, code: $code, message: $message, result: $result}';
   }
 }
 
-/// 인증 확인 응답 클래스
+/// SMS 인증 확인 응답 클래스
 class VerifyResponse {
   final ApiResponse<Map<String, dynamic>> response;
   final VerifyResult? _verifyResult;
