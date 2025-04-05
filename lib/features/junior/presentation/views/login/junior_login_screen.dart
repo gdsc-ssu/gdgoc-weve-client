@@ -25,13 +25,12 @@ class _JuniorLoginScreenState extends ConsumerState<JuniorLoginScreen> {
   TextEditingController phoneController = TextEditingController();
   bool isPhoneNumberValid = false;
   bool showErrorMessage = false;
+  late final headerViewModel = ref.read(headerProvider.notifier);
 
   @override
   void initState() {
     super.initState();
     // 헤더 설정
-    final headerViewModel = ref.read(headerProvider.notifier);
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       headerViewModel.setHeader(HeaderType.backOnly, title: "");
 
@@ -49,7 +48,7 @@ class _JuniorLoginScreenState extends ConsumerState<JuniorLoginScreen> {
   @override
   void dispose() {
     // 화면이 소멸될 때 콜백 제거
-    ref.read(headerProvider.notifier).clearBackPressedCallback();
+    headerViewModel.clearBackPressedCallback();
     phoneController.removeListener(_validatePhoneNumber);
     phoneController.dispose();
     super.dispose();
