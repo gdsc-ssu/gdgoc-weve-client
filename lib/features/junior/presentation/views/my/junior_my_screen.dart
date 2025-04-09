@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:weve_client/commons/widgets/header/model/header_type.dart';
@@ -16,6 +17,7 @@ import 'package:weve_client/features/junior/presentation/views/my/junior_edit_pr
 import 'package:weve_client/features/junior/presentation/views/my/junior_edit_phone_number_screen.dart';
 import 'package:weve_client/core/utils/auth_utils.dart';
 import 'package:weve_client/commons/widgets/toast/view/toast.dart';
+import 'package:weve_client/features/junior/presentation/viewmodels/user_profile_viewmodel.dart';
 
 class JuniorMyScreen extends ConsumerStatefulWidget {
   const JuniorMyScreen({super.key});
@@ -25,12 +27,15 @@ class JuniorMyScreen extends ConsumerStatefulWidget {
 }
 
 class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
-  // 임시 유저 데이터 (실제로는 API 또는 상태 관리를 통해 가져와야 함)
-  final String userName = '김위비';
-  final String userLocation = '한국';
-  final int userAge = 20;
-  // 현재 선택된 프로필 이미지 색상 (임의로 선택, 실제로는 유저 데이터에서 가져와야 함)
-  ProfileColor selectedProfileColor = ProfileColor.green;
+  // 사용자 데이터 변수
+  String userName = '';
+  String userLocation = '';
+  int userAge = 0;
+  // 프로필 이미지 색상
+  ProfileColor selectedProfileColor = ProfileColor.yellow;
+
+  // 로딩 상태
+  bool isLoading = true;
 
   // 팝업 타이틀 저장 변수
   String _popupTitle = "";
@@ -47,7 +52,80 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
             HeaderType.juniorTitleLogo,
             title: appLocalizations.junior.juniorHeaderMyTitle,
           );
+
+      // 프로필 정보 가져오기
+      _loadProfileData();
     });
+  }
+
+  // 프로필 정보 로드 함수
+  Future<void> _loadProfileData() async {
+    try {
+      // 먼저 로컬 저장소에서 정보 가져오기 시도
+      final userProfileViewModel =
+          ref.read(userProfileViewModelProvider.notifier);
+      await userProfileViewModel.loadProfileFromLocalStorage();
+
+      // 그 다음 API에서 최신 정보 가져오기
+      await userProfileViewModel.getProfile();
+
+      // 상태 업데이트
+      _updateProfileData();
+    } catch (e) {
+      if (kDebugMode) {
+        print('프로필 정보 로드 오류: $e');
+      }
+
+      // 로딩 상태 종료
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  // 프로필 데이터 업데이트 함수
+  void _updateProfileData() {
+    final profileState = ref.read(userProfileViewModelProvider);
+
+    if (profileState.status == ProfileStatus.success &&
+        profileState.profileData != null) {
+      final profileData = profileState.profileData!;
+
+      setState(() {
+        userName = profileData.name;
+        userLocation = profileData.nationality;
+        userAge = profileData.age;
+
+        // 프로필 색상 설정
+        selectedProfileColor =
+            _getProfileColorFromString(profileData.profileColor);
+
+        // 로딩 상태 종료
+        isLoading = false;
+      });
+    } else {
+      // 로딩 상태 종료
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  // 문자열 프로필 색상을 ProfileColor 열거형으로 변환
+  ProfileColor _getProfileColorFromString(String colorString) {
+    switch (colorString.toUpperCase()) {
+      case 'BLUE':
+        return ProfileColor.blue;
+      case 'GREEN':
+        return ProfileColor.green;
+      case 'PINK':
+        return ProfileColor.pink;
+      case 'ORANGE':
+        return ProfileColor.orange;
+      case 'YELLOW':
+      default:
+        return ProfileColor.yellow;
+    }
   }
 
   void _showLogoutPopup() {
@@ -190,119 +268,137 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
     final appLocalizations = AppLocalizations(locale);
     final popupState = ref.watch(popupProvider);
 
+    // 프로필 상태 변경 감지하여 UI 업데이트
+    ref.listen(userProfileViewModelProvider, (previous, next) {
+      if (previous?.status != next.status &&
+          next.status == ProfileStatus.success) {
+        _updateProfileData();
+      }
+    });
+
     return Scaffold(
       backgroundColor: WeveColor.bg.bg1,
       body: Stack(
         children: [
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 30),
-                  // 프로필 정보 섹션
-                  Row(
-                    children: [
-                      // 프로필 이미지
-                      CustomProfile.getProfileIcon(selectedProfileColor,
-                          size: 100),
-                      const SizedBox(width: 15),
-                      // 유저 정보 텍스트
-                      Expanded(
-                        child: RichText(
-                          text: TextSpan(
-                            style: WeveText.body2(color: WeveColor.gray.gray1),
-                            children: [
-                              TextSpan(text: '$userName 님은 \n'),
-                              TextSpan(
-                                  text: '"$userLocation에 사는 $userAge세 위비"',
+          isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 30),
+                        // 프로필 정보 섹션
+                        Row(
+                          children: [
+                            // 프로필 이미지
+                            CustomProfile.getProfileIcon(selectedProfileColor,
+                                size: 100),
+                            const SizedBox(width: 15),
+                            // 유저 정보 텍스트
+                            Expanded(
+                              child: RichText(
+                                text: TextSpan(
                                   style: WeveText.body2(
-                                          color: WeveColor.gray.gray1)
-                                      .copyWith(fontWeight: FontWeight.bold)),
-                              TextSpan(text: '\n으로 소개됩니다.'),
+                                      color: WeveColor.gray.gray1),
+                                  children: [
+                                    TextSpan(text: '$userName 님은 \n'),
+                                    TextSpan(
+                                        text:
+                                            '"$userLocation에 사는 $userAge세 위비"',
+                                        style: WeveText.body2(
+                                                color: WeveColor.gray.gray1)
+                                            .copyWith(
+                                                fontWeight: FontWeight.bold)),
+                                    TextSpan(text: '\n으로 소개됩니다.'),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 50),
+
+                        // 프로필 버튼 섹션
+                        Center(
+                          child: Column(
+                            children: [
+                              JuniorProfileButton(
+                                text: appLocalizations.editProfile,
+                                profileType: ProfileType.profile,
+                                onTap: _navigateToProfileScreen,
+                              ),
+                              const SizedBox(height: 20),
+                              JuniorProfileButton(
+                                text: appLocalizations.changeLanguage,
+                                profileType: ProfileType.language,
+                                onTap: _navigateToLanguageScreen,
+                              ),
+                              const SizedBox(height: 20),
+                              JuniorProfileButton(
+                                text: appLocalizations.editPhoneNumber,
+                                profileType: ProfileType.phone,
+                                onTap: _navigateToPhoneNumberScreen,
+                              ),
+                              const SizedBox(height: 20),
+                              JuniorProfileButton(
+                                text: appLocalizations.contact,
+                                profileType: ProfileType.ask,
+                                onTap: _launchContactForm,
+                              ),
+                              const SizedBox(height: 20),
+                              JuniorProfileButton(
+                                text: appLocalizations.termsAndPolicies,
+                                profileType: ProfileType.etc,
+                                onTap: _launchTermsAndPolicies,
+                              ),
                             ],
                           ),
                         ),
-                      ),
-                    ],
-                  ),
 
-                  const SizedBox(height: 50),
+                        const SizedBox(height: 30),
 
-                  // 프로필 버튼 섹션
-                  Center(
-                    child: Column(
-                      children: [
-                        JuniorProfileButton(
-                          text: appLocalizations.editProfile,
-                          profileType: ProfileType.profile,
-                          onTap: _navigateToProfileScreen,
+                        // 로그아웃 및 회원탈퇴 텍스트
+                        Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: _showLogoutPopup,
+                                child: Text(
+                                  appLocalizations.logout,
+                                  style: WeveText.body3(
+                                      color: WeveColor.gray.gray4),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 12),
+                                child: Text(
+                                  '/',
+                                  style: WeveText.body3(
+                                      color: WeveColor.gray.gray6),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: _showWithdrawalPopup,
+                                child: Text(
+                                  appLocalizations.withdrawal,
+                                  style: WeveText.body3(
+                                      color: WeveColor.gray.gray4),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        const SizedBox(height: 20),
-                        JuniorProfileButton(
-                          text: appLocalizations.changeLanguage,
-                          profileType: ProfileType.language,
-                          onTap: _navigateToLanguageScreen,
-                        ),
-                        const SizedBox(height: 20),
-                        JuniorProfileButton(
-                          text: appLocalizations.editPhoneNumber,
-                          profileType: ProfileType.phone,
-                          onTap: _navigateToPhoneNumberScreen,
-                        ),
-                        const SizedBox(height: 20),
-                        JuniorProfileButton(
-                          text: appLocalizations.contact,
-                          profileType: ProfileType.ask,
-                          onTap: _launchContactForm,
-                        ),
-                        const SizedBox(height: 20),
-                        JuniorProfileButton(
-                          text: appLocalizations.termsAndPolicies,
-                          profileType: ProfileType.etc,
-                          onTap: _launchTermsAndPolicies,
-                        ),
+                        const SizedBox(height: 30),
                       ],
                     ),
                   ),
-
-                  const SizedBox(height: 30),
-
-                  // 로그아웃 및 회원탈퇴 텍스트
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: _showLogoutPopup,
-                          child: Text(
-                            appLocalizations.logout,
-                            style: WeveText.body3(color: WeveColor.gray.gray4),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          child: Text(
-                            '/',
-                            style: WeveText.body3(color: WeveColor.gray.gray6),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: _showWithdrawalPopup,
-                          child: Text(
-                            appLocalizations.withdrawal,
-                            style: WeveText.body3(color: WeveColor.gray.gray4),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                ],
-              ),
-            ),
-          ),
+                ),
           if (popupState.isVisible) Popup(title: _popupTitle),
         ],
       ),
