@@ -6,6 +6,7 @@ import 'package:weve_client/core/utils/api_client.dart';
 import 'package:weve_client/core/models/api_response.dart';
 import 'package:weve_client/core/errors/app_error.dart';
 import 'package:weve_client/features/junior/data/models/sms_response.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SmsApiService {
   final ApiClient _apiClient = ApiClient();
@@ -28,26 +29,6 @@ class SmsApiService {
 
     // 하이픈(-) 제거
     formattedNumber = formattedNumber.replaceAll('-', '');
-
-    // 국가별 처리
-    switch (languageCode) {
-      case 'ko':
-        // 한국: 010으로 시작하면 앞의 0 제거 (0101234XXXX -> 101234XXXX)
-        if (formattedNumber.startsWith('010')) {
-          formattedNumber = formattedNumber.substring(1);
-        }
-        break;
-      case 'ja':
-        // 일본: 090/080으로 시작하면 앞의 0 제거
-        if (formattedNumber.startsWith('090') ||
-            formattedNumber.startsWith('080')) {
-          formattedNumber = formattedNumber.substring(1);
-        }
-        break;
-      default:
-        // 다른 국가는 그대로 유지
-        break;
-    }
 
     // 국가번호 추가
     final result = '${countryCode[languageCode] ?? '+1'} $formattedNumber';
@@ -143,9 +124,15 @@ class SmsApiService {
       // 인증 성공 시 토큰 저장
       if (verifyResponse.isSuccess) {
         await _apiClient.saveToken(verifyResponse.token);
+
+        // 인증에 성공한 전화번호도 SharedPreferences에 저장
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('user_phone_number', formattedPhoneNumber);
+
         if (kDebugMode) {
           print(
               '토큰 저장 완료: ${verifyResponse.token.substring(0, math.min(10, verifyResponse.token.length))}...');
+          print('전화번호 저장 완료: $formattedPhoneNumber');
         }
       }
 

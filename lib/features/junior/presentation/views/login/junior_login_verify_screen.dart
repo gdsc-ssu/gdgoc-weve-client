@@ -37,10 +37,17 @@ class _JuniorLoginVerifyScreenState
     WidgetsBinding.instance.addPostFrameCallback((_) {
       headerViewModel.setHeader(HeaderType.backOnly, title: "");
 
-      // 초기 로딩 상태인 경우 상태 초기화
+      // 초기 로딩 상태인 경우만 상태 초기화 (전화번호는 유지)
+      final authViewModel = ref.read(smsViewModelProvider.notifier);
       final authState = ref.read(smsViewModelProvider);
+
       if (authState.status == SmsStatus.loading) {
-        ref.read(smsViewModelProvider.notifier).resetState();
+        authViewModel.resetState();
+      }
+
+      // 디버깅용: 전화번호 존재 확인
+      if (kDebugMode) {
+        print('임시 전화번호: ${authViewModel.tempPhoneNumber}');
       }
     });
 

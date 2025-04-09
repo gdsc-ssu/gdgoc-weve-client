@@ -43,6 +43,7 @@ class SmsViewModel extends StateNotifier<SmsState> {
   SmsViewModel(this._smsApiService) : super(SmsState());
 
   String? get phoneNumber => _phoneNumber;
+  String? get tempPhoneNumber => _tempPhoneNumber; // 임시 전화번호 getter 추가
 
   // SMS 인증번호 요청
   Future<bool> requestVerificationCode(
@@ -127,9 +128,15 @@ class SmsViewModel extends StateNotifier<SmsState> {
     }
   }
 
-  // 상태 초기화
+  // 상태만 초기화 (전화번호는 유지)
   void resetState() {
-    _tempPhoneNumber = null; // 임시 전화번호도 초기화
+    state = SmsState();
+  }
+
+  // 모든 데이터 초기화 (전화번호 포함)
+  void fullReset() {
+    _tempPhoneNumber = null;
+    _phoneNumber = null;
     state = SmsState();
   }
 }

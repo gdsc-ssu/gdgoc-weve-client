@@ -119,9 +119,6 @@ class _JuniorLoginScreenState extends ConsumerState<JuniorLoginScreen> {
       }
 
       if (success) {
-        // 인증 화면으로 이동하기 전에 상태 초기화
-        authViewModel.resetState();
-
         // 인증 화면으로 이동
         Navigator.push(
           context,
