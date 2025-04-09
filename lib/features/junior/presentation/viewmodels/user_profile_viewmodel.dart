@@ -139,6 +139,46 @@ class UserProfileViewModel extends StateNotifier<ProfileState> {
   void resetState() {
     state = ProfileState();
   }
+
+  // 프로필 정보 가져오기
+  Future<bool> getProfile() async {
+    state = state.copyWith(status: ProfileStatus.loading);
+
+    try {
+      // API 호출
+      final response = await _userProfileService.getProfile();
+
+      if (response.isSuccess && response.profileResult != null) {
+        state = state.copyWith(
+          status: ProfileStatus.success,
+          profileData: response.profileResult,
+        );
+        return true;
+      } else {
+        state = state.copyWith(
+          status: ProfileStatus.error,
+          errorMessage: response.message,
+          errorCode: response.code,
+        );
+        return false;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('프로필 정보 가져오기 오류: $e');
+      }
+
+      // AppError 타입 체크하여 메시지 추출
+      final errorMessage = e is AppError ? e.message : e.toString();
+      final errorCode = e is AppError ? e.code : 'UNKNOWN_ERROR';
+
+      state = state.copyWith(
+        status: ProfileStatus.error,
+        errorMessage: errorMessage,
+        errorCode: errorCode,
+      );
+      return false;
+    }
+  }
 }
 
 // Provider 정의

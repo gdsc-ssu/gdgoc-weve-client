@@ -19,6 +19,7 @@ class UserProfileService {
   static const String _phoneNumberKey =
       'user_phone_number'; // SMS API에서 사용하는 키와 동일하게 설정
   static const String _userTypeKey = 'user_type';
+  static const String _profileColorKey = 'user_profile_color';
 
   // 전화번호 가져오기 (SharedPreferences)
   Future<String?> getPhoneNumber() async {
@@ -121,6 +122,54 @@ class UserProfileService {
     }
   }
 
+  // 프로필 정보 조회 API
+  Future<ProfileResponse> getProfile() async {
+    try {
+      if (kDebugMode) {
+        print('프로필 조회 API 호출: /api/mypage');
+      }
+
+      final response = await _apiClient.get('/api/mypage');
+
+      if (kDebugMode) {
+        print('프로필 조회 응답: ${response.toJson()}');
+      }
+
+      // 응답을 ProfileResponse로 변환
+      final apiResponseWithMap = ApiResponse<Map<String, dynamic>>(
+        isSuccess: response.isSuccess,
+        code: response.code,
+        message: response.message,
+        result: response.result as Map<String, dynamic>?,
+      );
+
+      final profileResponse = ProfileResponse(response: apiResponseWithMap);
+
+      // 프로필 조회 성공 시 로컬 저장소에도 저장
+      if (profileResponse.isSuccess && profileResponse.profileResult != null) {
+        await _saveProfileToLocalStorage(profileResponse.profileResult!);
+      }
+
+      return profileResponse;
+    } on DioException catch (e) {
+      if (kDebugMode) {
+        print('프로필 조회 DioException: ${e.message}');
+        print('Response: ${e.response?.data}');
+      }
+      // 에러 처리 유틸리티 활용
+      final appError = ErrorHandler.handleDioError(e);
+      throw appError;
+    } catch (e) {
+      if (kDebugMode) {
+        print('프로필 조회 일반 예외: $e');
+      }
+      throw AppError(
+          code: 'PROFILE_GET_ERROR',
+          message: '프로필 조회 중 오류가 발생했습니다',
+          originalError: e);
+    }
+  }
+
   // 프로필 정보를 로컬 저장소(SharedPreferences)에 저장
   Future<void> _saveProfileToLocalStorage(ProfileResult profile) async {
     try {
@@ -133,6 +182,7 @@ class UserProfileService {
       await prefs.setString(_languageKey, profile.language);
       await prefs.setString(_phoneNumberKey, profile.phoneNumber);
       await prefs.setString(_userTypeKey, profile.userType);
+      await prefs.setString(_profileColorKey, profile.profileColor);
 
       if (kDebugMode) {
         print('프로필 정보 로컬 저장소 저장 완료');
@@ -163,6 +213,7 @@ class UserProfileService {
         language: prefs.getString(_languageKey) ?? 'KOREAN',
         phoneNumber: prefs.getString(_phoneNumberKey) ?? '',
         userType: prefs.getString(_userTypeKey) ?? '',
+        profileColor: prefs.getString(_profileColorKey) ?? 'YELLOW',
       );
     } catch (e) {
       if (kDebugMode) {

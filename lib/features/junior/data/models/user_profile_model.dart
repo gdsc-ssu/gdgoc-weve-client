@@ -41,6 +41,7 @@ class ProfileResult {
   final String language;
   final String phoneNumber;
   final String userType;
+  final String profileColor;
 
   ProfileResult({
     required this.name,
@@ -50,17 +51,19 @@ class ProfileResult {
     required this.language,
     required this.phoneNumber,
     required this.userType,
+    this.profileColor = 'YELLOW',
   });
 
   factory ProfileResult.fromJson(Map<String, dynamic> json) {
     return ProfileResult(
-      name: json['name'] as String? ?? '',
+      name: json['name'] as String? ?? '위비',
       nationality: json['nationality'] as String? ?? '',
       birth: json['birth'] as String? ?? '',
       age: json['age'] as int? ?? 0,
       language: json['language'] as String? ?? 'KOREAN',
       phoneNumber: json['phoneNumber'] as String? ?? '',
       userType: json['userType'] as String? ?? '',
+      profileColor: json['profileColor'] as String? ?? 'YELLOW',
     );
   }
 
@@ -73,6 +76,7 @@ class ProfileResult {
       'language': language,
       'phoneNumber': phoneNumber,
       'userType': userType,
+      'profileColor': profileColor,
     };
   }
 }
