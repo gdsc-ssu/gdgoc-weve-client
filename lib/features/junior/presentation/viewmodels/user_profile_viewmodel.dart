@@ -46,8 +46,20 @@ class UserProfileViewModel extends StateNotifier<ProfileState> {
 
     try {
       // 전화번호 가져오기
-      final phoneNumber = await _userProfileService.getPhoneNumber();
-      if (phoneNumber == null) {
+      var phoneNumber = await _userProfileService.getPhoneNumber();
+
+      // 전화번호가 null인 경우 1초 대기 후 다시 조회 시도
+      if (phoneNumber == null || phoneNumber.isEmpty) {
+        if (kDebugMode) {
+          print('전화번호가 없어 1초 후 다시 조회합니다.');
+        }
+
+        // 1초 대기 후 다시 시도
+        await Future.delayed(const Duration(seconds: 1));
+        phoneNumber = await _userProfileService.getPhoneNumber();
+      }
+
+      if (phoneNumber == null || phoneNumber.isEmpty) {
         state = state.copyWith(
           status: ProfileStatus.error,
           errorMessage: '전화번호 정보를 찾을 수 없습니다.',
@@ -66,10 +78,6 @@ class UserProfileViewModel extends StateNotifier<ProfileState> {
         phoneNumber: phoneNumber,
         language: language,
       );
-
-      if (kDebugMode) {
-        print('프로필 저장 요청: ${request.toJson()}');
-      }
 
       // API 호출
       final response = await _userProfileService.saveProfile(request);

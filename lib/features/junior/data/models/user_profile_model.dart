@@ -16,9 +16,16 @@ class ProfileRequest {
   });
 
   Map<String, dynamic> toJson() {
+    // birth가 yyyyMMdd 형식으로 들어왔다면 yyyy-MM-dd 형식으로 변환
+    String formattedBirth = birth;
+    if (birth.length == 8 && !birth.contains('-')) {
+      formattedBirth =
+          '${birth.substring(0, 4)}-${birth.substring(4, 6)}-${birth.substring(6, 8)}';
+    }
+
     return {
       'name': name,
-      'birth': birth,
+      'birth': formattedBirth,
       'phoneNumber': phoneNumber,
       'language': language,
     };

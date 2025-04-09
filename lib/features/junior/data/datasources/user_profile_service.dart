@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weve_client/commons/widgets/junior/button/viewmodel/select_language_provider.dart';
 import 'package:weve_client/core/utils/api_client.dart';
@@ -17,14 +16,21 @@ class UserProfileService {
   static const String _nationalityKey = 'user_nationality';
   static const String _ageKey = 'user_age';
   static const String _languageKey = 'user_language';
-  static const String _phoneNumberKey = 'user_phone_number';
+  static const String _phoneNumberKey =
+      'user_phone_number'; // SMS API에서 사용하는 키와 동일하게 설정
   static const String _userTypeKey = 'user_type';
 
   // 전화번호 가져오기 (SharedPreferences)
   Future<String?> getPhoneNumber() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      return prefs.getString(_phoneNumberKey);
+      final phoneNumber = prefs.getString('user_phone_number');
+
+      if (kDebugMode) {
+        print('SharedPreferences에서 전화번호 조회: $phoneNumber');
+      }
+
+      return phoneNumber;
     } catch (e) {
       if (kDebugMode) {
         print('전화번호 조회 오류: $e');
