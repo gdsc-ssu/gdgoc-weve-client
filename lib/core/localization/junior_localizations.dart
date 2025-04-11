@@ -63,6 +63,21 @@ class JuniorLocalizations {
           'The verification code is invalid',
       'editPhoneNumberVerifySuccessToastMessage':
           'The phone number has been changed',
+      'loginTitle': 'Login with Phone Number',
+      'loginDescription':
+          'Welcome to “WEVE”!\nPlease enter your phone number to login.\nYour personal information is securely stored according to the Information and Communication Network Act.',
+      'loginVerifySuccessToastMessage': 'Login has been completed',
+      'inputProfilePageTitle':
+          'Show your profile content to seniors around the world',
+      'inputProfilePageText':
+          'The profile information written will be disclosed to the senior citizen as a profile of a ‘25-year-old young man living in Korea’ along with his concerns.',
+      'inputProfileNameInputTitle': 'Name',
+      'inputProfileNameInputPlaceholder': 'Enter your name',
+      'inputProfileNameApplyButton': 'Next',
+      'inputProfileBirthInputTitle': 'Birthday',
+      'inputProfileBirthInputPlaceholder':
+          'Enter your 8-digit date of birth (e.g. YYYYMMDD)',
+      'inputProfileBirthApplyButton': 'Complete Profile Input',
     },
     'ko': {
       'juniorNavHome': '홈',
@@ -94,7 +109,7 @@ class JuniorLocalizations {
       'editProfileBirthPlaceholder': '생년월일을 입력해주세요',
       'editProfileApplyButton': '수정하기',
       'editProfileApplyToastMessage': '프로필이 수정되었습니다',
-      'editProfileBirthErrorToastMessage': '생년월일을 YYYYMMDD 형식에 맞게 작성해주세요.',
+      'editProfileBirthErrorToastMessage': 'YYYYMMDD 형식에 맞게 작성해주세요.',
       'editProfileBirthErrorToastMessage2': '유효한 생년월일을 입력해주세요.',
       'editPhoneNumberTitle': '전화번호 수정',
       'editPhoneNumberDescription':
@@ -107,10 +122,23 @@ class JuniorLocalizations {
       'editPhoneNumberVerifyDescription':
           '앞서 작성한 전화번호로 인증번호가 발송되었습니다. 5분 안에 인증번호 6자리를 입력해주세요',
       'editPhoneNumberVerifyInputTitle': '인증번호',
-      'editPhoneNumberVerifyInputPlaceholder': '인증번호 6자리를 입력해주세요',
+      'editPhoneNumberVerifyInputPlaceholder': '6자리 인증번호를 입력해주세요',
       'editPhoneNumberVerifyButton': '인증하기',
-      'editPhoneNumberVerifyErrorToastMessage': '인증번호가 유효하지 않아요',
+      'editPhoneNumberVerifyErrorToastMessage': '올바른 인증번호가 아니예요',
       'editPhoneNumberVerifySuccessToastMessage': '전화번호가 변경되었어요',
+      'loginTitle': '전화번호로 로그인',
+      'loginDescription':
+          '“WEVE” 에 오신걸 환영해요!\n로그인을 위해 본인의 전화번호를 입력해주세요.\n개인정보는 정보통신망법에 따라 안전하게 보관됩니다.',
+      'loginVerifySuccessToastMessage': '로그인이 완료되었어요',
+      'inputProfilePageTitle': '세계의 어르신에게 보여지는\n당신의 프로필 내용을 입력해주세요',
+      'inputProfilePageText':
+          '작성된 프로필 내용은 고민과 함께 \"ex. 한국에 사는 25세 청년\" 이라는 프로필로 어르신에게 공개돼요',
+      'inputProfileNameInputTitle': '이름',
+      'inputProfileNameInputPlaceholder': '이름을 입력하세요',
+      'inputProfileNameApplyButton': '다음',
+      'inputProfileBirthInputTitle': '생년월일',
+      'inputProfileBirthInputPlaceholder': '생년월일 8자리를 입력하세요 (예: 19901201)',
+      'inputProfileBirthApplyButton': '프로필 입력 완료',
     },
     'ja': {
       'juniorNavHome': 'ホーム',
@@ -160,6 +188,18 @@ class JuniorLocalizations {
       'editPhoneNumberVerifyButton': '認証する',
       'editPhoneNumberVerifyErrorToastMessage': '認証コードが無効です',
       'editPhoneNumberVerifySuccessToastMessage': '電話番号が変更されました',
+      'loginTitle': '電話番号でログイン',
+      'loginDescription': '“WEVE” にごようびました!\nログインするためには、正確な本人的な電話番号を入力してください。',
+      'loginVerifySuccessToastMessage': 'ログインが完了しました',
+      'inputProfilePageTitle': '世界のお年寄りに表示される\nあなたのプロフィールの内容を入力してください',
+      'inputProfilePageText':
+          '作成されたプロフィール内容は悩みとともに「韓国に住む25歳の青年」というプロフィールで大人に公開されます。',
+      'inputProfileNameInputTitle': '名前',
+      'inputProfileNameInputPlaceholder': '名前を入力してください',
+      'inputProfileNameApplyButton': '次へ',
+      'inputProfileBirthInputTitle': '誕生日',
+      'inputProfileBirthInputPlaceholder': '生年月日の8桁を入力してください（例：19901201）',
+      'inputProfileBirthApplyButton': 'プロフィール入力完了',
     },
   };
 
@@ -246,4 +286,26 @@ class JuniorLocalizations {
       _getString('editPhoneNumberVerifyErrorToastMessage');
   String get editPhoneNumberVerifySuccessToastMessage =>
       _getString('editPhoneNumberVerifySuccessToastMessage');
+
+  // [주니어 로그인] 화면 관련 getter들
+  String get loginTitle => _getString('loginTitle');
+  String get loginDescription => _getString('loginDescription');
+  String get loginVerifySuccessToastMessage =>
+      _getString('loginVerifySuccessToastMessage');
+
+  // [주니어 프로필 입력] 화면 관련 getter들
+  String get inputProfilePageTitle => _getString('inputProfilePageTitle');
+  String get inputProfilePageText => _getString('inputProfilePageText');
+  String get inputProfileNameInputTitle =>
+      _getString('inputProfileNameInputTitle');
+  String get inputProfileNameInputPlaceholder =>
+      _getString('inputProfileNameInputPlaceholder');
+  String get inputProfileNameApplyButton =>
+      _getString('inputProfileNameApplyButton');
+  String get inputProfileBirthInputTitle =>
+      _getString('inputProfileBirthInputTitle');
+  String get inputProfileBirthInputPlaceholder =>
+      _getString('inputProfileBirthInputPlaceholder');
+  String get inputProfileBirthApplyButton =>
+      _getString('inputProfileBirthApplyButton');
 }
