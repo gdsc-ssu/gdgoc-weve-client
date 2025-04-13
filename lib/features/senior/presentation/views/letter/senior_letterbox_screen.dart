@@ -6,6 +6,7 @@ import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
 import 'package:weve_client/core/constants/custom_icon.dart';
+import 'package:weve_client/features/senior/presentation/views/letter/senior_letter_detail.dart';
 
 class SeniorLetterboxScreen extends ConsumerStatefulWidget {
   const SeniorLetterboxScreen({super.key});
@@ -113,26 +114,38 @@ class LetterGrid extends StatelessWidget {
         childAspectRatio: 1,
       ),
       itemBuilder: (context, index) {
-        return Container(
-          decoration: BoxDecoration(
-            color:
-                isNew ? WeveColor.main.yellow1_100 : WeveColor.main.yellow1_20,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              isNew
-                  ? CustomIcons.getIcon(CustomIcons.seniorLetterOn, size: 80)
-                  : CustomIcons.getIcon(CustomIcons.seniorLetterOff, size: 80),
-              SizedBox(height: 8),
-              Text(
-                letters[index],
-                style: isNew
-                    ? WeveText.semiHeader5(color: WeveColor.main.yellowText)
-                    : WeveText.semiHeader5(color: WeveColor.main.yellow4),
-              )
-            ],
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => LetterDetailScreen(letter: letters[index]),
+              ),
+            );
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: isNew
+                  ? WeveColor.main.yellow1_100
+                  : WeveColor.main.yellow1_20,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                isNew
+                    ? CustomIcons.getIcon(CustomIcons.seniorLetterOn, size: 24)
+                    : CustomIcons.getIcon(CustomIcons.seniorLetterOff,
+                        size: 24),
+                const SizedBox(height: 8),
+                Text(
+                  letters[index],
+                  style: isNew
+                      ? WeveText.semiHeader5(color: WeveColor.main.yellowText)
+                      : WeveText.semiHeader5(color: WeveColor.main.yellow4),
+                ),
+              ],
+            ),
           ),
         );
       },
