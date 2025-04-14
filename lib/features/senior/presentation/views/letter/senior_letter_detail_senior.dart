@@ -45,12 +45,9 @@ class _SeniorWorryDetailSeniorScreenState
               padding: const EdgeInsets.all(12),
               child: Column(
                 children: [
-                  ProfileHeader(
-                      gov: "서울",
-                      age: 21,
-                      name: "정명진",
-                      avatarImage: CustomSvgImages.profileBlue),
-                  const SizedBox(height: 40),
+                  SizedBox(
+                    height: 30,
+                  ),
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(

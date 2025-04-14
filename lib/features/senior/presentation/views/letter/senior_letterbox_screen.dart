@@ -125,18 +125,17 @@ class LetterGrid extends StatelessWidget {
           },
           child: Container(
             decoration: BoxDecoration(
-              color: isNew
-                  ? WeveColor.main.yellow1_100
-                  : WeveColor.main.yellow1_20,
+              color:
+                  isNew ? WeveColor.main.yellow1_100 : WeveColor.main.yellow3,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 isNew
-                    ? CustomIcons.getIcon(CustomIcons.seniorLetterOn, size: 24)
+                    ? CustomIcons.getIcon(CustomIcons.seniorLetterOn, size: 81)
                     : CustomIcons.getIcon(CustomIcons.seniorLetterOff,
-                        size: 24),
+                        size: 81),
                 const SizedBox(height: 8),
                 Text(
                   letters[index],

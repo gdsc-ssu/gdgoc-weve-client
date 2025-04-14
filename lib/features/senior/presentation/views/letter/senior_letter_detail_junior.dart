@@ -86,7 +86,7 @@ class _SeniorWorryDetailScreenState
                     backgroundColor: WeveColor.main.yellow1_100,
                     textColor: WeveColor.main.yellowText,
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => SeniorLetterboxScreen(),
