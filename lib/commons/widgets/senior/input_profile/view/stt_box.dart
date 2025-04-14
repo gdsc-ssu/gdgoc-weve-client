@@ -38,7 +38,7 @@ class _SpeechToTextBoxState extends State<SpeechToTextBox> {
   @override
   void initState() {
     super.initState();
-    requestSpeechPermissions();
+    // requestSpeechPermissions();
     _speech = stt.SpeechToText();
   }
 

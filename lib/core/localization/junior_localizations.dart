@@ -102,7 +102,7 @@ class JuniorLocalizations {
       'noWorryMessage': '작성된 고민이 없어요.\n작성 페이지에서 당신의 고민을 작성해보세요!',
       'editProfileTitle': '어르신들에게 보여지는\n당신의 프로필 내용을 수정해보세요',
       'editProfileDescription':
-          '작성된 프로필 내용은 고민과 함께 \"ex. 한국에 사는 25세 청년\" 이라는 프로필로 어르신에게 공개돼요',
+          '작성된 프로필 내용은 고민과 함께 "ex. 한국에 사는 25세 청년" 이라는 프로필로 어르신에게 공개돼요',
       'editProfileNameTitle': '이름',
       'editProfileNamePlaceholder': '이름을 입력해주세요',
       'editProfileBirthTitle': '생년월일',

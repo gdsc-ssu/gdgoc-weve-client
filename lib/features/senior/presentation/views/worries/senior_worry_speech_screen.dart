@@ -4,10 +4,10 @@ import 'package:weve_client/commons/widgets/header/model/header_type.dart';
 import 'package:weve_client/commons/widgets/header/view/header_widget.dart';
 import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
 import 'package:weve_client/commons/widgets/senior/button/view/button.dart';
-import 'package:weve_client/commons/widgets/senior/input/view/input_box.dart';
 import 'package:weve_client/commons/widgets/senior/input_profile/view/stt_box.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/fonts.dart';
+import 'package:weve_client/features/senior/presentation/views/worries/senior_worry_confirm.dart';
 
 class SeniorWorrySpeechScreen extends ConsumerStatefulWidget {
   const SeniorWorrySpeechScreen({super.key});
@@ -55,12 +55,12 @@ class _SeniorWorrySpeechScreenState
                 backgroundColor: WeveColor.main.yellow1_100,
                 textColor: WeveColor.main.yellowText,
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => SeniorInputValueScreen(),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => SeniorWorryConfirmScreen(),
+                    ),
+                  );
                 })
           ],
         ),
