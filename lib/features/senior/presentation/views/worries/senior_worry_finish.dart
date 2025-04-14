@@ -42,7 +42,7 @@ class _SeniorWorryConfirmScreenState
             Expanded(
               flex: 1,
               child: Align(
-                alignment: Alignment.bottomLeft,
+                alignment: Alignment.topLeft,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 30),
                   child: Text(
