@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/foundation.dart';
 import 'package:weve_client/commons/widgets/junior/button/view/button.dart';
 import 'package:weve_client/commons/widgets/junior/errorText/error_text.dart';
 import 'package:weve_client/commons/widgets/header/model/header_type.dart';
@@ -28,6 +29,7 @@ class _JuniorEditProfileScreenState
   bool isBirthValid = true; // 초기값은 true로 설정 (기존 데이터가 있을 것으로 가정)
   bool showErrorMessage = false;
   bool isLoading = true; // 로딩 상태 추가
+  bool isSubmitting = false; // 제출 버튼 로딩 상태 추가
 
   @override
   void initState() {
@@ -140,11 +142,13 @@ class _JuniorEditProfileScreenState
   }
 
   // 프로필 변경 적용
-  void _applyProfileChange() {
+  void _applyProfileChange() async {
+    // 이미 제출 중이면 중복 실행 방지
+    if (isSubmitting) return;
+
     final locale = ref.read(localeProvider);
     final appLocalizations = AppLocalizations(locale);
 
-    // 여기에 실제 프로필 저장 로직 구현
     // 컨트롤러에서 값 가져오기
     final name = nameController.text;
     final birth = birthController.text;
@@ -200,23 +204,77 @@ class _JuniorEditProfileScreenState
       return;
     }
 
-    // TODO : 여기서 서버에 데이터를 전송하는 로직이 들어가야함
+    // 버튼 로딩 상태 표시
+    setState(() {
+      isSubmitting = true;
+    });
 
-    // 토스트 메시지 표시
-    CustomToast.show(
-      context,
-      appLocalizations.junior.editProfileApplyToastMessage,
-      backgroundColor: WeveColor.main.orange1,
-      textColor: Colors.white,
-      borderRadius: 20,
-      duration: 3,
-    );
+    try {
+      // 'YYYYMMDD' 형식을 'YYYY-MM-DD' 형식으로 변환
+      final formattedBirth =
+          "${birth.substring(0, 4)}-${birth.substring(4, 6)}-${birth.substring(6, 8)}";
 
-    // 마이페이지로 돌아가기 전에 헤더를 원래대로 복원
-    _restoreMyPageHeader();
+      // UserProfileViewModel을 통해 프로필 저장
+      final userProfileViewModel =
+          ref.read(userProfileViewModelProvider.notifier);
+      final success = await userProfileViewModel.saveProfile(
+        name,
+        formattedBirth,
+      );
 
-    // 이전 화면으로 돌아가기
-    Navigator.pop(context);
+      // 로딩 상태 종료
+      setState(() {
+        isSubmitting = false;
+      });
+
+      if (success) {
+        // 토스트 메시지 표시
+        CustomToast.show(
+          context,
+          appLocalizations.junior.editProfileApplyToastMessage,
+          backgroundColor: WeveColor.main.orange1,
+          textColor: Colors.white,
+          borderRadius: 20,
+          duration: 3,
+        );
+
+        // 마이페이지로 돌아가기 전에 헤더를 원래대로 복원
+        _restoreMyPageHeader();
+
+        // 이전 화면으로 돌아가기
+        Navigator.pop(context);
+      } else {
+        // 프로필 저장 실패 시 에러 메시지 표시
+        final profileState = ref.read(userProfileViewModelProvider);
+        CustomToast.show(
+          context,
+          profileState.errorMessage ?? '프로필 저장에 실패했습니다.',
+          backgroundColor: WeveColor.main.orange1,
+          textColor: Colors.white,
+          borderRadius: 20,
+          duration: 3,
+        );
+      }
+    } catch (e) {
+      // 로딩 상태 종료
+      setState(() {
+        isSubmitting = false;
+      });
+
+      // 예외 발생 시 토스트 메시지 표시
+      if (kDebugMode) {
+        print('프로필 저장 예외: $e');
+      }
+
+      CustomToast.show(
+        context,
+        e.toString(),
+        backgroundColor: WeveColor.main.orange1,
+        textColor: Colors.white,
+        borderRadius: 20,
+        duration: 3,
+      );
+    }
   }
 
   // 뒤로가기 버튼 처리를 위한 오버라이딩
@@ -296,13 +354,21 @@ class _JuniorEditProfileScreenState
                       Center(
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 30),
-                          child: JuniorButton(
-                            text:
-                                appLocalizations.junior.editProfileApplyButton,
-                            enabled: nameController.text.isNotEmpty &&
-                                isBirthValid, // 이름이 비어있지 않고 생년월일이 유효한 경우에만 활성화
-                            onPressed: _applyProfileChange,
-                          ),
+                          child: isSubmitting
+                              ? SizedBox(
+                                  width: 40,
+                                  height: 40,
+                                  child: CircularProgressIndicator(
+                                    color: WeveColor.main.orange1,
+                                  ),
+                                )
+                              : JuniorButton(
+                                  text: appLocalizations
+                                      .junior.editProfileApplyButton,
+                                  enabled: nameController.text.isNotEmpty &&
+                                      isBirthValid, // 이름이 비어있지 않고 생년월일이 유효한 경우에만 활성화
+                                  onPressed: _applyProfileChange,
+                                ),
                         ),
                       ),
                     ],
