@@ -17,35 +17,63 @@ class SeniorHomeScreen extends ConsumerStatefulWidget {
 }
 
 class _SeniorHomeScreenState extends ConsumerState<SeniorHomeScreen> {
+  late final headerViewModel = ref.read(headerProvider.notifier);
+
   @override
   void initState() {
     super.initState();
-    // 헤더 설정
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final locale = ref.read(localeProvider);
-      final appLocalizations = AppLocalizations(locale);
-
-      ref.read(headerProvider.notifier).setHeader(
-            HeaderType.seniorTitleLogo,
-            title: appLocalizations.senior.seniorHeaderHomeTitle,
-          );
+      _setSeniorHomeHeader();
     });
+  }
+
+  @override
+  void dispose() {
+    Future.microtask(() {
+      if (mounted) {
+        headerViewModel.resetHeader();
+      }
+    });
+    super.dispose();
+  }
+
+  void _setSeniorHomeHeader() {
+    final locale = ref.read(localeProvider);
+    final appLocalizations = AppLocalizations(locale);
+
+    headerViewModel.setHeader(
+      HeaderType.seniorTitleLogo,
+      title: appLocalizations.senior.seniorHeaderHomeTitle,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: WeveColor.bg.bg1,
-      body: const Padding(
-        padding: EdgeInsets.all(12),
-        child: CategoryList(),
+      body: Padding(
+        padding: const EdgeInsets.all(12),
+        child: CategoryList(
+          onItemTap: () async {
+            // 상세페이지 갔다오면 헤더 복구
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SeniorWorryDetailScreen(),
+              ),
+            );
+            _setSeniorHomeHeader();
+          },
+        ),
       ),
     );
   }
 }
 
 class CategoryList extends StatelessWidget {
-  const CategoryList({super.key});
+  final VoidCallback onItemTap;
+
+  const CategoryList({super.key, required this.onItemTap});
 
   @override
   Widget build(BuildContext context) {
@@ -55,16 +83,19 @@ class CategoryList extends StatelessWidget {
           icon: CustomIcons.getIcon(CustomIcons.seniorChat, size: 24),
           title: '진로 고민',
           color: WeveColor.main.yellow1_100,
+          onTap: onItemTap,
         ),
         CategorySection(
           icon: CustomIcons.getIcon(CustomIcons.seniorHeart, size: 24),
           title: '사랑 고민',
           color: WeveColor.main.orange3,
+          onTap: onItemTap,
         ),
         CategorySection(
           icon: CustomIcons.getIcon(CustomIcons.seniorPeople, size: 24),
           title: '인간관계 고민',
           color: WeveColor.main.green3,
+          onTap: onItemTap,
         ),
       ],
     );
@@ -75,12 +106,14 @@ class CategorySection extends StatelessWidget {
   final Widget icon;
   final String title;
   final Color color;
+  final VoidCallback onTap;
 
   const CategorySection({
     super.key,
     required this.icon,
     required this.title,
     required this.color,
+    required this.onTap,
   });
 
   @override
@@ -92,9 +125,12 @@ class CategorySection extends StatelessWidget {
         children: [
           Row(
             children: [
-              CustomIcons.getIcon(CustomIcons.seniorChat, size: 40),
+              icon,
               const SizedBox(width: 8),
-              Text(title, style: WeveText.header3(color: WeveColor.gray.gray1)),
+              Text(
+                title,
+                style: WeveText.header3(color: WeveColor.gray.gray1),
+              ),
             ],
           ),
           const SizedBox(height: 12),
@@ -106,14 +142,7 @@ class CategorySection extends StatelessWidget {
                 child: ListItem(
                   text: '고민 내용을 AI가 10자로 보여줍니다.',
                   color: color,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SeniorWorryDetailScreen(),
-                      ),
-                    );
-                  },
+                  onTap: onTap,
                 ),
               ),
             ),

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/core/utils/api_client.dart';
 import 'package:weve_client/core/errors/app_error.dart';
 import 'package:weve_client/features/senior/presentation/views/home/senior_home_screen.dart';
+import 'package:weve_client/features/senior/presentation/views/senior_main_screen.dart';
 
 final seniorLoginViewModelProvider =
     StateNotifierProvider<SeniorLoginViewModel, SeniorLoginState>(
@@ -57,7 +58,7 @@ class SeniorLoginViewModel extends StateNotifier<SeniorLoginState> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (_) => const SeniorHomeScreen(),
+            builder: (_) => SeniorMainScreen(),
           ),
         );
       } else {

@@ -10,7 +10,7 @@ import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/custom_svg_image.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/features/senior/presentation/views/letter/senior_letterbox_screen.dart';
-import 'package:weve_client/features/senior/presentation/views/worries/senior_worry_method_screen.dart';
+import 'package:weve_client/features/senior/presentation/views/senior_main_screen.dart';
 
 class SeniorWorryDetailJuniorScreen extends ConsumerStatefulWidget {
   const SeniorWorryDetailJuniorScreen({super.key});
@@ -89,7 +89,7 @@ class _SeniorWorryDetailScreenState
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SeniorLetterboxScreen(),
+                          builder: (context) => SeniorMainScreen(),
                         ),
                       );
                     },

@@ -9,17 +9,36 @@ import 'package:weve_client/commons/widgets/senior/login/view/input_field.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/features/senior/presentation/viewmodels/senior_login_viewmodel.dart';
 
-class SeniorLoginScreen extends ConsumerWidget {
+class SeniorLoginScreen extends ConsumerStatefulWidget {
   const SeniorLoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final headerViewModel = ref.read(headerProvider.notifier);
-    final loginViewModel = ref.read(seniorLoginViewModelProvider.notifier);
+  ConsumerState<SeniorLoginScreen> createState() => _SeniorLoginScreenState();
+}
 
+class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    final headerViewModel = ref.read(headerProvider.notifier);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       headerViewModel.setHeader(HeaderType.backOnly, title: "");
     });
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _phoneController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final loginViewModel = ref.read(seniorLoginViewModelProvider.notifier);
 
     return Scaffold(
       backgroundColor: WeveColor.bg.bg1,
@@ -31,18 +50,18 @@ class SeniorLoginScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              JuniorHeader(),
+              const JuniorHeader(),
               const SizedBox(height: 40),
               SeniorInputField(
                 title: "이름",
                 placeholder: "이름을 입력하세요",
-                onChanged: loginViewModel.updateName,
+                controller: _nameController,
               ),
               const SizedBox(height: 16),
               SeniorInputField(
                 title: "전화번호",
                 placeholder: "전화번호를 입력하세요",
-                onChanged: loginViewModel.updatePhoneNumber,
+                controller: _phoneController,
               ),
               const Spacer(),
               SeniorButton(
@@ -50,6 +69,11 @@ class SeniorLoginScreen extends ConsumerWidget {
                 backgroundColor: WeveColor.main.yellow1_100,
                 textColor: WeveColor.main.yellowText,
                 onPressed: () {
+                  final name = _nameController.text.trim();
+                  final phoneNumber = _phoneController.text.trim();
+
+                  loginViewModel.updateName(name);
+                  loginViewModel.updatePhoneNumber(phoneNumber);
                   loginViewModel.submit(context);
                 },
               ),

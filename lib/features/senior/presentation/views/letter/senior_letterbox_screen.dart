@@ -17,22 +17,37 @@ class SeniorLetterboxScreen extends ConsumerStatefulWidget {
 }
 
 class _SeniorLetterboxScreenState extends ConsumerState<SeniorLetterboxScreen> {
-  final List<String> newLetters = List.generate(4, (_) => '🇰🇷 ${"{국가이름}"}');
-  final List<String> readLetters = List.generate(3, (_) => '🇰🇷 ${"{국가이름}"}');
+  final List<String> newLetters = List.generate(4, (_) => '🇰🇷 {국가이름}');
+  final List<String> readLetters = List.generate(3, (_) => '🇰🇷 {국가이름}');
+
+  late final headerViewModel = ref.read(headerProvider.notifier);
 
   @override
   void initState() {
     super.initState();
-    // 헤더 설정
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final locale = ref.read(localeProvider);
-      final appLocalizations = AppLocalizations(locale);
-
-      ref.read(headerProvider.notifier).setHeader(
-            HeaderType.seniorTitleLogo,
-            title: appLocalizations.senior.seniorHeaderLetterBoxTitle,
-          );
+      _setLetterboxHeader();
     });
+  }
+
+  @override
+  void dispose() {
+    Future.microtask(() {
+      if (mounted) {
+        headerViewModel.resetHeader();
+      }
+    });
+    super.dispose();
+  }
+
+  void _setLetterboxHeader() {
+    final locale = ref.read(localeProvider);
+    final appLocalizations = AppLocalizations(locale);
+
+    headerViewModel.setHeader(
+      HeaderType.seniorTitleLogo,
+      title: appLocalizations.senior.seniorHeaderLetterBoxTitle,
+    );
   }
 
   @override
@@ -41,7 +56,7 @@ class _SeniorLetterboxScreenState extends ConsumerState<SeniorLetterboxScreen> {
       backgroundColor: WeveColor.bg.bg1,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: ListView(
             children: [
               SectionTitle(
@@ -49,21 +64,39 @@ class _SeniorLetterboxScreenState extends ConsumerState<SeniorLetterboxScreen> {
                 icon: CustomIcons.getIcon(CustomIcons.seniorHeart, size: 40),
                 iconColor: Colors.brown,
               ),
-              SizedBox(height: 20),
-              LetterGrid(letters: newLetters, isNew: true),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
+              LetterGrid(
+                letters: newLetters,
+                isNew: true,
+                onTap: _handleLetterTap,
+              ),
+              const SizedBox(height: 20),
               SectionTitle(
                 title: '읽은 편지',
                 icon: CustomIcons.getIcon(CustomIcons.seniorChat, size: 40),
                 iconColor: Colors.brown,
               ),
-              SizedBox(height: 20),
-              LetterGrid(letters: readLetters, isNew: false),
+              const SizedBox(height: 20),
+              LetterGrid(
+                letters: readLetters,
+                isNew: false,
+                onTap: _handleLetterTap,
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _handleLetterTap(String letter) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => LetterDetailScreen(letter: letter),
+      ),
+    );
+    _setLetterboxHeader(); // 돌아온 뒤 헤더 다시 세팅
   }
 }
 
@@ -84,8 +117,11 @@ class SectionTitle extends StatelessWidget {
     return Row(
       children: [
         icon,
-        SizedBox(width: 8),
-        Text(title, style: WeveText.header3(color: WeveColor.gray.gray1)),
+        const SizedBox(width: 8),
+        Text(
+          title,
+          style: WeveText.header3(color: WeveColor.gray.gray1),
+        ),
       ],
     );
   }
@@ -94,11 +130,13 @@ class SectionTitle extends StatelessWidget {
 class LetterGrid extends StatelessWidget {
   final List<String> letters;
   final bool isNew;
+  final Function(String) onTap;
 
   const LetterGrid({
     super.key,
     required this.letters,
     required this.isNew,
+    required this.onTap,
   });
 
   @override
@@ -115,14 +153,7 @@ class LetterGrid extends StatelessWidget {
       ),
       itemBuilder: (context, index) {
         return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => LetterDetailScreen(letter: letters[index]),
-              ),
-            );
-          },
+          onTap: () => onTap(letters[index]),
           child: Container(
             decoration: BoxDecoration(
               color:
