@@ -34,6 +34,12 @@ class HeaderViewModel extends StateNotifier<HeaderConfig> {
   void clearBackPressedCallback() {
     _onBackPressed = null;
   }
+
+  // 현재 헤더 타입 리셋 (dispose 메서드에서 사용)
+  void resetHeader({HeaderType type = HeaderType.backOnly, String? title}) {
+    state = HeaderConfig.fromType(type, title: title);
+    _onBackPressed = null;
+  }
 }
 
 final headerProvider =
