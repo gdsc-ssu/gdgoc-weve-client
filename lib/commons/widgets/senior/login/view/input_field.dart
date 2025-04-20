@@ -6,12 +6,14 @@ class SeniorInputField extends StatelessWidget {
   final String title;
   final String placeholder;
   final TextEditingController controller;
+  final VoidCallback? onEditingComplete;
 
   const SeniorInputField({
     super.key,
     required this.title,
     required this.placeholder,
     required this.controller,
+    this.onEditingComplete,
   });
 
   @override
@@ -36,6 +38,7 @@ class SeniorInputField extends StatelessWidget {
               border: InputBorder.none,
             ),
             style: WeveText.semiHeader4(color: WeveColor.gray.gray1),
+            onEditingComplete: onEditingComplete,
           ),
         ),
       ],

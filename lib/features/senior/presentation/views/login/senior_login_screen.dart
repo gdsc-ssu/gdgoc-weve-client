@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:weve_client/commons/widgets/header/model/header_type.dart';
 import 'package:weve_client/commons/widgets/header/view/header_widget.dart';
-import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
 import 'package:weve_client/commons/widgets/junior/header/view/header.dart';
 import 'package:weve_client/commons/widgets/senior/button/view/button.dart';
 import 'package:weve_client/commons/widgets/senior/login/view/input_field.dart';
@@ -19,15 +17,6 @@ class SeniorLoginScreen extends ConsumerStatefulWidget {
 class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    final headerViewModel = ref.read(headerProvider.notifier);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      headerViewModel.setHeader(HeaderType.backOnly, title: "");
-    });
-  }
 
   @override
   void dispose() {
@@ -56,12 +45,19 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
                 title: "이름",
                 placeholder: "이름을 입력하세요",
                 controller: _nameController,
+                onEditingComplete: () {
+                  loginViewModel.updateName(_nameController.text.trim());
+                },
               ),
               const SizedBox(height: 16),
               SeniorInputField(
                 title: "전화번호",
                 placeholder: "전화번호를 입력하세요",
                 controller: _phoneController,
+                onEditingComplete: () {
+                  loginViewModel
+                      .updatePhoneNumber(_phoneController.text.trim());
+                },
               ),
               const Spacer(),
               SeniorButton(
@@ -69,11 +65,9 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
                 backgroundColor: WeveColor.main.yellow1_100,
                 textColor: WeveColor.main.yellowText,
                 onPressed: () {
-                  final name = _nameController.text.trim();
-                  final phoneNumber = _phoneController.text.trim();
-
-                  loginViewModel.updateName(name);
-                  loginViewModel.updatePhoneNumber(phoneNumber);
+                  loginViewModel.updateName(_nameController.text.trim());
+                  loginViewModel
+                      .updatePhoneNumber(_phoneController.text.trim());
                   loginViewModel.submit(context);
                 },
               ),
