@@ -10,6 +10,7 @@ import 'package:weve_client/commons/widgets/junior/input/view/input_field.dart';
 import 'package:weve_client/commons/widgets/toast/view/toast.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
+import 'package:weve_client/features/junior/presentation/viewmodels/user_profile_viewmodel.dart';
 
 class JuniorEditProfileScreen extends ConsumerStatefulWidget {
   const JuniorEditProfileScreen({super.key});
@@ -26,6 +27,7 @@ class _JuniorEditProfileScreenState
   TextEditingController birthController = TextEditingController();
   bool isBirthValid = true; // 초기값은 true로 설정 (기존 데이터가 있을 것으로 가정)
   bool showErrorMessage = false;
+  bool isLoading = true; // 로딩 상태 추가
 
   @override
   void initState() {
@@ -39,13 +41,60 @@ class _JuniorEditProfileScreenState
       // 백버튼 콜백 설정
       headerViewModel.setBackPressedCallback(_restoreMyPageHeader);
 
-      // 초기 값 설정 (실제로는 사용자 프로필에서 가져와야 함)
-      nameController.text = "홍길동";
-      birthController.text = "19901201";
+      // 로컬 저장소에서 프로필 정보 불러오기
+      _loadProfileData();
     });
 
     // 생년월일 입력 변경 감지를 위한 리스너 등록
     birthController.addListener(_validateBirth);
+  }
+
+  // 프로필 정보 로드 함수
+  Future<void> _loadProfileData() async {
+    try {
+      // 로컬 저장소에서 정보 가져오기
+      final userProfileViewModel =
+          ref.read(userProfileViewModelProvider.notifier);
+      await userProfileViewModel.loadProfileFromLocalStorage();
+
+      // 상태 업데이트
+      _updateProfileFormData();
+    } catch (e) {
+      // 오류 발생 시 기본값 설정
+      setState(() {
+        nameController.text = "";
+        birthController.text = "";
+        isLoading = false;
+      });
+    }
+  }
+
+  // 프로필 폼 데이터 업데이트 함수
+  void _updateProfileFormData() {
+    final profileState = ref.read(userProfileViewModelProvider);
+
+    if (profileState.status == ProfileStatus.success &&
+        profileState.profileData != null) {
+      final profileData = profileState.profileData!;
+
+      setState(() {
+        // 'YYYY-MM-DD' 형식을 'YYYYMMDD' 형식으로 변환
+        String birthDate = profileData.birth;
+        if (birthDate.contains('-')) {
+          birthDate = birthDate.replaceAll('-', '');
+        }
+
+        nameController.text = profileData.name;
+        birthController.text = birthDate;
+        isLoading = false;
+      });
+    } else {
+      setState(() {
+        nameController.text = "";
+        birthController.text = "";
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -196,57 +245,69 @@ class _JuniorEditProfileScreenState
     final locale = ref.read(localeProvider);
     final appLocalizations = AppLocalizations(locale);
 
+    // 프로필 상태 변경 감지하여 UI 업데이트
+    ref.listen(userProfileViewModelProvider, (previous, next) {
+      if (previous?.status != next.status &&
+          next.status == ProfileStatus.success) {
+        _updateProfileFormData();
+      }
+    });
+
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
         backgroundColor: WeveColor.bg.bg1,
         appBar: HeaderWidget(),
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                InputHeader(
-                  title: appLocalizations.junior.editProfileTitle,
-                  text: appLocalizations.junior.editProfileDescription,
-                ),
-                const SizedBox(height: 50),
-                // 수정된 InputField 사용
-                InputField(
-                  title: appLocalizations.junior.editProfileNameTitle,
-                  placeholder:
-                      appLocalizations.junior.editProfileNamePlaceholder,
-                  controller: nameController,
-                ),
-                const SizedBox(height: 30),
-                // 수정된 InputField 사용
-                InputField(
-                  title: appLocalizations.junior.editProfileBirthTitle,
-                  placeholder:
-                      appLocalizations.junior.editProfileBirthPlaceholder,
-                  controller: birthController,
-                ),
-                if (showErrorMessage)
-                  ErrorText(
-                    text: appLocalizations
-                        .junior.editProfileBirthErrorToastMessage,
+          child: isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InputHeader(
+                        title: appLocalizations.junior.editProfileTitle,
+                        text: appLocalizations.junior.editProfileDescription,
+                      ),
+                      const SizedBox(height: 50),
+                      // 수정된 InputField 사용
+                      InputField(
+                        title: appLocalizations.junior.editProfileNameTitle,
+                        placeholder:
+                            appLocalizations.junior.editProfileNamePlaceholder,
+                        controller: nameController,
+                      ),
+                      const SizedBox(height: 30),
+                      // 수정된 InputField 사용
+                      InputField(
+                        title: appLocalizations.junior.editProfileBirthTitle,
+                        placeholder:
+                            appLocalizations.junior.editProfileBirthPlaceholder,
+                        controller: birthController,
+                      ),
+                      if (showErrorMessage)
+                        ErrorText(
+                          text: appLocalizations
+                              .junior.editProfileBirthErrorToastMessage,
+                        ),
+                      const Spacer(),
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 30),
+                          child: JuniorButton(
+                            text:
+                                appLocalizations.junior.editProfileApplyButton,
+                            enabled: nameController.text.isNotEmpty &&
+                                isBirthValid, // 이름이 비어있지 않고 생년월일이 유효한 경우에만 활성화
+                            onPressed: _applyProfileChange,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                const Spacer(),
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 30),
-                    child: JuniorButton(
-                      text: appLocalizations.junior.editProfileApplyButton,
-                      enabled: nameController.text.isNotEmpty &&
-                          isBirthValid, // 이름이 비어있지 않고 생년월일이 유효한 경우에만 활성화
-                      onPressed: _applyProfileChange,
-                    ),
-                  ),
                 ),
-              ],
-            ),
-          ),
         ),
       ),
     );
