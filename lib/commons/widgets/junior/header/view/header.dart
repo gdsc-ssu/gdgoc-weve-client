@@ -20,7 +20,7 @@ class JuniorHeader extends ConsumerWidget {
           child: CustomIcons.getIcon(CustomIcons.logo),
         ),
         const SizedBox(height: 10),
-        Container(
+        SizedBox(
           width: 260,
           height: 36,
           child: Text(
