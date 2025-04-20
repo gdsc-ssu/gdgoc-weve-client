@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter/material.dart';
 import 'package:weve_client/core/errors/app_error.dart';
 import 'package:weve_client/features/junior/data/datasources/user_profile_service.dart';
 import 'package:weve_client/features/junior/data/models/user_profile_model.dart';
@@ -41,10 +40,24 @@ class UserProfileViewModel extends StateNotifier<ProfileState> {
   UserProfileViewModel(this._userProfileService) : super(ProfileState());
 
   // 프로필 정보 저장
-  Future<bool> saveProfile(String name, String birth) async {
+  Future<bool> saveProfile(
+      {String? name, String? birth, String? language}) async {
     state = state.copyWith(status: ProfileStatus.loading);
 
     try {
+      // 로컬 저장소에서 기존 정보 가져오기
+      final profileData =
+          await _userProfileService.getProfileFromLocalStorage();
+
+      if (profileData == null) {
+        state = state.copyWith(
+          status: ProfileStatus.error,
+          errorMessage: '프로필 정보를 찾을 수 없습니다.',
+          errorCode: 'PROFILE_NOT_FOUND',
+        );
+        return false;
+      }
+
       // 전화번호 가져오기
       var phoneNumber = await _userProfileService.getPhoneNumber();
 
@@ -68,16 +81,20 @@ class UserProfileViewModel extends StateNotifier<ProfileState> {
         return false;
       }
 
-      // 언어 설정 가져오기
-      final language = await _userProfileService.getLanguage();
+      // 언어 설정 가져오기 (기본값)
+      String defaultLanguage = await _userProfileService.getLanguage();
 
-      // API 요청 모델 생성
+      // API 요청 모델 생성 (전달받은 값 또는 기존 값 사용)
       final request = ProfileRequest(
-        name: name,
-        birth: birth,
+        name: name ?? profileData.name,
+        birth: birth ?? profileData.birth,
         phoneNumber: phoneNumber,
-        language: language,
+        language: language ?? defaultLanguage,
       );
+
+      if (kDebugMode) {
+        print('프로필 업데이트 요청: ${request.toJson()}');
+      }
 
       // API 호출
       final response = await _userProfileService.saveProfile(request);

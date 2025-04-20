@@ -218,8 +218,8 @@ class _JuniorEditProfileScreenState
       final userProfileViewModel =
           ref.read(userProfileViewModelProvider.notifier);
       final success = await userProfileViewModel.saveProfile(
-        name,
-        formattedBirth,
+        name: name,
+        birth: formattedBirth,
       );
 
       // 로딩 상태 종료

@@ -161,8 +161,8 @@ class _JuniorInputProfileBirthScreenState
       final userProfileViewModel =
           ref.read(userProfileViewModelProvider.notifier);
       final success = await userProfileViewModel.saveProfile(
-        widget.name,
-        birthController.text,
+        name: widget.name,
+        birth: birthController.text,
       );
 
       // 로딩 상태 종료
