@@ -7,7 +7,7 @@ import 'package:weve_client/commons/widgets/junior/header/view/header.dart';
 import 'package:weve_client/commons/widgets/senior/button/view/button.dart';
 import 'package:weve_client/commons/widgets/senior/login/view/input_field.dart';
 import 'package:weve_client/core/constants/colors.dart';
-import 'package:weve_client/features/senior/presentation/views/input/senior_input_birth_screen.dart';
+import 'package:weve_client/features/senior/presentation/viewmodels/senior_login_viewmodel.dart';
 
 class SeniorLoginScreen extends ConsumerWidget {
   const SeniorLoginScreen({super.key});
@@ -15,12 +15,11 @@ class SeniorLoginScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final headerViewModel = ref.read(headerProvider.notifier);
+    final loginViewModel = ref.read(seniorLoginViewModelProvider.notifier);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       headerViewModel.setHeader(HeaderType.backOnly, title: "");
     });
-
-    // @TODO : 로그인정보가 있다면 바로 SeniorMainScreen으로 넘어가게 수정
 
     return Scaffold(
       backgroundColor: WeveColor.bg.bg1,
@@ -34,21 +33,24 @@ class SeniorLoginScreen extends ConsumerWidget {
             children: [
               JuniorHeader(),
               const SizedBox(height: 40),
-              const SeniorInputField(title: "이름", placeholder: "이름을 입력하세요"),
+              SeniorInputField(
+                title: "이름",
+                placeholder: "이름을 입력하세요",
+                onChanged: loginViewModel.updateName,
+              ),
               const SizedBox(height: 16),
-              const SeniorInputField(title: "전화번호", placeholder: "전화번호를 입력하세요"),
+              SeniorInputField(
+                title: "전화번호",
+                placeholder: "전화번호를 입력하세요",
+                onChanged: loginViewModel.updatePhoneNumber,
+              ),
               const Spacer(),
               SeniorButton(
                 text: "로그인",
                 backgroundColor: WeveColor.main.yellow1_100,
                 textColor: WeveColor.main.yellowText,
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SeniorInputBirthScreen(),
-                    ),
-                  );
+                  loginViewModel.submit(context);
                 },
               ),
             ],
