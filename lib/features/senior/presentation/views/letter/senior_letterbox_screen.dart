@@ -22,15 +22,11 @@ class _SeniorLetterboxScreenState extends ConsumerState<SeniorLetterboxScreen> {
 
   late final headerViewModel = ref.read(headerProvider.notifier);
 
-  bool _isHeaderSet = false; // ⭐ build마다 중복 세팅 방지
-
   @override
   void initState() {
     super.initState();
-    // 처음 화면 들어올 때: 내 화면 헤더 세팅
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _setLetterboxHeader();
-      _isHeaderSet = true;
     });
   }
 
@@ -54,63 +50,53 @@ class _SeniorLetterboxScreenState extends ConsumerState<SeniorLetterboxScreen> {
     );
   }
 
-  void _restoreHomeHeader() {
-    if (!mounted) return;
-
-    final locale = ref.read(localeProvider);
-    final appLocalizations = AppLocalizations(locale);
-
-    ref.read(headerProvider.notifier).setHeader(
-          HeaderType.seniorTitleLogo,
-          title: appLocalizations.senior.seniorHeaderHomeTitle,
-        );
-  }
-
-  Future<bool> _onWillPop() async {
-    _restoreHomeHeader();
-    Navigator.pop(context);
-    return false;
-  }
-
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!_isHeaderSet) {
-        _setLetterboxHeader();
-        _isHeaderSet = true;
-      }
-    });
-
-    return WillPopScope(
-      onWillPop: _onWillPop,
-      child: Scaffold(
-        backgroundColor: WeveColor.bg.bg1,
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ListView(
-              children: [
-                SectionTitle(
-                  title: '새로운 편지',
-                  icon: CustomIcons.getIcon(CustomIcons.seniorHeart, size: 40),
-                  iconColor: Colors.brown,
-                ),
-                const SizedBox(height: 20),
-                LetterGrid(letters: newLetters, isNew: true),
-                const SizedBox(height: 20),
-                SectionTitle(
-                  title: '읽은 편지',
-                  icon: CustomIcons.getIcon(CustomIcons.seniorChat, size: 40),
-                  iconColor: Colors.brown,
-                ),
-                const SizedBox(height: 20),
-                LetterGrid(letters: readLetters, isNew: false),
-              ],
-            ),
+    return Scaffold(
+      backgroundColor: WeveColor.bg.bg1,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView(
+            children: [
+              SectionTitle(
+                title: '새로운 편지',
+                icon: CustomIcons.getIcon(CustomIcons.seniorHeart, size: 40),
+                iconColor: Colors.brown,
+              ),
+              const SizedBox(height: 20),
+              LetterGrid(
+                letters: newLetters,
+                isNew: true,
+                onTap: _handleLetterTap,
+              ),
+              const SizedBox(height: 20),
+              SectionTitle(
+                title: '읽은 편지',
+                icon: CustomIcons.getIcon(CustomIcons.seniorChat, size: 40),
+                iconColor: Colors.brown,
+              ),
+              const SizedBox(height: 20),
+              LetterGrid(
+                letters: readLetters,
+                isNew: false,
+                onTap: _handleLetterTap,
+              ),
+            ],
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _handleLetterTap(String letter) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => LetterDetailScreen(letter: letter),
+      ),
+    );
+    _setLetterboxHeader(); // 돌아온 뒤 헤더 다시 세팅
   }
 }
 
@@ -132,7 +118,10 @@ class SectionTitle extends StatelessWidget {
       children: [
         icon,
         const SizedBox(width: 8),
-        Text(title, style: WeveText.header3(color: WeveColor.gray.gray1)),
+        Text(
+          title,
+          style: WeveText.header3(color: WeveColor.gray.gray1),
+        ),
       ],
     );
   }
@@ -141,11 +130,13 @@ class SectionTitle extends StatelessWidget {
 class LetterGrid extends StatelessWidget {
   final List<String> letters;
   final bool isNew;
+  final Function(String) onTap;
 
   const LetterGrid({
     super.key,
     required this.letters,
     required this.isNew,
+    required this.onTap,
   });
 
   @override
@@ -162,14 +153,7 @@ class LetterGrid extends StatelessWidget {
       ),
       itemBuilder: (context, index) {
         return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => LetterDetailScreen(letter: letters[index]),
-              ),
-            );
-          },
+          onTap: () => onTap(letters[index]),
           child: Container(
             decoration: BoxDecoration(
               color:
