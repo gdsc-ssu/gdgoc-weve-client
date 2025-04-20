@@ -29,7 +29,7 @@ class SeniorInputCareerScreen extends ConsumerWidget {
           child: Column(
             children: [
               QuestionBox(
-                audioUrl: "",
+                audioUrl: "audio/senior/senior_question_career.mp3",
                 text: "어떤 직업을 가지셨나요?",
                 gap: 100,
               ),

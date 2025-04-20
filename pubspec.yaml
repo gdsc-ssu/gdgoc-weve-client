@@ -77,6 +77,7 @@ flutter:
     - assets/animations/
     - assets/image/
     - assets/audio/
+    - assets/audio/senior/
     - assets/banner/
     - assets/profiles/
     - .env

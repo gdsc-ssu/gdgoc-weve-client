@@ -29,7 +29,7 @@ class SeniorInputBirthScreen extends ConsumerWidget {
           child: Column(
             children: [
               QuestionBox(
-                audioUrl: "",
+                audioUrl: "audio/senior/senior_question_birth.mp3",
                 text: "태어난 날을 말해주세요",
                 gap: 100,
               ),

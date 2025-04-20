@@ -29,7 +29,7 @@ class SeniorInputStruggleScreen extends ConsumerWidget {
           child: Column(
             children: [
               QuestionBox(
-                audioUrl: "",
+                audioUrl: "audio/senior/senior_question_hardship.mp3",
                 text: "어떤 고난이 있었고,\n어떻게 극복해 오셨나요?",
                 gap: 100,
               ),

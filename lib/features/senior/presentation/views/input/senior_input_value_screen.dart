@@ -29,7 +29,7 @@ class SeniorInputValueScreen extends ConsumerWidget {
           child: Column(
             children: [
               QuestionBox(
-                audioUrl: "",
+                audioUrl: "audio/senior/senior_question_value.mp3",
                 text: "어떤 가치관을 가지고\n살아오셨나요?",
                 gap: 100,
               ),
