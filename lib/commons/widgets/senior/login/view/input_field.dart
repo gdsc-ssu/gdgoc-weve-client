@@ -5,11 +5,15 @@ import 'package:weve_client/core/constants/fonts.dart';
 class SeniorInputField extends StatelessWidget {
   final String title;
   final String placeholder;
+  final TextEditingController controller;
+  final VoidCallback? onEditingComplete;
 
   const SeniorInputField({
     super.key,
     required this.title,
     required this.placeholder,
+    required this.controller,
+    this.onEditingComplete,
   });
 
   @override
@@ -18,21 +22,23 @@ class SeniorInputField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(title, style: WeveText.semiHeader4(color: WeveColor.gray.gray3)),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Container(
           width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
             color: WeveColor.bg.bg2,
             borderRadius: BorderRadius.circular(16),
           ),
           child: TextField(
+            controller: controller,
             decoration: InputDecoration(
               hintText: placeholder,
               hintStyle: WeveText.semiHeader4(color: WeveColor.gray.gray5),
               border: InputBorder.none,
             ),
             style: WeveText.semiHeader4(color: WeveColor.gray.gray1),
+            onEditingComplete: onEditingComplete,
           ),
         ),
       ],
