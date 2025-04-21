@@ -30,6 +30,10 @@ class SeniorLoginViewModel extends StateNotifier<SeniorLoginState> {
       );
 
       if (loginResponse.code == 'COMMON200') {
+        final token = loginResponse.result as String?; // 토큰 가져오기
+        if (token != null) {
+          await _apiClient.saveToken(token); // 토큰 저장
+        }
         if (!context.mounted) return;
 
         await _seniorService.fetchAndNavigate(context);
