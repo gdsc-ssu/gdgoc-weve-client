@@ -30,10 +30,20 @@ class SeniorSubmitViewModel extends StateNotifier<SeniorSubmitState> {
     try {
       state = state.copyWith(isLoading: true, errorMessage: null);
 
+      String cleanBirth(String birth) {
+        // "1963년 8월 10일" => "1963-08-10" 변환
+        return birth
+            .replaceAll('년', '-')
+            .replaceAll('월', '-')
+            .replaceAll('일', '')
+            .replaceAll(' ', '')
+            .trim();
+      }
+
       final response = await _apiClient.post(
         '/api/senior',
         data: {
-          'birth': state.birth,
+          'birth': cleanBirth(state.birth),
           'job': state.job,
           'value': state.value,
           'hardship': state.hardship,
