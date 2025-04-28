@@ -29,20 +29,22 @@ class SeniorSubmitViewModel extends StateNotifier<SeniorSubmitState> {
     try {
       state = state.copyWith(isLoading: true, errorMessage: null);
 
-      String cleanBirth(String birth) {
-        // "1963년 8월 10일" => "1963-08-10" 변환
-        return birth
-            .replaceAll('년', '-')
-            .replaceAll('월', '-')
-            .replaceAll('일', '')
-            .replaceAll(' ', '')
-            .trim();
+      String formatBirth(String birth) {
+        return birth.replaceAllMapped(
+          RegExp(r'(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일'),
+          (match) {
+            final year = match.group(1)!;
+            final month = match.group(2)!.padLeft(2, '0');
+            final day = match.group(3)!.padLeft(2, '0');
+            return '$year-$month-$day';
+          },
+        );
       }
 
       final response = await _apiClient.post(
         '/api/senior',
         data: {
-          'birth': cleanBirth(state.birth),
+          'birth': formatBirth(state.birth),
           'job': state.job,
           'value': state.value,
           'hardship': state.hardship,
