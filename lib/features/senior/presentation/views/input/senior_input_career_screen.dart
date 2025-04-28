@@ -7,7 +7,13 @@ import 'package:weve_client/commons/widgets/senior/button/view/button.dart';
 import 'package:weve_client/commons/widgets/senior/input_profile/view/question_box.dart';
 import 'package:weve_client/commons/widgets/senior/input_profile/view/stt_box.dart';
 import 'package:weve_client/core/constants/colors.dart';
+import 'package:weve_client/core/provider/speech_to_text_provider.dart';
 import 'package:weve_client/features/senior/presentation/views/input/senior_input_value_screen.dart';
+
+final careerSpeechProvider =
+    StateNotifierProvider<SpeechToTextController, String>(
+  (ref) => SpeechToTextController(),
+);
 
 class SeniorInputCareerScreen extends ConsumerWidget {
   const SeniorInputCareerScreen({super.key});
@@ -15,6 +21,8 @@ class SeniorInputCareerScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final headerViewModel = ref.read(headerProvider.notifier);
+
+    print(ref.watch(careerSpeechProvider));
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       headerViewModel.setHeader(HeaderType.backOnly, title: "");
@@ -33,23 +41,23 @@ class SeniorInputCareerScreen extends ConsumerWidget {
                 text: "어떤 직업을 가지셨나요?",
                 gap: 100,
               ),
-              SpeechToTextBox(),
-              SizedBox(
-                height: 64,
-              ),
+              SpeechToTextBox(speechTextProvider: careerSpeechProvider),
+              SizedBox(height: 64),
               SeniorButton(
-                  // @todo : 유저가 텍스트 50자 입력하기 전에 disabled
-                  text: "다음",
-                  backgroundColor: WeveColor.main.yellow1_100,
-                  textColor: WeveColor.main.yellowText,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SeniorInputValueScreen(),
-                      ),
-                    );
-                  })
+                text: "다음",
+                backgroundColor: WeveColor.main.yellow1_100,
+                textColor: WeveColor.main.yellowText,
+                onPressed: () async {
+                  await ref.read(careerSpeechProvider.notifier).stopSpeech();
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SeniorInputValueScreen(),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),

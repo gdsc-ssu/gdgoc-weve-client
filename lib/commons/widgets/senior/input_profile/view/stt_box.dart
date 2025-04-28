@@ -1,45 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:weve_client/commons/widgets/senior/button/view/speech_button.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/fonts.dart';
+import 'package:weve_client/core/provider/speech_to_text_provider.dart';
 
-class SpeechToTextBox extends StatefulWidget {
-  const SpeechToTextBox({super.key});
+class SpeechToTextBox extends ConsumerStatefulWidget {
+  final StateNotifierProvider<SpeechToTextController, String>
+      speechTextProvider;
+
+  const SpeechToTextBox({super.key, required this.speechTextProvider});
 
   @override
-  State<SpeechToTextBox> createState() => _SpeechToTextBoxState();
+  ConsumerState<SpeechToTextBox> createState() => _SpeechToTextBoxState();
 }
 
-class _SpeechToTextBoxState extends State<SpeechToTextBox> {
+class _SpeechToTextBoxState extends ConsumerState<SpeechToTextBox> {
   late stt.SpeechToText _speech;
   bool _isListening = false;
-  String _text = "Press the button and start speaking...";
-
-  Future<void> requestSpeechPermissions() async {
-    // 권한 상태 확인
-    var speechStatus = await Permission.speech.status;
-    var micStatus = await Permission.microphone.status;
-
-    if (speechStatus.isDenied || micStatus.isDenied) {
-      // 권한이 없으면 요청 (팝업 뜸)
-      speechStatus = await Permission.speech.request();
-      micStatus = await Permission.microphone.request();
-    }
-
-    if (speechStatus.isPermanentlyDenied || micStatus.isPermanentlyDenied) {
-      // 사용자가 "영구적으로 거부"하면 설정으로 이동 유도
-      openAppSettings();
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-    // requestSpeechPermissions();
     _speech = stt.SpeechToText();
+  }
+
+  @override
+  void dispose() {
+    _speech.stop();
+    _speech.cancel();
+    ref.read(widget.speechTextProvider.notifier).reset();
+    super.dispose();
   }
 
   void _startListening() async {
@@ -49,30 +43,30 @@ class _SpeechToTextBoxState extends State<SpeechToTextBox> {
         print("Error: $error");
         setState(() {
           _isListening = false;
-          _text = "Error occurred. Try again!";
         });
+        ref
+            .read(widget.speechTextProvider.notifier)
+            .setText("Error occurred. Try again!");
       },
     );
 
     if (available) {
       setState(() {
         _isListening = true;
-        _text = "🎤 Listening...";
       });
+      ref.read(widget.speechTextProvider.notifier).setText("🎤 Listening...");
 
       _speech.listen(
         localeId: "ko_KR",
         onResult: (result) {
-          setState(() {
-            _text = "📝 Recognizing...";
-          });
-
+          ref
+              .read(widget.speechTextProvider.notifier)
+              .setText("📝 Recognizing...");
           Future.delayed(Duration(milliseconds: 500), () {
-            setState(() {
-              _text = result.recognizedWords.isEmpty
-                  ? "No voice detected"
-                  : result.recognizedWords;
-            });
+            ref.read(widget.speechTextProvider.notifier).setText(
+                result.recognizedWords.isEmpty
+                    ? "No voice detected"
+                    : result.recognizedWords);
           });
         },
       );
@@ -83,8 +77,8 @@ class _SpeechToTextBoxState extends State<SpeechToTextBox> {
     await _speech.stop();
     setState(() {
       _isListening = false;
-      _text = "✅ Stopped";
     });
+    ref.read(widget.speechTextProvider.notifier).setText("✅ Stopped");
   }
 
   void _toggleListening() {
@@ -97,6 +91,8 @@ class _SpeechToTextBoxState extends State<SpeechToTextBox> {
 
   @override
   Widget build(BuildContext context) {
+    final text = ref.watch(widget.speechTextProvider);
+
     return Column(
       children: [
         Container(
@@ -108,10 +104,9 @@ class _SpeechToTextBoxState extends State<SpeechToTextBox> {
             borderRadius: BorderRadius.circular(16),
           ),
           child: Text(
-            _text,
+            text,
             maxLines: 5,
             overflow: TextOverflow.ellipsis,
-            softWrap: true,
             style: WeveText.header4(color: WeveColor.gray.gray1),
           ),
         ),

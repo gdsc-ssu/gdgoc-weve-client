@@ -7,7 +7,13 @@ import 'package:weve_client/commons/widgets/senior/button/view/button.dart';
 import 'package:weve_client/commons/widgets/senior/input_profile/view/stt_box.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/fonts.dart';
+import 'package:weve_client/core/provider/speech_to_text_provider.dart';
 import 'package:weve_client/features/senior/presentation/views/worries/senior_worry_confirm.dart';
+
+final worrySpeechProvider =
+    StateNotifierProvider<SpeechToTextController, String>(
+  (ref) => SpeechToTextController(),
+);
 
 class SeniorWorrySpeechScreen extends ConsumerStatefulWidget {
   const SeniorWorrySpeechScreen({super.key});
@@ -45,7 +51,7 @@ class _SeniorWorrySpeechScreenState
               style: WeveText.header2(color: WeveColor.gray.gray1),
             ),
             const SizedBox(height: 30),
-            SpeechToTextBox(),
+            SpeechToTextBox(speechTextProvider: worrySpeechProvider),
             SizedBox(
               height: 64,
             ),
