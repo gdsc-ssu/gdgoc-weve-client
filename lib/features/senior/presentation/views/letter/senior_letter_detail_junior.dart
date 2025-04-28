@@ -9,7 +9,6 @@ import 'package:weve_client/commons/widgets/senior/header/view/profile_header.da
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/custom_svg_image.dart';
 import 'package:weve_client/core/constants/fonts.dart';
-import 'package:weve_client/features/senior/presentation/views/letter/senior_letterbox_screen.dart';
 import 'package:weve_client/features/senior/presentation/views/senior_main_screen.dart';
 
 class SeniorWorryDetailJuniorScreen extends ConsumerStatefulWidget {

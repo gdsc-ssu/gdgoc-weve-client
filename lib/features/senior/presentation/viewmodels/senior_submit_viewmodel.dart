@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/core/utils/api_client.dart';
-import 'package:weve_client/core/errors/app_error.dart';
 import 'package:weve_client/features/senior/presentation/viewmodels/states/senior_submit_state.dart';
 import 'package:weve_client/features/senior/presentation/views/senior_main_screen.dart';
 

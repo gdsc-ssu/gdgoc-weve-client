@@ -13,7 +13,6 @@ import 'package:weve_client/features/senior/presentation/viewmodels/states/senio
 import 'package:weve_client/features/senior/presentation/views/input/senior_input_birth_screen.dart';
 import 'package:weve_client/features/senior/presentation/views/input/senior_input_career_screen.dart';
 import 'package:weve_client/features/senior/presentation/views/input/senior_input_value_screen.dart';
-import 'package:weve_client/features/senior/presentation/views/senior_main_screen.dart';
 
 final struggleSpeechProvider =
     StateNotifierProvider<SpeechToTextController, String>(
