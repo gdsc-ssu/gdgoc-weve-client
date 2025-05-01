@@ -6,10 +6,12 @@ import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.da
 import 'package:weve_client/commons/widgets/senior/input/view/input_box.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/fonts.dart';
+import 'package:weve_client/features/senior/presentation/viewmodels/providers/senior_providers.dart';
 import 'package:weve_client/features/senior/presentation/views/worries/senior_worry_confirm.dart';
 
 class SeniorWorryTypingScreen extends ConsumerStatefulWidget {
-  const SeniorWorryTypingScreen({super.key});
+  final int worryId;
+  const SeniorWorryTypingScreen({super.key, required this.worryId});
 
   @override
   ConsumerState<SeniorWorryTypingScreen> createState() =>
@@ -46,11 +48,15 @@ class _SeniorWorryTypingScreenState
             const SizedBox(height: 30),
             InputBox(
               gap: 120,
+              onChanged: (value) =>
+                  ref.read(seniorAnswerProvider.notifier).updateContent(value),
               onSubmit: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => SeniorWorryConfirmScreen(),
+                    builder: (_) => SeniorWorryConfirmScreen(
+                      worryId: widget.worryId,
+                    ),
                   ),
                 );
               },

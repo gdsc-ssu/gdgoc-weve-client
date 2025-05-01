@@ -16,7 +16,8 @@ final worrySpeechProvider =
 );
 
 class SeniorWorrySpeechScreen extends ConsumerStatefulWidget {
-  const SeniorWorrySpeechScreen({super.key});
+  final int worryId;
+  const SeniorWorrySpeechScreen({super.key, required this.worryId});
 
   @override
   ConsumerState<SeniorWorrySpeechScreen> createState() =>
@@ -64,7 +65,9 @@ class _SeniorWorrySpeechScreenState
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => SeniorWorryConfirmScreen(),
+                      builder: (_) => SeniorWorryConfirmScreen(
+                        worryId: widget.worryId,
+                      ),
                     ),
                   );
                 })

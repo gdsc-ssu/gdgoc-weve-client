@@ -11,8 +11,6 @@ import 'package:weve_client/core/constants/custom_svg_image.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/features/senior/presentation/viewmodels/providers/senior_providers.dart';
 import 'package:weve_client/features/senior/presentation/views/worries/senior_worry_method_screen.dart';
-import 'package:weve_client/features/senior/presentation/viewmodels/senior_worry_detail_viewmodel.dart';
-import 'package:weve_client/features/senior/presentation/viewmodels/states/senior_worry_detail_state.dart';
 
 class SeniorWorryDetailScreen extends ConsumerStatefulWidget {
   final int worryId;
@@ -42,6 +40,7 @@ class _SeniorWorryDetailScreenState
   Widget build(BuildContext context) {
     final state = ref.watch(seniorWorryDetailProvider);
     final worry = state.worryDetail;
+    print(state.worryDetail);
 
     if (state.isLoading) {
       return const Scaffold(
@@ -112,7 +111,9 @@ class _SeniorWorryDetailScreenState
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SeniorWorryMethodScreen(),
+                    builder: (context) => SeniorWorryMethodScreen(
+                      worryId: widget.worryId,
+                    ),
                   ),
                 );
               },
