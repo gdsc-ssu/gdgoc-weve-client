@@ -8,6 +8,7 @@ import 'package:weve_client/commons/widgets/senior/input_profile/view/stt_box.da
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/core/provider/speech_to_text_provider.dart';
+import 'package:weve_client/features/senior/presentation/viewmodels/providers/senior_providers.dart';
 import 'package:weve_client/features/senior/presentation/views/worries/senior_worry_confirm.dart';
 
 final worrySpeechProvider =
@@ -52,7 +53,12 @@ class _SeniorWorrySpeechScreenState
               style: WeveText.header2(color: WeveColor.gray.gray1),
             ),
             const SizedBox(height: 30),
-            SpeechToTextBox(speechTextProvider: worrySpeechProvider),
+            SpeechToTextBox(
+              speechTextProvider: worrySpeechProvider,
+              onChanged: (text) {
+                ref.read(seniorAnswerProvider.notifier).updateContent(text);
+              },
+            ),
             SizedBox(
               height: 64,
             ),
@@ -62,6 +68,10 @@ class _SeniorWorrySpeechScreenState
                 backgroundColor: WeveColor.main.yellow1_100,
                 textColor: WeveColor.main.yellowText,
                 onPressed: () {
+                  final speechText = ref.read(worrySpeechProvider);
+                  ref
+                      .read(seniorAnswerProvider.notifier)
+                      .updateContent(speechText);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
