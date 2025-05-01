@@ -7,7 +7,9 @@ import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/custom_icon.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
+import 'package:weve_client/features/senior/presentation/viewmodels/providers/senior_providers.dart';
 import 'package:weve_client/features/senior/presentation/views/worries/senior_worry_detail.dart';
+import 'package:weve_client/features/senior/presentation/viewmodels/states/senior_home_state.dart';
 
 class SeniorHomeScreen extends ConsumerStatefulWidget {
   const SeniorHomeScreen({super.key});
@@ -24,6 +26,7 @@ class _SeniorHomeScreenState extends ConsumerState<SeniorHomeScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _setSeniorHomeHeader();
+      ref.read(seniorHomeProvider.notifier).fetchSeniorWorry();
     });
   }
 
@@ -55,7 +58,6 @@ class _SeniorHomeScreenState extends ConsumerState<SeniorHomeScreen> {
         padding: const EdgeInsets.all(12),
         child: CategoryList(
           onItemTap: () async {
-            // 상세페이지 갔다오면 헤더 복구
             await Navigator.push(
               context,
               MaterialPageRoute(
@@ -70,31 +72,42 @@ class _SeniorHomeScreenState extends ConsumerState<SeniorHomeScreen> {
   }
 }
 
-class CategoryList extends StatelessWidget {
+class CategoryList extends ConsumerWidget {
   final VoidCallback onItemTap;
-
   const CategoryList({super.key, required this.onItemTap});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(seniorHomeProvider);
+
+    if (state.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    if (state.errorMessage != null) {
+      return Center(child: Text(state.errorMessage!));
+    }
+
     return ListView(
       children: [
         CategorySection(
           icon: CustomIcons.getIcon(CustomIcons.seniorChat, size: 24),
           title: '진로 고민',
           color: WeveColor.main.yellow1_100,
+          previewItems: state.careerList,
           onTap: onItemTap,
         ),
         CategorySection(
           icon: CustomIcons.getIcon(CustomIcons.seniorHeart, size: 24),
           title: '사랑 고민',
           color: WeveColor.main.orange3,
+          previewItems: state.loveList,
           onTap: onItemTap,
         ),
         CategorySection(
           icon: CustomIcons.getIcon(CustomIcons.seniorPeople, size: 24),
           title: '인간관계 고민',
           color: WeveColor.main.green3,
+          previewItems: state.relationshipList,
           onTap: onItemTap,
         ),
       ],
@@ -106,6 +119,7 @@ class CategorySection extends StatelessWidget {
   final Widget icon;
   final String title;
   final Color color;
+  final List<WorryItem> previewItems;
   final VoidCallback onTap;
 
   const CategorySection({
@@ -113,6 +127,7 @@ class CategorySection extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.color,
+    required this.previewItems,
     required this.onTap,
   });
 
@@ -135,17 +150,17 @@ class CategorySection extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Column(
-            children: List.generate(
-              3,
-              (index) => Padding(
-                padding: const EdgeInsets.only(bottom: 12.0),
-                child: ListItem(
-                  text: '고민 내용을 AI가 10자로 보여줍니다.',
-                  color: color,
-                  onTap: onTap,
-                ),
-              ),
-            ),
+            children: previewItems
+                .take(3)
+                .map((item) => Padding(
+                      padding: const EdgeInsets.only(bottom: 12.0),
+                      child: ListItem(
+                        text: item.title,
+                        color: color,
+                        onTap: onTap,
+                      ),
+                    ))
+                .toList(),
           ),
         ],
       ),
