@@ -132,10 +132,16 @@ class ApiClient {
     Map<String, dynamic>? queryParameters,
     Options? options,
   }) async {
+    final mergedOptions = options ?? Options();
+
+    // GET 요청 시 Content-Type 제거
+    mergedOptions.headers ??= {};
+    mergedOptions.headers!.remove('content-type');
+    mergedOptions.headers!['Accept'] = '*/*';
     return _handleResponse<T>(() => _dio.get(
           path,
           queryParameters: queryParameters,
-          options: options,
+          options: mergedOptions,
         ));
   }
 

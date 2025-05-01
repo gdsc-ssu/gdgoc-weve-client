@@ -5,13 +5,9 @@ import 'package:weve_client/commons/widgets/header/view/header_widget.dart';
 import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
 import 'package:weve_client/commons/widgets/senior/button/view/button.dart';
 import 'package:weve_client/commons/widgets/senior/button/view/soundplayer_button.dart';
-import 'package:weve_client/commons/widgets/senior/header/view/profile_header.dart';
 import 'package:weve_client/core/constants/colors.dart';
-import 'package:weve_client/core/constants/custom_svg_image.dart';
 import 'package:weve_client/core/constants/fonts.dart';
-import 'package:weve_client/features/senior/presentation/views/letter/senior_letterbox_screen.dart';
 import 'package:weve_client/features/senior/presentation/views/senior_main_screen.dart';
-import 'package:weve_client/features/senior/presentation/views/worries/senior_worry_method_screen.dart';
 
 class SeniorWorryDetailSeniorScreen extends ConsumerStatefulWidget {
   const SeniorWorryDetailSeniorScreen({super.key});

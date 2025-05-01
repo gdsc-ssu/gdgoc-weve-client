@@ -7,7 +7,13 @@ import 'package:weve_client/commons/widgets/senior/button/view/button.dart';
 import 'package:weve_client/commons/widgets/senior/input_profile/view/question_box.dart';
 import 'package:weve_client/commons/widgets/senior/input_profile/view/stt_box.dart';
 import 'package:weve_client/core/constants/colors.dart';
+import 'package:weve_client/core/provider/speech_to_text_provider.dart';
 import 'package:weve_client/features/senior/presentation/views/input/senior_input_career_screen.dart';
+
+final birthSpeechProvider =
+    StateNotifierProvider<SpeechToTextController, String>(
+  (ref) => SpeechToTextController(),
+);
 
 class SeniorInputBirthScreen extends ConsumerWidget {
   const SeniorInputBirthScreen({super.key});
@@ -29,27 +35,27 @@ class SeniorInputBirthScreen extends ConsumerWidget {
           child: Column(
             children: [
               QuestionBox(
-                audioUrl: "",
+                audioUrl: "audio/senior/senior_question_birth.mp3",
                 text: "태어난 날을 말해주세요",
                 gap: 100,
               ),
-              SpeechToTextBox(),
-              SizedBox(
-                height: 64,
-              ),
-              // @todo : 유저가 텍스트 50자 입력하기 전에 disabled
+              SpeechToTextBox(speechTextProvider: birthSpeechProvider),
+              SizedBox(height: 64),
               SeniorButton(
-                  text: "다음",
-                  backgroundColor: WeveColor.main.yellow1_100,
-                  textColor: WeveColor.main.yellowText,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SeniorInputCareerScreen(),
-                      ),
-                    );
-                  })
+                text: "다음",
+                backgroundColor: WeveColor.main.yellow1_100,
+                textColor: WeveColor.main.yellowText,
+                onPressed: () async {
+                  await ref.read(birthSpeechProvider.notifier).stopSpeech();
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SeniorInputCareerScreen(),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),

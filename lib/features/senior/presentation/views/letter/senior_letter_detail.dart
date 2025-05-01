@@ -7,12 +7,10 @@ import 'package:weve_client/commons/widgets/senior/header/view/profile_header.da
 import 'package:weve_client/core/constants/custom_svg_image.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/core/constants/colors.dart';
-import 'package:weve_client/core/localization/app_localizations.dart';
 import 'package:weve_client/commons/widgets/header/model/header_type.dart';
 import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
 import 'package:weve_client/features/senior/presentation/views/letter/senior_letter_detail_junior.dart';
 import 'package:weve_client/features/senior/presentation/views/letter/senior_letter_detail_senior.dart';
-import 'package:weve_client/features/senior/presentation/views/worries/senior_worry_detail.dart';
 
 class LetterDetailScreen extends ConsumerStatefulWidget {
   final String letter;

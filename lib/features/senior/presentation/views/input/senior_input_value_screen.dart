@@ -7,7 +7,13 @@ import 'package:weve_client/commons/widgets/senior/button/view/button.dart';
 import 'package:weve_client/commons/widgets/senior/input_profile/view/question_box.dart';
 import 'package:weve_client/commons/widgets/senior/input_profile/view/stt_box.dart';
 import 'package:weve_client/core/constants/colors.dart';
+import 'package:weve_client/core/provider/speech_to_text_provider.dart';
 import 'package:weve_client/features/senior/presentation/views/input/senior_input_struggle_screen.dart';
+
+final valueSpeechProvider =
+    StateNotifierProvider<SpeechToTextController, String>(
+  (ref) => SpeechToTextController(),
+);
 
 class SeniorInputValueScreen extends ConsumerWidget {
   const SeniorInputValueScreen({super.key});
@@ -29,27 +35,27 @@ class SeniorInputValueScreen extends ConsumerWidget {
           child: Column(
             children: [
               QuestionBox(
-                audioUrl: "",
+                audioUrl: "audio/senior/senior_question_value.mp3",
                 text: "어떤 가치관을 가지고\n살아오셨나요?",
                 gap: 100,
               ),
-              SpeechToTextBox(),
-              SizedBox(
-                height: 64,
-              ),
+              SpeechToTextBox(speechTextProvider: valueSpeechProvider),
+              SizedBox(height: 64),
               SeniorButton(
-                  // @todo : 유저가 텍스트 50자 입력하기 전에 disabled
-                  text: "다음",
-                  backgroundColor: WeveColor.main.yellow1_100,
-                  textColor: WeveColor.main.yellowText,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SeniorInputStruggleScreen(),
-                      ),
-                    );
-                  })
+                text: "다음",
+                backgroundColor: WeveColor.main.yellow1_100,
+                textColor: WeveColor.main.yellowText,
+                onPressed: () async {
+                  await ref.read(valueSpeechProvider.notifier).stopSpeech();
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SeniorInputStruggleScreen(),
+                    ),
+                  );
+                },
+              )
             ],
           ),
         ),

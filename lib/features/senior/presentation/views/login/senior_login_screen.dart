@@ -5,7 +5,7 @@ import 'package:weve_client/commons/widgets/junior/header/view/header.dart';
 import 'package:weve_client/commons/widgets/senior/button/view/button.dart';
 import 'package:weve_client/commons/widgets/senior/login/view/input_field.dart';
 import 'package:weve_client/core/constants/colors.dart';
-import 'package:weve_client/features/senior/presentation/viewmodels/senior_login_viewmodel.dart';
+import 'package:weve_client/features/senior/presentation/viewmodels/providers/senior_providers.dart';
 
 class SeniorLoginScreen extends ConsumerStatefulWidget {
   const SeniorLoginScreen({super.key});
