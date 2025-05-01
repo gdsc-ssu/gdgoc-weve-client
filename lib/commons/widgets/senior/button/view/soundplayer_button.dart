@@ -5,7 +5,6 @@ import 'package:weve_client/core/constants/custom_icon.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 
 class SoundPlayerButton extends StatefulWidget {
-  // MP3 파일 경로
   final String audioUrl;
   final String text;
 
@@ -23,15 +22,32 @@ class _SoundPlayerButtonState extends State<SoundPlayerButton> {
   final AudioPlayer _audioPlayer = AudioPlayer();
   bool _isPlaying = false;
 
-  void _togglePlay() async {
-    if (_isPlaying) {
-      await _audioPlayer.pause();
-    } else {
-      await _audioPlayer.play(AssetSource(widget.audioUrl));
-    }
-    setState(() {
-      _isPlaying = !_isPlaying;
+  @override
+  void initState() {
+    super.initState();
+
+    // 재생이 끝났을 때 _isPlaying false로 초기화
+    _audioPlayer.onPlayerComplete.listen((event) {
+      setState(() {
+        _isPlaying = false;
+      });
     });
+  }
+
+  Future<void> _togglePlay() async {
+    try {
+      if (_isPlaying) {
+        await _audioPlayer.pause();
+      } else {
+        await _audioPlayer.play(UrlSource(widget.audioUrl));
+      }
+
+      setState(() {
+        _isPlaying = !_isPlaying;
+      });
+    } catch (e) {
+      debugPrint('오디오 재생 오류: $e');
+    }
   }
 
   @override
@@ -58,9 +74,7 @@ class _SoundPlayerButtonState extends State<SoundPlayerButton> {
             alignment: Alignment.center,
             child: CustomIcons.getIcon(CustomIcons.seniorAudio, size: 24),
           ),
-          SizedBox(
-            width: 20,
-          ),
+          const SizedBox(width: 20),
           Container(
             width: 200,
             height: 45,
@@ -69,8 +83,10 @@ class _SoundPlayerButtonState extends State<SoundPlayerButton> {
               borderRadius: BorderRadius.circular(16),
             ),
             alignment: Alignment.center,
-            child: Text(widget.text,
-                style: WeveText.header4(color: WeveColor.main.orange1)),
+            child: Text(
+              _isPlaying ? "재생 중..." : widget.text,
+              style: WeveText.header4(color: WeveColor.main.orange1),
+            ),
           )
         ],
       ),
