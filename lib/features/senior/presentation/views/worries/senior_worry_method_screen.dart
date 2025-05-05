@@ -16,7 +16,8 @@ enum WorryAnswerMethod {
 }
 
 class SeniorWorryMethodScreen extends ConsumerStatefulWidget {
-  const SeniorWorryMethodScreen({super.key});
+  final int worryId;
+  const SeniorWorryMethodScreen({super.key, required this.worryId});
 
   @override
   ConsumerState<SeniorWorryMethodScreen> createState() =>
@@ -53,15 +54,16 @@ class _SeniorWorryMethodScreenState
                 height: 80,
               ),
               Center(
-                  child: _buildOptionButton(context, WorryAnswerMethod.typing)),
+                  child: _buildOptionButton(
+                      context, WorryAnswerMethod.typing, widget.worryId)),
               const SizedBox(height: 20),
               Center(
-                  child:
-                      _buildOptionButton(context, WorryAnswerMethod.speaking)),
+                  child: _buildOptionButton(
+                      context, WorryAnswerMethod.speaking, widget.worryId)),
               const SizedBox(height: 20),
               Center(
-                  child:
-                      _buildOptionButton(context, WorryAnswerMethod.writing)),
+                  child: _buildOptionButton(
+                      context, WorryAnswerMethod.writing, widget.worryId)),
             ],
           ),
         ),
@@ -70,7 +72,8 @@ class _SeniorWorryMethodScreenState
   }
 }
 
-Widget _buildOptionButton(BuildContext context, WorryAnswerMethod method) {
+Widget _buildOptionButton(
+    BuildContext context, WorryAnswerMethod method, int worryId) {
   String label;
   switch (method) {
     case WorryAnswerMethod.typing:
@@ -102,7 +105,9 @@ Widget _buildOptionButton(BuildContext context, WorryAnswerMethod method) {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => SeniorWorryTypingScreen()),
+                  builder: (context) => SeniorWorryTypingScreen(
+                        worryId: worryId,
+                      )),
             );
           case WorryAnswerMethod.writing:
             Navigator.push(
@@ -114,7 +119,9 @@ Widget _buildOptionButton(BuildContext context, WorryAnswerMethod method) {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => SeniorWorrySpeechScreen()),
+                  builder: (context) => SeniorWorrySpeechScreen(
+                        worryId: worryId,
+                      )),
             );
             break;
         }

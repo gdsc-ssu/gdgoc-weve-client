@@ -6,11 +6,13 @@ import 'package:weve_client/core/constants/fonts.dart';
 class InputBox extends StatefulWidget {
   final double gap;
   final VoidCallback onSubmit;
+  final ValueChanged<String>? onChanged;
 
   const InputBox({
     super.key,
     required this.gap,
     required this.onSubmit,
+    this.onChanged,
   });
 
   @override
@@ -26,9 +28,13 @@ class _InputBoxState extends State<InputBox> {
   void initState() {
     super.initState();
     _controller.addListener(() {
+      final text = _controller.text;
       setState(() {
-        _textLength = _controller.text.length;
+        _textLength = text.length;
       });
+      if (widget.onChanged != null) {
+        widget.onChanged!(text);
+      }
     });
   }
 

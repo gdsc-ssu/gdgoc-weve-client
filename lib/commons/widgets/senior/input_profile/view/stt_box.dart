@@ -10,8 +10,13 @@ import 'package:weve_client/core/provider/speech_to_text_provider.dart';
 class SpeechToTextBox extends ConsumerStatefulWidget {
   final StateNotifierProvider<SpeechToTextController, String>
       speechTextProvider;
+  final ValueChanged<String>? onChanged;
 
-  const SpeechToTextBox({super.key, required this.speechTextProvider});
+  const SpeechToTextBox({
+    super.key,
+    required this.speechTextProvider,
+    this.onChanged,
+  });
 
   @override
   ConsumerState<SpeechToTextBox> createState() => _SpeechToTextBoxState();
@@ -43,9 +48,9 @@ class _SpeechToTextBoxState extends ConsumerState<SpeechToTextBox> {
         setState(() {
           _isListening = false;
         });
-        ref
-            .read(widget.speechTextProvider.notifier)
-            .setText("Error occurred. Try again!");
+        final errorText = "Error occurred. Try again!";
+        ref.read(widget.speechTextProvider.notifier).setText(errorText);
+        widget.onChanged?.call(errorText);
       },
     );
 
@@ -54,6 +59,7 @@ class _SpeechToTextBoxState extends ConsumerState<SpeechToTextBox> {
         _isListening = true;
       });
       ref.read(widget.speechTextProvider.notifier).setText("🎤 Listening...");
+      widget.onChanged?.call("🎤 Listening...");
 
       _speech.listen(
         localeId: "ko_KR",
@@ -61,11 +67,15 @@ class _SpeechToTextBoxState extends ConsumerState<SpeechToTextBox> {
           ref
               .read(widget.speechTextProvider.notifier)
               .setText("📝 Recognizing...");
-          Future.delayed(Duration(milliseconds: 500), () {
-            ref.read(widget.speechTextProvider.notifier).setText(
-                result.recognizedWords.isEmpty
-                    ? "No voice detected"
-                    : result.recognizedWords);
+          widget.onChanged?.call("📝 Recognizing...");
+
+          Future.delayed(const Duration(milliseconds: 500), () {
+            final recognized = result.recognizedWords.isEmpty
+                ? "No voice detected"
+                : result.recognizedWords;
+
+            ref.read(widget.speechTextProvider.notifier).setText(recognized);
+            widget.onChanged?.call(recognized);
           });
         },
       );
@@ -78,6 +88,7 @@ class _SpeechToTextBoxState extends ConsumerState<SpeechToTextBox> {
       _isListening = false;
     });
     ref.read(widget.speechTextProvider.notifier).setText("✅ Stopped");
+    widget.onChanged?.call("✅ Stopped");
   }
 
   void _toggleListening() {
@@ -97,7 +108,7 @@ class _SpeechToTextBoxState extends ConsumerState<SpeechToTextBox> {
         Container(
           width: double.infinity,
           height: 130,
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: WeveColor.bg.bg2,
             borderRadius: BorderRadius.circular(16),
@@ -109,7 +120,7 @@ class _SpeechToTextBoxState extends ConsumerState<SpeechToTextBox> {
             style: WeveText.header4(color: WeveColor.gray.gray1),
           ),
         ),
-        SizedBox(height: 30),
+        const SizedBox(height: 30),
         SizedBox(
           width: 200,
           height: 200,
@@ -119,7 +130,7 @@ class _SpeechToTextBoxState extends ConsumerState<SpeechToTextBox> {
             animate: true,
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         SpeechButton(
           onTap: _toggleListening,
           isListening: _isListening,
