@@ -12,9 +12,15 @@ import 'package:weve_client/commons/widgets/toast/view/toast.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
 import 'package:weve_client/features/junior/presentation/viewmodels/sms_viewmodel.dart';
+import 'package:weve_client/features/junior/presentation/viewmodels/user_profile_viewmodel.dart';
 
 class JuniorEditPhoneNumberVerifyScreen extends ConsumerStatefulWidget {
-  const JuniorEditPhoneNumberVerifyScreen({super.key});
+  final String phoneNumber; // 전달받은 전화번호
+
+  const JuniorEditPhoneNumberVerifyScreen({
+    Key? key,
+    required this.phoneNumber,
+  }) : super(key: key);
 
   @override
   ConsumerState<JuniorEditPhoneNumberVerifyScreen> createState() =>
@@ -26,6 +32,7 @@ class _JuniorEditPhoneNumberVerifyScreenState
   TextEditingController verificationCodeController = TextEditingController();
   bool isVerificationCodeValid = false;
   bool showErrorMessage = false;
+  bool isSubmitting = false; // 제출 버튼 로딩 상태 추가
   late final headerViewModel = ref.read(headerProvider.notifier);
 
   @override
@@ -75,7 +82,9 @@ class _JuniorEditPhoneNumberVerifyScreenState
   void _verifyCode() async {
     // 인증번호가 유효하지 않거나 이미 로딩 중이면 동작하지 않음
     final smsState = ref.read(smsViewModelProvider);
-    if (!isVerificationCodeValid || smsState.status == SmsStatus.loading) {
+    if (!isVerificationCodeValid ||
+        smsState.status == SmsStatus.loading ||
+        isSubmitting) {
       return;
     }
 
@@ -88,6 +97,11 @@ class _JuniorEditPhoneNumberVerifyScreenState
         print('인증번호 확인 시작: ${verificationCodeController.text}');
       }
 
+      // 로딩 상태 표시
+      setState(() {
+        isSubmitting = true;
+      });
+
       final smsViewModel = ref.read(smsViewModelProvider.notifier);
       final response = await smsViewModel.verifyCode(
         verificationCodeController.text,
@@ -99,6 +113,30 @@ class _JuniorEditPhoneNumberVerifyScreenState
       }
 
       if (response != null && response.isSuccess) {
+        // 인증 성공 시 전화번호 업데이트 API 호출
+        final userProfileViewModel =
+            ref.read(userProfileViewModelProvider.notifier);
+        final updateSuccess = await userProfileViewModel.saveProfile(
+          phoneNumber: widget.phoneNumber, // 입력 화면에서 전달받은 전화번호
+        );
+
+        // 로딩 상태 종료
+        setState(() {
+          isSubmitting = false;
+        });
+
+        if (!updateSuccess) {
+          CustomToast.show(
+            context,
+            '전화번호 업데이트에 실패했습니다. 다시 시도해주세요.',
+            backgroundColor: WeveColor.main.orange1,
+            textColor: Colors.white,
+            borderRadius: 20,
+            duration: 3,
+          );
+          return;
+        }
+
         // 인증 성공 시 토스트 메시지 표시
         CustomToast.show(
           context,
@@ -119,12 +157,22 @@ class _JuniorEditPhoneNumberVerifyScreenState
         Navigator.of(context).pop(); // 인증 화면에서 전화번호 입력 화면으로 돌아가기
         Navigator.of(context).pop(); // 전화번호 입력 화면에서 마이페이지로 돌아가기
       } else {
+        // 로딩 상태 종료
+        setState(() {
+          isSubmitting = false;
+        });
+
         // 실패 시 에러 메시지 표시 (이미 ViewModel에서 처리됨)
         if (kDebugMode) {
           print('인증번호 확인 실패');
         }
       }
     } catch (e) {
+      // 로딩 상태 종료
+      setState(() {
+        isSubmitting = false;
+      });
+
       // 예외 발생 시 토스트 메시지 표시
       if (kDebugMode) {
         print('인증번호 확인 예외: $e');
@@ -215,7 +263,7 @@ class _JuniorEditPhoneNumberVerifyScreenState
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 30),
-                    child: smsState.status == SmsStatus.loading
+                    child: smsState.status == SmsStatus.loading || isSubmitting
                         ? SizedBox(
                             width: 40,
                             height: 40,

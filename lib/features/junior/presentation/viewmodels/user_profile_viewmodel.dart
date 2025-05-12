@@ -41,7 +41,10 @@ class UserProfileViewModel extends StateNotifier<ProfileState> {
 
   // 프로필 정보 저장
   Future<bool> saveProfile(
-      {String? name, String? birth, String? language}) async {
+      {String? name,
+      String? birth,
+      String? language,
+      String? phoneNumber}) async {
     state = state.copyWith(status: ProfileStatus.loading);
 
     try {
@@ -59,26 +62,31 @@ class UserProfileViewModel extends StateNotifier<ProfileState> {
       }
 
       // 전화번호 가져오기
-      var phoneNumber = await _userProfileService.getPhoneNumber();
+      var currentPhoneNumber = phoneNumber;
 
-      // 전화번호가 null인 경우 1초 대기 후 다시 조회 시도
-      if (phoneNumber == null || phoneNumber.isEmpty) {
-        if (kDebugMode) {
-          print('전화번호가 없어 1초 후 다시 조회합니다.');
+      // 전화번호가 전달되지 않았으면 기존 값 사용
+      if (currentPhoneNumber == null || currentPhoneNumber.isEmpty) {
+        currentPhoneNumber = await _userProfileService.getPhoneNumber();
+
+        // 전화번호가 null인 경우 1초 대기 후 다시 조회 시도
+        if (currentPhoneNumber == null || currentPhoneNumber.isEmpty) {
+          if (kDebugMode) {
+            print('전화번호가 없어 1초 후 다시 조회합니다.');
+          }
+
+          // 1초 대기 후 다시 시도
+          await Future.delayed(const Duration(seconds: 1));
+          currentPhoneNumber = await _userProfileService.getPhoneNumber();
         }
 
-        // 1초 대기 후 다시 시도
-        await Future.delayed(const Duration(seconds: 1));
-        phoneNumber = await _userProfileService.getPhoneNumber();
-      }
-
-      if (phoneNumber == null || phoneNumber.isEmpty) {
-        state = state.copyWith(
-          status: ProfileStatus.error,
-          errorMessage: '전화번호 정보를 찾을 수 없습니다.',
-          errorCode: 'PHONE_NUMBER_NOT_FOUND',
-        );
-        return false;
+        if (currentPhoneNumber == null || currentPhoneNumber.isEmpty) {
+          state = state.copyWith(
+            status: ProfileStatus.error,
+            errorMessage: '전화번호 정보를 찾을 수 없습니다.',
+            errorCode: 'PHONE_NUMBER_NOT_FOUND',
+          );
+          return false;
+        }
       }
 
       // 언어 설정 가져오기 (기본값)
@@ -88,7 +96,7 @@ class UserProfileViewModel extends StateNotifier<ProfileState> {
       final request = ProfileRequest(
         name: name ?? profileData.name,
         birth: birth ?? profileData.birth,
-        phoneNumber: phoneNumber,
+        phoneNumber: currentPhoneNumber,
         language: language ?? defaultLanguage,
       );
 

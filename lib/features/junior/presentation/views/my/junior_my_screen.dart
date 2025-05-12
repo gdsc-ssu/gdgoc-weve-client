@@ -70,21 +70,27 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
       await userProfileViewModel.getProfile();
 
       // 상태 업데이트
-      _updateProfileData();
+      if (mounted) {
+        _updateProfileData();
+      }
     } catch (e) {
       if (kDebugMode) {
         print('프로필 정보 로드 오류: $e');
       }
 
       // 로딩 상태 종료
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
   // 프로필 데이터 업데이트 함수
   void _updateProfileData() {
+    if (!mounted) return;
+
     final profileState = ref.read(userProfileViewModelProvider);
 
     if (profileState.status == ProfileStatus.success &&
@@ -271,7 +277,8 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
     // 프로필 상태 변경 감지하여 UI 업데이트
     ref.listen(userProfileViewModelProvider, (previous, next) {
       if (previous?.status != next.status &&
-          next.status == ProfileStatus.success) {
+          next.status == ProfileStatus.success &&
+          mounted) {
         _updateProfileData();
       }
     });
