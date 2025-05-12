@@ -67,14 +67,8 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
     return false;
   }
 
-  // 고민 상세 내용 팝업 표시 함수
-  void _showWorryDetailPopup() {
-    // 임의의 상세 내용 및 작성자 정보 (나중에 API로 대체 예정)
-    final String content =
-        "편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다.";
-    final String author = "- 대한민국에 사는 5세 신짱구";
-
-    // PopupViewModel을 통해 팝업 내용 설정 및 표시
+  // 공통 팝업 표시 함수
+  void _showContentPopup({required String content, required String author}) {
     ref.read(popupProvider.notifier).showPopup(
           Container(
             width: double.infinity,
@@ -100,6 +94,16 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
             ),
           ),
         );
+  }
+
+  // 고민 상세 내용 팝업 표시 함수
+  void _showWorryDetailPopup() {
+    // 임의의 상세 내용 및 작성자 정보 (나중에 API로 대체 예정)
+    final String content =
+        "편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다.";
+    final String author = "- 대한민국에 사는 5세 신짱구";
+
+    _showContentPopup(content: content, author: author);
   }
 
   // 어르신 답변 팝업 표시 함수
@@ -109,32 +113,7 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
         "안녕하세요 어르신..이건 어르신의 답변답변답변답변답변답변 의 답변답변답변답변답변답변 의 답변답변답변답변답변답변 의 답변답변답변답변답변답변 ";
     final String author = "- 대한민국에 사는 5세 신짱구";
 
-    // PopupViewModel을 통해 팝업 내용 설정 및 표시
-    ref.read(popupProvider.notifier).showPopup(
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: WeveColor.gray.gray8,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  content,
-                  style: WeveText.body2(color: WeveColor.main.yellowText),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  author,
-                  style: WeveText.body3(color: WeveColor.main.yellowText),
-                  textAlign: TextAlign.right,
-                ),
-              ],
-            ),
-          ),
-        );
+    _showContentPopup(content: content, author: author);
   }
 
   // 감사 인사 팝업 표시 함수
@@ -144,32 +123,7 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
         "정말 감사합니다. 어르신의 조언 덕분에 많은 도움이 되었습니다. 앞으로도 어르신의 말씀을 새겨듣고 더 나은 사람이 되도록 노력하겠습니다. 건강하시고 행복하세요!";
     final String author = "- 대한민국에 사는 5세 신짱구";
 
-    // PopupViewModel을 통해 팝업 내용 설정 및 표시
-    ref.read(popupProvider.notifier).showPopup(
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: WeveColor.gray.gray8,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  content,
-                  style: WeveText.body2(color: WeveColor.main.yellowText),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  author,
-                  style: WeveText.body3(color: WeveColor.main.yellowText),
-                  textAlign: TextAlign.right,
-                ),
-              ],
-            ),
-          ),
-        );
+    _showContentPopup(content: content, author: author);
   }
 
   @override
