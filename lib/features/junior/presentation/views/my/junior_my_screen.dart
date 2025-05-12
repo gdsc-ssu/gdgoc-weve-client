@@ -213,6 +213,7 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
                   // 회원탈퇴 처리 로직
                   ref.read(popupProvider.notifier).closePopup();
                   // 여기에 회원탈퇴 후 처리 로직 추가
+                  _withdrawAccount();
                 },
               ),
             ],
@@ -226,6 +227,48 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
         'https://docs.google.com/forms/d/e/1FAIpQLSfSYKnrGLSTulTSWTGcQzPRbrDOHrn3usbVqhVczx8Opeyjqg/viewform');
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch ask page');
+    }
+  }
+
+  // 회원탈퇴 처리 함수
+  Future<void> _withdrawAccount() async {
+    try {
+      // 회원탈퇴 API 호출
+      final result = await AuthUtils.withdraw();
+
+      if (result && mounted) {
+        final locale = ref.read(localeProvider);
+        final appLocalizations = AppLocalizations(locale);
+
+        // 회원탈퇴 성공 토스트 메시지 표시
+        CustomToast.show(
+          context,
+          appLocalizations.withdrawalSuccess,
+          backgroundColor: WeveColor.main.orange1,
+          textColor: Colors.white,
+          borderRadius: 20,
+          duration: 3,
+        );
+
+        // 앱 메인으로 이동 (초기 스플래시 스크린으로 이동)
+        Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('회원탈퇴 처리 오류: $e');
+      }
+
+      if (mounted) {
+        // 오류 발생 시 토스트 메시지 표시
+        CustomToast.show(
+          context,
+          e.toString(),
+          backgroundColor: WeveColor.main.orange1,
+          textColor: Colors.white,
+          borderRadius: 20,
+          duration: 3,
+        );
+      }
     }
   }
 

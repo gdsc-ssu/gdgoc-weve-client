@@ -38,6 +38,7 @@ class AppLocalizations {
       'logoutSuccess': 'You have been logged out.',
       'withdrawalConfirm':
           'Are you sure you want to withdraw? After withdrawal, all data will be deleted and cannot be restored.',
+      'withdrawalSuccess': 'Your account has been successfully withdrawn.',
       'languageChange': 'Language Change',
       'languageChangeDescription':
           '“weve” is a multilingual service, and you can change the language among Korean, English, and Japanese.',
@@ -62,6 +63,7 @@ class AppLocalizations {
       'logoutConfirm': '정말로 로그아웃하시겠어요?',
       'logoutSuccess': '로그아웃 되었습니다.',
       'withdrawalConfirm': '정말로 회원탈퇴하시겠어요?\n탈퇴 후 모든 데이터가 삭제되며,\n복구할 수 없습니다.',
+      'withdrawalSuccess': '회원탈퇴가 완료되었습니다.',
       'languageChange': '언어 변경',
       'languageChangeDescription':
           'weve는 다국어 지원 서비스로,\n한국어, 영어, 일본어 중 언어 변경이 가능해요.',
@@ -124,6 +126,7 @@ class AppLocalizations {
   String get logoutConfirm => _getString('logoutConfirm');
   String get logoutSuccess => _getString('logoutSuccess');
   String get withdrawalConfirm => _getString('withdrawalConfirm');
+  String get withdrawalSuccess => _getString('withdrawalSuccess');
 
   // 언어 변경
   String get languageChange => _getString('languageChange');

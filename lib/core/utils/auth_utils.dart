@@ -45,6 +45,33 @@ class AuthUtils {
     }
   }
 
+  /// 회원탈퇴 처리
+  /// 서버에 탈퇴 요청 및 로컬 데이터 삭제
+  static Future<bool> withdraw() async {
+    try {
+      // 회원탈퇴 API 호출
+      final response = await _apiClient.delete('/api/auth/withdraw');
+
+      // API 호출 성공 여부 확인
+      if (response.isSuccess) {
+        // 로컬 데이터 삭제 (로그아웃과 동일)
+        await _apiClient.clearAllSecureData();
+        if (kDebugMode) {
+          print('회원탈퇴 완료');
+        }
+        return true;
+      } else {
+        if (kDebugMode) {
+          print('회원탈퇴 API 호출 실패: ${response.message}');
+        }
+        return false;
+      }
+    } catch (e) {
+      _logError('회원탈퇴 오류', e);
+      return false;
+    }
+  }
+
   /// 토큰 갱신 메서드 (필요시 구현)
   static Future<bool> refreshToken() async {
     try {
