@@ -5,7 +5,15 @@ import 'package:weve_client/core/constants/fonts.dart';
 
 class InputBox extends StatefulWidget {
   final double gap;
-  const InputBox({super.key, required this.gap});
+  final VoidCallback onSubmit;
+  final ValueChanged<String>? onChanged;
+
+  const InputBox({
+    super.key,
+    required this.gap,
+    required this.onSubmit,
+    this.onChanged,
+  });
 
   @override
   State<InputBox> createState() => _InputBoxState();
@@ -20,9 +28,13 @@ class _InputBoxState extends State<InputBox> {
   void initState() {
     super.initState();
     _controller.addListener(() {
+      final text = _controller.text;
       setState(() {
-        _textLength = _controller.text.length;
+        _textLength = text.length;
       });
+      if (widget.onChanged != null) {
+        widget.onChanged!(text);
+      }
     });
   }
 
@@ -32,7 +44,7 @@ class _InputBoxState extends State<InputBox> {
       children: [
         Container(
           height: 400,
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: WeveColor.bg.bg2,
             borderRadius: BorderRadius.circular(16),
@@ -69,22 +81,17 @@ class _InputBoxState extends State<InputBox> {
             ],
           ),
         ),
-        SizedBox(
-          height: widget.gap,
+        SizedBox(height: widget.gap),
+        SeniorButton(
+          text: "다 작성했어요",
+          backgroundColor: _textLength >= 50
+              ? WeveColor.main.yellow1_100
+              : WeveColor.main.yellow3,
+          textColor: _textLength >= 50
+              ? WeveColor.main.yellowText
+              : WeveColor.main.yellow4,
+          onPressed: _textLength >= 50 ? widget.onSubmit : () {},
         ),
-        _textLength >= 50
-            // @TODO: on pressed 적용 필요
-            ? SeniorButton(
-                text: "다 작성했어요",
-                backgroundColor: WeveColor.main.yellow1_100,
-                textColor: WeveColor.main.yellowText,
-                onPressed: () {})
-            // @NOTE: 50미만 onPressed는 void로 유지
-            : SeniorButton(
-                text: "다 작성했어요",
-                backgroundColor: WeveColor.main.yellow3,
-                textColor: WeveColor.main.yellow4,
-                onPressed: () {}),
       ],
     );
   }

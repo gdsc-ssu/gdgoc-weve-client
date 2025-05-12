@@ -108,12 +108,10 @@ class _InputPhoneFieldState extends ConsumerState<InputPhoneField> {
       if (digits.length > 3) {
         formattedNumber = digits.substring(0, 3);
         if (digits.length > 7) {
-          formattedNumber += '-' +
-              digits.substring(3, 7) +
-              '-' +
-              digits.substring(7, digits.length.clamp(0, 11));
+          formattedNumber +=
+              '-${digits.substring(3, 7)}-${digits.substring(7, digits.length.clamp(0, 11))}';
         } else if (digits.length > 3) {
-          formattedNumber += '-' + digits.substring(3, digits.length);
+          formattedNumber += '-${digits.substring(3, digits.length)}';
         }
       } else {
         formattedNumber = digits;
@@ -123,12 +121,10 @@ class _InputPhoneFieldState extends ConsumerState<InputPhoneField> {
       if (digits.length > 3) {
         formattedNumber = digits.substring(0, 3);
         if (digits.length > 6) {
-          formattedNumber += '-' +
-              digits.substring(3, 6) +
-              '-' +
-              digits.substring(6, digits.length.clamp(0, 10));
+          formattedNumber +=
+              '-${digits.substring(3, 6)}-${digits.substring(6, digits.length.clamp(0, 10))}';
         } else if (digits.length > 3) {
-          formattedNumber += '-' + digits.substring(3, digits.length);
+          formattedNumber += '-${digits.substring(3, digits.length)}';
         }
       } else {
         formattedNumber = digits;
@@ -138,12 +134,10 @@ class _InputPhoneFieldState extends ConsumerState<InputPhoneField> {
       if (digits.length > 3) {
         formattedNumber = digits.substring(0, 3);
         if (digits.length > 7) {
-          formattedNumber += '-' +
-              digits.substring(3, 7) +
-              '-' +
-              digits.substring(7, digits.length.clamp(0, 11));
+          formattedNumber +=
+              '-${digits.substring(3, 7)}-${digits.substring(7, digits.length.clamp(0, 11))}';
         } else if (digits.length > 3) {
-          formattedNumber += '-' + digits.substring(3, digits.length);
+          formattedNumber += '-${digits.substring(3, digits.length)}';
         }
       } else {
         formattedNumber = digits;
@@ -153,12 +147,10 @@ class _InputPhoneFieldState extends ConsumerState<InputPhoneField> {
       if (digits.length > 3) {
         formattedNumber = digits.substring(0, 3);
         if (digits.length > 6) {
-          formattedNumber += '-' +
-              digits.substring(3, 6) +
-              '-' +
-              digits.substring(6, digits.length.clamp(0, 10));
+          formattedNumber +=
+              '-${digits.substring(3, 6)}-${digits.substring(6, digits.length.clamp(0, 10))}';
         } else if (digits.length > 3) {
-          formattedNumber += '-' + digits.substring(3, digits.length);
+          formattedNumber += '-${digits.substring(3, digits.length)}';
         }
       } else {
         formattedNumber = digits;

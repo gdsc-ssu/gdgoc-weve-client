@@ -1,26 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:weve_client/commons/widgets/header/model/header_type.dart';
 import 'package:weve_client/commons/widgets/header/view/header_widget.dart';
-import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
 import 'package:weve_client/commons/widgets/junior/header/view/header.dart';
 import 'package:weve_client/commons/widgets/senior/button/view/button.dart';
 import 'package:weve_client/commons/widgets/senior/login/view/input_field.dart';
 import 'package:weve_client/core/constants/colors.dart';
-import 'package:weve_client/features/senior/presentation/views/input/senior_input_birth_screen.dart';
+import 'package:weve_client/features/senior/presentation/viewmodels/providers/senior_providers.dart';
 
-class SeniorLoginScreen extends ConsumerWidget {
+class SeniorLoginScreen extends ConsumerStatefulWidget {
   const SeniorLoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final headerViewModel = ref.read(headerProvider.notifier);
+  ConsumerState<SeniorLoginScreen> createState() => _SeniorLoginScreenState();
+}
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      headerViewModel.setHeader(HeaderType.backOnly, title: "");
-    });
+class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
 
-    // @TODO : 로그인정보가 있다면 바로 SeniorMainScreen으로 넘어가게 수정
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _phoneController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final loginViewModel = ref.read(seniorLoginViewModelProvider.notifier);
 
     return Scaffold(
       backgroundColor: WeveColor.bg.bg1,
@@ -32,23 +39,36 @@ class SeniorLoginScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              JuniorHeader(),
+              const JuniorHeader(),
               const SizedBox(height: 40),
-              const SeniorInputField(title: "이름", placeholder: "이름을 입력하세요"),
+              SeniorInputField(
+                title: "이름",
+                placeholder: "이름을 입력하세요",
+                controller: _nameController,
+                onEditingComplete: () {
+                  loginViewModel.updateName(_nameController.text.trim());
+                },
+              ),
               const SizedBox(height: 16),
-              const SeniorInputField(title: "전화번호", placeholder: "전화번호를 입력하세요"),
+              SeniorInputField(
+                title: "전화번호",
+                placeholder: "전화번호를 입력하세요",
+                controller: _phoneController,
+                onEditingComplete: () {
+                  loginViewModel
+                      .updatePhoneNumber(_phoneController.text.trim());
+                },
+              ),
               const Spacer(),
               SeniorButton(
                 text: "로그인",
                 backgroundColor: WeveColor.main.yellow1_100,
                 textColor: WeveColor.main.yellowText,
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SeniorInputBirthScreen(),
-                    ),
-                  );
+                  loginViewModel.updateName(_nameController.text.trim());
+                  loginViewModel
+                      .updatePhoneNumber(_phoneController.text.trim());
+                  loginViewModel.submit(context);
                 },
               ),
             ],

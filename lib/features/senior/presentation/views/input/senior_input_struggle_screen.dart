@@ -7,8 +7,21 @@ import 'package:weve_client/commons/widgets/senior/button/view/button.dart';
 import 'package:weve_client/commons/widgets/senior/input_profile/view/question_box.dart';
 import 'package:weve_client/commons/widgets/senior/input_profile/view/stt_box.dart';
 import 'package:weve_client/core/constants/colors.dart';
+import 'package:weve_client/core/provider/speech_to_text_provider.dart';
+import 'package:weve_client/features/senior/presentation/viewmodels/senior_submit_viewmodel.dart';
+import 'package:weve_client/features/senior/presentation/viewmodels/states/senior_submit_state.dart';
+import 'package:weve_client/features/senior/presentation/views/input/senior_input_birth_screen.dart';
+import 'package:weve_client/features/senior/presentation/views/input/senior_input_career_screen.dart';
 import 'package:weve_client/features/senior/presentation/views/input/senior_input_value_screen.dart';
-import 'package:weve_client/features/senior/presentation/views/senior_main_screen.dart';
+
+final struggleSpeechProvider =
+    StateNotifierProvider<SpeechToTextController, String>(
+  (ref) => SpeechToTextController(),
+);
+final seniorSubmitProvider =
+    StateNotifierProvider<SeniorSubmitViewModel, SeniorSubmitState>(
+  (ref) => SeniorSubmitViewModel(),
+);
 
 class SeniorInputStruggleScreen extends ConsumerWidget {
   const SeniorInputStruggleScreen({super.key});
@@ -30,26 +43,39 @@ class SeniorInputStruggleScreen extends ConsumerWidget {
           child: Column(
             children: [
               QuestionBox(
-                audioUrl: "",
+                audioUrl: "audio/senior/senior_question_hardship.mp3",
                 text: "어떤 고난이 있었고,\n어떻게 극복해 오셨나요?",
                 gap: 100,
               ),
-              SpeechToTextBox(),
-              SizedBox(
-                height: 64,
-              ),
+              SpeechToTextBox(speechTextProvider: struggleSpeechProvider),
+              SizedBox(height: 64),
               SeniorButton(
-                  // @todo : 유저가 텍스트 50자 입력하기 전에 disabled
                   text: "다음",
                   backgroundColor: WeveColor.main.yellow1_100,
                   textColor: WeveColor.main.yellowText,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SeniorMainScreen(),
-                      ),
-                    );
+                  onPressed: () async {
+                    final birth = ref.read(birthSpeechProvider);
+                    final job = ref.read(careerSpeechProvider);
+                    final value = ref.read(valueSpeechProvider);
+                    final hardship = ref.read(struggleSpeechProvider);
+
+                    final submitViewModel =
+                        ref.read(seniorSubmitProvider.notifier);
+
+                    submitViewModel.updateBirth(birth);
+                    submitViewModel.updateJob(job);
+                    submitViewModel.updateValue(value);
+                    submitViewModel.updateHardship(hardship);
+
+                    await submitViewModel.submit(context);
+
+                    final errorMessage =
+                        ref.read(seniorSubmitProvider).errorMessage;
+                    if (errorMessage != null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(errorMessage)),
+                      );
+                    }
                   })
             ],
           ),

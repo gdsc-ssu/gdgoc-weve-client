@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weve_client/commons/widgets/header/model/header_type.dart';
 import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
-import 'package:weve_client/commons/widgets/senior/list_item/view/list_item.dart';
 import 'package:weve_client/core/constants/colors.dart';
-import 'package:weve_client/core/constants/custom_icon.dart';
-import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
+import 'package:weve_client/features/senior/presentation/viewmodels/providers/senior_providers.dart';
+import 'package:weve_client/features/senior/presentation/views/home/senior_category_list.dart';
 import 'package:weve_client/features/senior/presentation/views/worries/senior_worry_detail.dart';
 
 class SeniorHomeScreen extends ConsumerStatefulWidget {
@@ -17,108 +16,54 @@ class SeniorHomeScreen extends ConsumerStatefulWidget {
 }
 
 class _SeniorHomeScreenState extends ConsumerState<SeniorHomeScreen> {
+  late final headerViewModel = ref.read(headerProvider.notifier);
+
   @override
   void initState() {
     super.initState();
-    // 헤더 설정
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final locale = ref.read(localeProvider);
-      final appLocalizations = AppLocalizations(locale);
-
-      ref.read(headerProvider.notifier).setHeader(
-            HeaderType.seniorTitleLogo,
-            title: appLocalizations.senior.seniorHeaderHomeTitle,
-          );
+      _setSeniorHomeHeader();
+      ref.read(seniorHomeProvider.notifier).fetchSeniorWorry();
     });
+  }
+
+  @override
+  void dispose() {
+    Future.microtask(() {
+      if (mounted) {
+        headerViewModel.resetHeader();
+      }
+    });
+    super.dispose();
+  }
+
+  void _setSeniorHomeHeader() {
+    final locale = ref.read(localeProvider);
+    final appLocalizations = AppLocalizations(locale);
+
+    headerViewModel.setHeader(
+      HeaderType.seniorTitleLogo,
+      title: appLocalizations.senior.seniorHeaderHomeTitle,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: WeveColor.bg.bg1,
-      body: const Padding(
-        padding: EdgeInsets.all(12),
-        child: CategoryList(),
-      ),
-    );
-  }
-}
-
-class CategoryList extends StatelessWidget {
-  const CategoryList({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        CategorySection(
-          icon: CustomIcons.getIcon(CustomIcons.seniorChat, size: 24),
-          title: '진로 고민',
-          color: WeveColor.main.yellow1_100,
-        ),
-        CategorySection(
-          icon: CustomIcons.getIcon(CustomIcons.seniorHeart, size: 24),
-          title: '사랑 고민',
-          color: WeveColor.main.orange3,
-        ),
-        CategorySection(
-          icon: CustomIcons.getIcon(CustomIcons.seniorPeople, size: 24),
-          title: '인간관계 고민',
-          color: WeveColor.main.green3,
-        ),
-      ],
-    );
-  }
-}
-
-class CategorySection extends StatelessWidget {
-  final Widget icon;
-  final String title;
-  final Color color;
-
-  const CategorySection({
-    super.key,
-    required this.icon,
-    required this.title,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 32.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              CustomIcons.getIcon(CustomIcons.seniorChat, size: 40),
-              const SizedBox(width: 8),
-              Text(title, style: WeveText.header3(color: WeveColor.gray.gray1)),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Column(
-            children: List.generate(
-              3,
-              (index) => Padding(
-                padding: const EdgeInsets.only(bottom: 12.0),
-                child: ListItem(
-                  text: '고민 내용을 AI가 10자로 보여줍니다.',
-                  color: color,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SeniorWorryDetailScreen(),
-                      ),
-                    );
-                  },
-                ),
+      body: Padding(
+        padding: const EdgeInsets.all(12),
+        child: CategoryList(
+          onItemTap: (worryId) async {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SeniorWorryDetailScreen(worryId: worryId),
               ),
-            ),
-          ),
-        ],
+            );
+            _setSeniorHomeHeader();
+          },
+        ),
       ),
     );
   }
