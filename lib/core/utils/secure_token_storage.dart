@@ -14,9 +14,13 @@ class SecureTokenStorage implements TokenStorage {
 
   // 토큰 키
   static final String _tokenKey = dotenv.env['AUTH_TOKEN_KEY'] ?? 'auth_token';
+  // 사용자 타입 키
+  static const String _userTypeKey = 'user_type';
 
   // 토큰 메모리 캐시 (성능 향상)
   static String? _tokenCache;
+  // 사용자 타입 메모리 캐시
+  static String? _userTypeCache;
 
   /// 토큰 저장
   @override
@@ -85,12 +89,59 @@ class SecureTokenStorage implements TokenStorage {
     }
   }
 
+  /// 사용자 타입 저장 (주니어/시니어)
+  @override
+  Future<void> saveUserType(String userType) async {
+    try {
+      await _storage.write(key: _userTypeKey, value: userType);
+      _userTypeCache = userType; // 캐시 업데이트
+      if (kDebugMode) {
+        print('사용자 타입 저장 성공: $userType');
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('사용자 타입 저장 오류: $e');
+      }
+      _userTypeCache = userType; // 저장 실패 시에도 메모리에는 보관
+      throw AppError(
+          code: 'USER_TYPE_SAVE_ERROR',
+          message: '사용자 타입 저장에 실패했습니다.',
+          originalError: e);
+    }
+  }
+
+  /// 사용자 타입 조회
+  @override
+  Future<String?> getUserType() async {
+    try {
+      // 캐시된 사용자 타입이 있으면 바로 반환
+      if (_userTypeCache != null) {
+        return _userTypeCache;
+      }
+
+      // 캐시가 없으면 저장소에서 로드
+      final userType = await _storage.read(key: _userTypeKey);
+      _userTypeCache = userType; // 캐시 업데이트
+
+      if (kDebugMode && userType != null) {
+        print('사용자 타입 로드 성공: $userType');
+      }
+      return userType;
+    } catch (e) {
+      if (kDebugMode) {
+        print('사용자 타입 로드 오류: $e');
+      }
+      return _userTypeCache; // 오류 발생 시 캐시된 값 반환
+    }
+  }
+
   /// 모든 안전한 저장소 데이터 삭제 (로그아웃 시 사용)
   @override
   Future<void> clearAll() async {
     try {
       await _storage.deleteAll();
       _tokenCache = null;
+      _userTypeCache = null;
       if (kDebugMode) {
         print('보안 저장소 초기화 성공');
       }

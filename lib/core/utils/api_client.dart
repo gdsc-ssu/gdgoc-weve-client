@@ -199,6 +199,13 @@ class ApiClient {
   /// 토큰 삭제
   Future<void> deleteToken() => _tokenStorage.deleteToken();
 
+  /// 사용자 타입 저장 (주니어/시니어)
+  Future<void> saveUserType(String userType) =>
+      _tokenStorage.saveUserType(userType);
+
+  /// 사용자 타입 가져오기
+  Future<String?> getUserType() => _tokenStorage.getUserType();
+
   /// 모든 보안 데이터 삭제
   Future<void> clearAllSecureData() => _tokenStorage.clearAll();
 }

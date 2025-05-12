@@ -12,6 +12,12 @@ abstract class TokenStorage {
   /// 토큰 삭제
   Future<void> deleteToken();
 
+  /// 사용자 타입 저장 (주니어/시니어)
+  Future<void> saveUserType(String userType);
+
+  /// 사용자 타입 조회
+  Future<String?> getUserType();
+
   /// 모든 저장된 데이터 삭제
   Future<void> clearAll();
 }

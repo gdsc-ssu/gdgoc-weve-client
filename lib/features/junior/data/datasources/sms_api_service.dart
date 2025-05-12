@@ -125,6 +125,9 @@ class SmsApiService {
       if (verifyResponse.isSuccess) {
         await _apiClient.saveToken(verifyResponse.token);
 
+        // 주니어 타입 저장
+        await _apiClient.saveUserType('junior');
+
         // 인증에 성공한 전화번호도 SharedPreferences에 저장
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('user_phone_number', formattedPhoneNumber);
@@ -133,6 +136,7 @@ class SmsApiService {
           print(
               '토큰 저장 완료: ${verifyResponse.token.substring(0, math.min(10, verifyResponse.token.length))}...');
           print('전화번호 저장 완료: $formattedPhoneNumber');
+          print('사용자 타입 저장 완료: junior');
         }
       }
 

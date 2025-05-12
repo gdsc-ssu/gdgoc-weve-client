@@ -29,6 +29,24 @@ class AuthUtils {
     }
   }
 
+  /// 사용자 타입 확인
+  /// 저장된 사용자 타입(주니어/시니어)을 조회
+  ///
+  /// 반환값: 사용자 타입 문자열 ('junior', 'senior', 또는 null)
+  static Future<String?> getUserType() async {
+    try {
+      // API 클라이언트를 통해 사용자 타입 조회
+      final userType = await _apiClient.getUserType();
+      if (kDebugMode) {
+        print('사용자 타입 확인: ${userType ?? '지정되지 않음'}');
+      }
+      return userType;
+    } catch (e) {
+      _logError('사용자 타입 확인 오류', e);
+      return null;
+    }
+  }
+
   /// 사용자 로그아웃 처리
   /// 저장된 모든 인증 관련 데이터를 삭제
   static Future<bool> logout() async {
