@@ -8,8 +8,11 @@ import 'package:weve_client/commons/widgets/junior/button/view/chat_button_off.d
 import 'package:weve_client/commons/widgets/junior/button/view/chat_button_on.dart';
 import 'package:weve_client/commons/widgets/junior/button/view/senior_profile_button.dart';
 import 'package:weve_client/commons/widgets/junior/button/viewmodel/select_language_provider.dart';
+import 'package:weve_client/commons/widgets/popup/view/popup.dart';
+import 'package:weve_client/commons/widgets/popup/viewmodel/popup_viewmodel.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/custom_svg_image.dart';
+import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
 
 // 상태 enum 정의
@@ -64,31 +67,143 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
     return false;
   }
 
+  // 고민 상세 내용 팝업 표시 함수
+  void _showWorryDetailPopup() {
+    // 임의의 상세 내용 및 작성자 정보 (나중에 API로 대체 예정)
+    final String content =
+        "편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다.";
+    final String author = "- 대한민국에 사는 5세 신짱구";
+
+    // PopupViewModel을 통해 팝업 내용 설정 및 표시
+    ref.read(popupProvider.notifier).showPopup(
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: WeveColor.gray.gray8,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  content,
+                  style: WeveText.body2(color: WeveColor.main.yellowText),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  author,
+                  style: WeveText.body3(color: WeveColor.main.yellowText),
+                  textAlign: TextAlign.right,
+                ),
+              ],
+            ),
+          ),
+        );
+  }
+
+  // 어르신 답변 팝업 표시 함수
+  void _showSeniorAnswerPopup() {
+    // 임의의 답변 내용 및 작성자 정보 (나중에 API로 대체 예정)
+    final String content =
+        "안녕하세요 어르신..이건 어르신의 답변답변답변답변답변답변 의 답변답변답변답변답변답변 의 답변답변답변답변답변답변 의 답변답변답변답변답변답변 ";
+    final String author = "- 대한민국에 사는 5세 신짱구";
+
+    // PopupViewModel을 통해 팝업 내용 설정 및 표시
+    ref.read(popupProvider.notifier).showPopup(
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: WeveColor.gray.gray8,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  content,
+                  style: WeveText.body2(color: WeveColor.main.yellowText),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  author,
+                  style: WeveText.body3(color: WeveColor.main.yellowText),
+                  textAlign: TextAlign.right,
+                ),
+              ],
+            ),
+          ),
+        );
+  }
+
+  // 감사 인사 팝업 표시 함수
+  void _showThankYouPopup() {
+    // 임의의 감사 인사 내용 및 작성자 정보 (나중에 API로 대체 예정)
+    final String content =
+        "정말 감사합니다. 어르신의 조언 덕분에 많은 도움이 되었습니다. 앞으로도 어르신의 말씀을 새겨듣고 더 나은 사람이 되도록 노력하겠습니다. 건강하시고 행복하세요!";
+    final String author = "- 대한민국에 사는 5세 신짱구";
+
+    // PopupViewModel을 통해 팝업 내용 설정 및 표시
+    ref.read(popupProvider.notifier).showPopup(
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: WeveColor.gray.gray8,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  content,
+                  style: WeveText.body2(color: WeveColor.main.yellowText),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  author,
+                  style: WeveText.body3(color: WeveColor.main.yellowText),
+                  textAlign: TextAlign.right,
+                ),
+              ],
+            ),
+          ),
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        backgroundColor: WeveColor.bg.bg1,
+        backgroundColor: WeveColor.gray.gray8,
         appBar: const HeaderWidget(),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  const SizedBox(height: 30),
-                  _buildContentByStatus(),
-                  const SizedBox(height: 30),
-                ],
+        body: Stack(
+          children: [
+            SafeArea(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 30),
+                      _buildContentByStatus(),
+                      const SizedBox(height: 30),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
+            // 팝업 컴포넌트 사용
+            const Popup(title: ""),
+          ],
         ),
       ),
     );
   }
 
+  // 상태에 따른 컨텐츠 빌드
   Widget _buildContentByStatus() {
     switch (widget.status) {
       case WorryStatus.WAITING:
@@ -110,9 +225,7 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
         ChatButtonOn(
           title: '당신의 고민',
           buttonText: '내가 쓴 고민 보기',
-          onPressed: () {
-            // 내 고민 상세 보기 로직
-          },
+          onPressed: _showWorryDetailPopup,
         ),
         _buildImageContainer(
           image: CustomSvgImages.middleLine,
@@ -139,9 +252,7 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
         ChatButtonOn(
           title: '당신의 고민',
           buttonText: '내가 쓴 고민 보기',
-          onPressed: () {
-            // 내 고민 상세 보기 로직
-          },
+          onPressed: _showWorryDetailPopup,
         ),
         _buildImageContainer(
           image: CustomSvgImages.middleLineLeft,
@@ -149,9 +260,7 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
         ChatButtonOn(
           title: '어르신의 답변',
           buttonText: '어르신의 답변 보기',
-          onPressed: () {
-            // 어르신 답변 보기 로직
-          },
+          onPressed: _showSeniorAnswerPopup,
         ),
         _buildImageContainer(
           image: CustomSvgImages.middleLineRight,
@@ -181,9 +290,7 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
         ChatButtonOn(
           title: '당신의 고민',
           buttonText: '내가 쓴 고민 보기',
-          onPressed: () {
-            // 내 고민 상세 보기 로직
-          },
+          onPressed: _showWorryDetailPopup,
         ),
         _buildImageContainer(
           image: CustomSvgImages.middleLineLeft,
@@ -191,9 +298,7 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
         ChatButtonOn(
           title: '어르신의 답변',
           buttonText: '어르신의 답변 보기',
-          onPressed: () {
-            // 어르신 답변 보기 로직
-          },
+          onPressed: _showSeniorAnswerPopup,
         ),
         _buildImageContainer(
           image: CustomSvgImages.middleLineRight,
@@ -201,9 +306,7 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
         ChatButtonOn(
           title: '당신의 감사 인사',
           buttonText: '내가 쓴 감사 인사 보기',
-          onPressed: () {
-            // 내 감사 인사 보기 로직
-          },
+          onPressed: _showThankYouPopup,
         ),
         _buildImageContainer(
           image: CustomSvgImages.writeBottom,
