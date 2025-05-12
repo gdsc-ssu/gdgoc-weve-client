@@ -131,7 +131,9 @@ class _JuniorEditPhoneNumberScreenState
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const JuniorEditPhoneNumberVerifyScreen(),
+            builder: (context) => JuniorEditPhoneNumberVerifyScreen(
+              phoneNumber: phoneController.text,
+            ),
           ),
         );
       } else {

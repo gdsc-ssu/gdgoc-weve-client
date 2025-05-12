@@ -33,6 +33,8 @@ class SeniorLoginViewModel extends StateNotifier<SeniorLoginState> {
         final token = loginResponse.result as String?; // 토큰 가져오기
         if (token != null) {
           await _apiClient.saveToken(token); // 토큰 저장
+          await _apiClient.saveUserType('senior'); // 시니어 타입 저장
+          print('사용자 타입 저장 완료: senior');
         }
         if (!context.mounted) return;
 

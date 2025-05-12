@@ -29,6 +29,24 @@ class AuthUtils {
     }
   }
 
+  /// 사용자 타입 확인
+  /// 저장된 사용자 타입(주니어/시니어)을 조회
+  ///
+  /// 반환값: 사용자 타입 문자열 ('junior', 'senior', 또는 null)
+  static Future<String?> getUserType() async {
+    try {
+      // API 클라이언트를 통해 사용자 타입 조회
+      final userType = await _apiClient.getUserType();
+      if (kDebugMode) {
+        print('사용자 타입 확인: ${userType ?? '지정되지 않음'}');
+      }
+      return userType;
+    } catch (e) {
+      _logError('사용자 타입 확인 오류', e);
+      return null;
+    }
+  }
+
   /// 사용자 로그아웃 처리
   /// 저장된 모든 인증 관련 데이터를 삭제
   static Future<bool> logout() async {
@@ -41,6 +59,33 @@ class AuthUtils {
       return true;
     } catch (e) {
       _logError('로그아웃 오류', e);
+      return false;
+    }
+  }
+
+  /// 회원탈퇴 처리
+  /// 서버에 탈퇴 요청 및 로컬 데이터 삭제
+  static Future<bool> withdraw() async {
+    try {
+      // 회원탈퇴 API 호출
+      final response = await _apiClient.delete('/api/auth/withdraw');
+
+      // API 호출 성공 여부 확인
+      if (response.isSuccess) {
+        // 로컬 데이터 삭제 (로그아웃과 동일)
+        await _apiClient.clearAllSecureData();
+        if (kDebugMode) {
+          print('회원탈퇴 완료');
+        }
+        return true;
+      } else {
+        if (kDebugMode) {
+          print('회원탈퇴 API 호출 실패: ${response.message}');
+        }
+        return false;
+      }
+    } catch (e) {
+      _logError('회원탈퇴 오류', e);
       return false;
     }
   }

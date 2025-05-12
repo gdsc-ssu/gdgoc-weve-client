@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter/material.dart';
 import 'package:weve_client/core/errors/app_error.dart';
 import 'package:weve_client/features/junior/data/datasources/user_profile_service.dart';
 import 'package:weve_client/features/junior/data/models/user_profile_model.dart';
@@ -41,43 +40,69 @@ class UserProfileViewModel extends StateNotifier<ProfileState> {
   UserProfileViewModel(this._userProfileService) : super(ProfileState());
 
   // 프로필 정보 저장
-  Future<bool> saveProfile(String name, String birth) async {
+  Future<bool> saveProfile(
+      {String? name,
+      String? birth,
+      String? language,
+      String? phoneNumber}) async {
     state = state.copyWith(status: ProfileStatus.loading);
 
     try {
-      // 전화번호 가져오기
-      var phoneNumber = await _userProfileService.getPhoneNumber();
+      // 로컬 저장소에서 기존 정보 가져오기
+      final profileData =
+          await _userProfileService.getProfileFromLocalStorage();
 
-      // 전화번호가 null인 경우 1초 대기 후 다시 조회 시도
-      if (phoneNumber == null || phoneNumber.isEmpty) {
-        if (kDebugMode) {
-          print('전화번호가 없어 1초 후 다시 조회합니다.');
-        }
-
-        // 1초 대기 후 다시 시도
-        await Future.delayed(const Duration(seconds: 1));
-        phoneNumber = await _userProfileService.getPhoneNumber();
-      }
-
-      if (phoneNumber == null || phoneNumber.isEmpty) {
+      if (profileData == null) {
         state = state.copyWith(
           status: ProfileStatus.error,
-          errorMessage: '전화번호 정보를 찾을 수 없습니다.',
-          errorCode: 'PHONE_NUMBER_NOT_FOUND',
+          errorMessage: '프로필 정보를 찾을 수 없습니다.',
+          errorCode: 'PROFILE_NOT_FOUND',
         );
         return false;
       }
 
-      // 언어 설정 가져오기
-      final language = await _userProfileService.getLanguage();
+      // 전화번호 가져오기
+      var currentPhoneNumber = phoneNumber;
 
-      // API 요청 모델 생성
+      // 전화번호가 전달되지 않았으면 기존 값 사용
+      if (currentPhoneNumber == null || currentPhoneNumber.isEmpty) {
+        currentPhoneNumber = await _userProfileService.getPhoneNumber();
+
+        // 전화번호가 null인 경우 1초 대기 후 다시 조회 시도
+        if (currentPhoneNumber == null || currentPhoneNumber.isEmpty) {
+          if (kDebugMode) {
+            print('전화번호가 없어 1초 후 다시 조회합니다.');
+          }
+
+          // 1초 대기 후 다시 시도
+          await Future.delayed(const Duration(seconds: 1));
+          currentPhoneNumber = await _userProfileService.getPhoneNumber();
+        }
+
+        if (currentPhoneNumber == null || currentPhoneNumber.isEmpty) {
+          state = state.copyWith(
+            status: ProfileStatus.error,
+            errorMessage: '전화번호 정보를 찾을 수 없습니다.',
+            errorCode: 'PHONE_NUMBER_NOT_FOUND',
+          );
+          return false;
+        }
+      }
+
+      // 언어 설정 가져오기 (기본값)
+      String defaultLanguage = await _userProfileService.getLanguage();
+
+      // API 요청 모델 생성 (전달받은 값 또는 기존 값 사용)
       final request = ProfileRequest(
-        name: name,
-        birth: birth,
-        phoneNumber: phoneNumber,
-        language: language,
+        name: name ?? profileData.name,
+        birth: birth ?? profileData.birth,
+        phoneNumber: currentPhoneNumber,
+        language: language ?? defaultLanguage,
       );
+
+      if (kDebugMode) {
+        print('프로필 업데이트 요청: ${request.toJson()}');
+      }
 
       // API 호출
       final response = await _userProfileService.saveProfile(request);

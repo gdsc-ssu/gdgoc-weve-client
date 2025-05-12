@@ -8,6 +8,7 @@ import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
 import 'package:weve_client/core/utils/auth_utils.dart';
 import 'package:weve_client/features/junior/presentation/views/junior_main_screen.dart';
+import 'package:weve_client/features/senior/presentation/views/senior_main_screen.dart';
 
 void main() async {
   // Flutter 엔진과 위젯 바인딩 초기화
@@ -82,12 +83,27 @@ class _InitialSplashScreenState extends State<InitialSplashScreen> {
       if (!mounted) return;
 
       if (isLoggedIn) {
-        // 로그인된 경우 메인 화면으로 이동
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const JuniorMainScreen(),
-          ),
-        );
+        // 로그인된 경우 사용자 타입 확인
+        final userType = await AuthUtils.getUserType();
+
+        if (!mounted) return;
+
+        // 사용자 타입에 따라 다른 메인 화면으로 이동
+        if (userType == 'senior') {
+          // 시니어 메인 화면으로 이동
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const SeniorMainScreen(),
+            ),
+          );
+        } else {
+          // 주니어 메인 화면으로 이동 (기본값)
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const JuniorMainScreen(),
+            ),
+          );
+        }
       } else {
         // 로그인되지 않은 경우 언어 선택 화면으로 이동
         Navigator.of(context).pushReplacement(

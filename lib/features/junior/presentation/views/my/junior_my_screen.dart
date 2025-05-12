@@ -70,21 +70,27 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
       await userProfileViewModel.getProfile();
 
       // 상태 업데이트
-      _updateProfileData();
+      if (mounted) {
+        _updateProfileData();
+      }
     } catch (e) {
       if (kDebugMode) {
         print('프로필 정보 로드 오류: $e');
       }
 
       // 로딩 상태 종료
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
   // 프로필 데이터 업데이트 함수
   void _updateProfileData() {
+    if (!mounted) return;
+
     final profileState = ref.read(userProfileViewModelProvider);
 
     if (profileState.status == ProfileStatus.success &&
@@ -207,6 +213,7 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
                   // 회원탈퇴 처리 로직
                   ref.read(popupProvider.notifier).closePopup();
                   // 여기에 회원탈퇴 후 처리 로직 추가
+                  _withdrawAccount();
                 },
               ),
             ],
@@ -220,6 +227,48 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
         'https://docs.google.com/forms/d/e/1FAIpQLSfSYKnrGLSTulTSWTGcQzPRbrDOHrn3usbVqhVczx8Opeyjqg/viewform');
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch ask page');
+    }
+  }
+
+  // 회원탈퇴 처리 함수
+  Future<void> _withdrawAccount() async {
+    try {
+      // 회원탈퇴 API 호출
+      final result = await AuthUtils.withdraw();
+
+      if (result && mounted) {
+        final locale = ref.read(localeProvider);
+        final appLocalizations = AppLocalizations(locale);
+
+        // 회원탈퇴 성공 토스트 메시지 표시
+        CustomToast.show(
+          context,
+          appLocalizations.withdrawalSuccess,
+          backgroundColor: WeveColor.main.orange1,
+          textColor: Colors.white,
+          borderRadius: 20,
+          duration: 3,
+        );
+
+        // 앱 메인으로 이동 (초기 스플래시 스크린으로 이동)
+        Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('회원탈퇴 처리 오류: $e');
+      }
+
+      if (mounted) {
+        // 오류 발생 시 토스트 메시지 표시
+        CustomToast.show(
+          context,
+          e.toString(),
+          backgroundColor: WeveColor.main.orange1,
+          textColor: Colors.white,
+          borderRadius: 20,
+          duration: 3,
+        );
+      }
     }
   }
 
@@ -271,7 +320,8 @@ class _JuniorMyScreenState extends ConsumerState<JuniorMyScreen> {
     // 프로필 상태 변경 감지하여 UI 업데이트
     ref.listen(userProfileViewModelProvider, (previous, next) {
       if (previous?.status != next.status &&
-          next.status == ProfileStatus.success) {
+          next.status == ProfileStatus.success &&
+          mounted) {
         _updateProfileData();
       }
     });
