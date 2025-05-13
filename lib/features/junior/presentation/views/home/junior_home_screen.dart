@@ -12,6 +12,7 @@ import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:weve_client/features/junior/presentation/views/chat/junior_chat_screen.dart';
+import 'package:weve_client/features/junior/presentation/viewmodels/worry_list_viewmodel.dart';
 
 class JuniorHomeScreen extends ConsumerStatefulWidget {
   const JuniorHomeScreen({super.key});
@@ -21,25 +22,19 @@ class JuniorHomeScreen extends ConsumerStatefulWidget {
 }
 
 class _JuniorHomeScreenState extends ConsumerState<JuniorHomeScreen> {
-  // TODO: API 연동 후 실제 데이터로 교체
-  final bool _hasData = true; // 임시 데이터 상태
-  final List<Map<String, dynamic>> _items = [
-    {'worryId': 1, 'title': '초등교육과 진로가 고민돼요', 'status': 'WAITING'},
-    {'worryId': 2, 'title': '연애를 못해서 마음이 조급해요', 'status': 'ARRIVED'},
-    {'worryId': 3, 'title': '사람들이 저를 싫어하는 것 같아요', 'status': 'RESOLVED'},
-    {'worryId': 4, 'title': '미래에 대한 불안감이 있어요', 'status': 'ARRIVED'},
-    {'worryId': 5, 'title': '우울증이 심각해지는 것 같아요', 'status': 'WAITING'},
-    {'worryId': 6, 'title': '인간관계가 어려워요', 'status': 'ARRIVED'},
-    {'worryId': 7, 'title': '잘하고 있는지 확신이 안 서요', 'status': 'WAITING'},
-  ];
-
   @override
   void initState() {
     super.initState();
     // 헤더 설정
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _setupHeader();
+      _fetchWorryList();
     });
+  }
+
+  // 고민 목록 가져오기
+  Future<void> _fetchWorryList() async {
+    await ref.read(worryListViewModelProvider.notifier).fetchWorryList();
   }
 
   // 헤더 설정 메서드
@@ -68,14 +63,14 @@ class _JuniorHomeScreenState extends ConsumerState<JuniorHomeScreen> {
   }
 
   // 아이템 클릭 핸들러
-  void _onItemTap(Map<String, dynamic> item) {
+  void _onItemTap(int worryId, String title, String status) {
     // 안전하게 페이지 전환
     Future.delayed(Duration.zero, () {
       final route = MaterialPageRoute(
         builder: (context) => JuniorChatScreen(
-          status: _getWorryStatus(item['status']),
-          worryId: item['worryId'],
-          title: item['title'],
+          status: _getWorryStatus(status),
+          worryId: worryId,
+          title: title,
         ),
       );
 
@@ -90,14 +85,15 @@ class _JuniorHomeScreenState extends ConsumerState<JuniorHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final worryListState = ref.watch(worryListViewModelProvider);
+    final hasData = worryListState.hasData;
+    final isLoading = worryListState.isLoading;
+
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: RefreshIndicator(
-        onRefresh: () async {
-          // TODO: API 연동 후 실제 데이터 새로고침 로직 추가
-          await Future.delayed(const Duration(seconds: 1));
-        },
+        onRefresh: _fetchWorryList,
         color: WeveColor.main.orange1,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -106,33 +102,42 @@ class _JuniorHomeScreenState extends ConsumerState<JuniorHomeScreen> {
               const SizedBox(height: 30),
               const BannerWidget(),
               const SizedBox(height: 30),
-              if (_hasData) ...[
+              if (isLoading && !hasData)
+                Center(
+                  child: CircularProgressIndicator(
+                    color: WeveColor.main.orange1,
+                  ),
+                )
+              else if (hasData) ...[
                 ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: _items.length,
+                  itemCount: worryListState.worryList.length,
                   separatorBuilder: (context, index) =>
                       const SizedBox(height: 20),
                   itemBuilder: (context, index) {
-                    final item = _items[index];
-                    switch (item['status']) {
+                    final item = worryListState.worryList[index];
+                    switch (item.status) {
                       case 'RESOLVED':
                         return ListItemComplete(
-                          title: item['title'],
-                          worryId: item['worryId'],
-                          onTap: () => _onItemTap(item),
+                          title: item.title,
+                          worryId: item.worryId,
+                          onTap: () =>
+                              _onItemTap(item.worryId, item.title, item.status),
                         );
                       case 'ARRIVED':
                         return ListItemResponded(
-                          title: item['title'],
-                          worryId: item['worryId'],
-                          onTap: () => _onItemTap(item),
+                          title: item.title,
+                          worryId: item.worryId,
+                          onTap: () =>
+                              _onItemTap(item.worryId, item.title, item.status),
                         );
                       case 'WAITING':
                         return ListItemWaiting(
-                          title: item['title'],
-                          worryId: item['worryId'],
-                          onTap: () => _onItemTap(item),
+                          title: item.title,
+                          worryId: item.worryId,
+                          onTap: () =>
+                              _onItemTap(item.worryId, item.title, item.status),
                         );
                       default:
                         return const SizedBox.shrink();
