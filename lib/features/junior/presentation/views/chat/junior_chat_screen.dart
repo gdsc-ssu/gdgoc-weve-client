@@ -107,6 +107,49 @@ class SeniorAnswerResult {
   }
 }
 
+// 감사 인사 응답 모델
+class AppreciateResponse {
+  final bool isSuccess;
+  final String code;
+  final String message;
+  final AppreciateResult? result;
+
+  AppreciateResponse({
+    required this.isSuccess,
+    required this.code,
+    required this.message,
+    this.result,
+  });
+
+  factory AppreciateResponse.fromJson(Map<String, dynamic> json) {
+    return AppreciateResponse(
+      isSuccess: json['isSuccess'] as bool,
+      code: json['code'] as String,
+      message: json['message'] as String,
+      result: json['result'] != null
+          ? AppreciateResult.fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class AppreciateResult {
+  final String content;
+  final String author;
+
+  AppreciateResult({
+    required this.content,
+    required this.author,
+  });
+
+  factory AppreciateResult.fromJson(Map<String, dynamic> json) {
+    return AppreciateResult(
+      content: json['content'] as String,
+      author: json['author'] as String,
+    );
+  }
+}
+
 // 상태 enum 정의
 
 class JuniorChatScreen extends ConsumerStatefulWidget {
@@ -233,6 +276,51 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
     } catch (e) {
       if (kDebugMode) {
         print('어르신 답변 조회 오류: $e');
+      }
+
+      setState(() {
+        _errorMessage = '서버 오류가 발생했습니다.';
+      });
+
+      return null;
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  // 감사 인사 API 조회
+  Future<AppreciateResult?> fetchAppreciate(int worryId) async {
+    try {
+      setState(() {
+        _isLoading = true;
+        _errorMessage = null;
+      });
+
+      final response = await _apiClient.get<Map<String, dynamic>>(
+        '/api/worries/$worryId/appreciate/junior',
+      );
+
+      if (kDebugMode) {
+        print('감사 인사 조회 응답: ${response.toJson()}');
+      }
+
+      if (response.isSuccess && response.code == 'COMMON200') {
+        final result = response.result;
+        if (result != null) {
+          return AppreciateResult.fromJson(result);
+        }
+      } else {
+        setState(() {
+          _errorMessage = response.message;
+        });
+      }
+
+      return null;
+    } catch (e) {
+      if (kDebugMode) {
+        print('감사 인사 조회 오류: $e');
       }
 
       setState(() {
@@ -429,13 +517,79 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
   }
 
   // 감사 인사 팝업 표시 함수
-  void _showThankYouPopup() {
-    // 임의의 감사 인사 내용 및 작성자 정보 (나중에 API로 대체 예정)
-    final String content =
-        "정말 감사합니다. 어르신의 조언 덕분에 많은 도움이 되었습니다. 앞으로도 어르신의 말씀을 새겨듣고 더 나은 사람이 되도록 노력하겠습니다. 건강하시고 행복하세요!";
-    final String author = "- 대한민국에 사는 5세 신짱구";
+  void _showThankYouPopup() async {
+    // 먼저 로딩 상태의 팝업을 표시
+    ref.read(popupProvider.notifier).showPopup(
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(30),
+            decoration: BoxDecoration(
+              color: WeveColor.gray.gray8,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(
+                  color: WeveColor.main.yellowText,
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  "감사 인사를 불러오는 중...",
+                  style: TextStyle(color: WeveColor.main.yellowText),
+                ),
+              ],
+            ),
+          ),
+        );
 
-    _showContentPopup(content: content, author: author);
+    // API로 감사 인사 내용 가져오기
+    final appreciateResult = await fetchAppreciate(widget.worryId);
+
+    if (appreciateResult != null) {
+      // 데이터를 받은 후 팝업 내용 업데이트
+      ref.read(popupProvider.notifier).showPopup(
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(30),
+              decoration: BoxDecoration(
+                color: WeveColor.gray.gray8,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    appreciateResult.content,
+                    style: WeveText.body2(color: WeveColor.main.yellowText),
+                  ),
+                  const SizedBox(height: 30),
+                  Text(
+                    appreciateResult.author,
+                    style: WeveText.body3(color: WeveColor.main.yellowText),
+                    textAlign: TextAlign.right,
+                  ),
+                ],
+              ),
+            ),
+          );
+    } else if (_errorMessage != null) {
+      // 에러 메시지 표시
+      ref.read(popupProvider.notifier).showPopup(
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(30),
+              decoration: BoxDecoration(
+                color: WeveColor.gray.gray8,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                _errorMessage!,
+                style: WeveText.body2(color: WeveColor.main.yellowText),
+              ),
+            ),
+          );
+    }
   }
 
   @override
