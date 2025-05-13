@@ -116,7 +116,10 @@ class _JuniorHomeScreenState extends ConsumerState<JuniorHomeScreen> {
                   separatorBuilder: (context, index) =>
                       const SizedBox(height: 20),
                   itemBuilder: (context, index) {
-                    final item = worryListState.worryList[index];
+                    final sortedList = [...worryListState.worryList]
+                      ..sort((a, b) => b.worryId.compareTo(a.worryId));
+                    final item = sortedList[index];
+
                     switch (item.status) {
                       case 'RESOLVED':
                         return ListItemComplete(
