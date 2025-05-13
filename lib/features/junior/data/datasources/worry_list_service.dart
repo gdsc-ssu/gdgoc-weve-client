@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:weve_client/core/errors/app_error.dart';
-import 'package:weve_client/core/models/api_response.dart';
 import 'package:weve_client/core/utils/api_client.dart';
 import 'package:weve_client/features/junior/data/models/worry_list_model.dart';
 
@@ -15,8 +14,14 @@ class WorryListService {
         print('주니어 고민 목록 조회 API 호출: /api/worries/junior');
       }
 
+      // 타임아웃 설정 증가 (30초)
+      final options = Options(
+        receiveTimeout: const Duration(seconds: 30),
+      );
+
       final response = await _apiClient.get<Map<String, dynamic>>(
         '/api/worries/junior',
+        options: options,
       );
 
       if (kDebugMode) {
