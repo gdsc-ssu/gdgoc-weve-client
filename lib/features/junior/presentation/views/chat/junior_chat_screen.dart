@@ -13,14 +13,10 @@ import 'package:weve_client/commons/widgets/popup/viewmodel/popup_viewmodel.dart
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/constants/custom_svg_image.dart';
 import 'package:weve_client/core/constants/fonts.dart';
+import 'package:weve_client/core/enums/worry_status.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
 
 // 상태 enum 정의
-enum WorryStatus {
-  WAITING, // 답변 대기 중
-  ARRIVED, // 답변 등록됨
-  RESOLVED, // 고민 해결됨
-}
 
 class JuniorChatScreen extends ConsumerStatefulWidget {
   final WorryStatus status;

@@ -10,6 +10,7 @@ import 'package:weve_client/core/localization/app_localizations.dart';
 import 'package:weve_client/core/constants/custom_svg_image.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/core/constants/colors.dart';
+import 'package:weve_client/core/enums/worry_status.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:weve_client/features/junior/presentation/views/chat/junior_chat_screen.dart';
 import 'package:weve_client/features/junior/presentation/viewmodels/worry_list_viewmodel.dart';
