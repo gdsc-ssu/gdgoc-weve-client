@@ -15,6 +15,51 @@ import 'package:weve_client/core/constants/custom_svg_image.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 import 'package:weve_client/core/enums/worry_status.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
+import 'package:weve_client/core/utils/api_client.dart';
+import 'package:flutter/foundation.dart';
+
+// 고민 상세 내용 응답 모델
+class WorryDetailResponse {
+  final bool isSuccess;
+  final String code;
+  final String message;
+  final WorryDetailResult? result;
+
+  WorryDetailResponse({
+    required this.isSuccess,
+    required this.code,
+    required this.message,
+    this.result,
+  });
+
+  factory WorryDetailResponse.fromJson(Map<String, dynamic> json) {
+    return WorryDetailResponse(
+      isSuccess: json['isSuccess'] as bool,
+      code: json['code'] as String,
+      message: json['message'] as String,
+      result: json['result'] != null
+          ? WorryDetailResult.fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class WorryDetailResult {
+  final String content;
+  final String author;
+
+  WorryDetailResult({
+    required this.content,
+    required this.author,
+  });
+
+  factory WorryDetailResult.fromJson(Map<String, dynamic> json) {
+    return WorryDetailResult(
+      content: json['content'] as String,
+      author: json['author'] as String,
+    );
+  }
+}
 
 // 상태 enum 정의
 
@@ -36,6 +81,9 @@ class JuniorChatScreen extends ConsumerStatefulWidget {
 
 class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
   bool _isHeadingBack = false;
+  final ApiClient _apiClient = ApiClient();
+  bool _isLoading = false;
+  String? _errorMessage;
 
   @override
   void initState() {
@@ -63,6 +111,51 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
     return false;
   }
 
+  // 주니어 고민 상세 조회 API
+  Future<WorryDetailResult?> fetchWorryDetail(int worryId) async {
+    try {
+      setState(() {
+        _isLoading = true;
+        _errorMessage = null;
+      });
+
+      final response = await _apiClient.get<Map<String, dynamic>>(
+        '/api/worries/$worryId/junior',
+      );
+
+      if (kDebugMode) {
+        print('주니어 고민 상세 조회 응답: ${response.toJson()}');
+      }
+
+      if (response.isSuccess && response.code == 'COMMON200') {
+        final result = response.result;
+        if (result != null) {
+          return WorryDetailResult.fromJson(result);
+        }
+      } else {
+        setState(() {
+          _errorMessage = response.message;
+        });
+      }
+
+      return null;
+    } catch (e) {
+      if (kDebugMode) {
+        print('주니어 고민 상세 조회 오류: $e');
+      }
+
+      setState(() {
+        _errorMessage = '서버 오류가 발생했습니다.';
+      });
+
+      return null;
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   // 공통 팝업 표시 함수
   void _showContentPopup({required String content, required String author}) {
     ref.read(popupProvider.notifier).showPopup(
@@ -80,7 +173,7 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
                   content,
                   style: WeveText.body2(color: WeveColor.main.yellowText),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 30),
                 Text(
                   author,
                   style: WeveText.body3(color: WeveColor.main.yellowText),
@@ -93,20 +186,86 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
   }
 
   // 고민 상세 내용 팝업 표시 함수
-  void _showWorryDetailPopup() {
-    // 임의의 상세 내용 및 작성자 정보 (나중에 API로 대체 예정)
-    final String content =
-        "편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다. 편지 내용이 들어갑니다.";
-    final String author = "- 대한민국에 사는 5세 신짱구";
+  void _showWorryDetailPopup() async {
+    // 먼저 로딩 상태의 팝업을 표시
+    ref.read(popupProvider.notifier).showPopup(
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(30),
+            decoration: BoxDecoration(
+              color: WeveColor.gray.gray8,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(
+                  color: WeveColor.main.yellowText,
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  "고민 내용을 불러오는 중...",
+                  style: TextStyle(color: WeveColor.main.yellowText),
+                ),
+              ],
+            ),
+          ),
+        );
 
-    _showContentPopup(content: content, author: author);
+    // API로 고민 상세 내용 가져오기
+    final detailResult = await fetchWorryDetail(widget.worryId);
+
+    if (detailResult != null) {
+      // 데이터를 받은 후 팝업 내용 업데이트
+      ref.read(popupProvider.notifier).showPopup(
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: WeveColor.gray.gray8,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    detailResult.content,
+                    style: WeveText.body2(color: WeveColor.main.yellowText),
+                  ),
+                  const SizedBox(height: 30),
+                  Text(
+                    detailResult.author,
+                    style: WeveText.body3(color: WeveColor.main.yellowText),
+                    textAlign: TextAlign.right,
+                  ),
+                ],
+              ),
+            ),
+          );
+    } else if (_errorMessage != null) {
+      // 에러 메시지 표시
+      ref.read(popupProvider.notifier).showPopup(
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: WeveColor.gray.gray8,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                _errorMessage!,
+                style: WeveText.body2(color: WeveColor.main.yellowText),
+              ),
+            ),
+          );
+    }
   }
 
   // 어르신 답변 팝업 표시 함수
   void _showSeniorAnswerPopup() {
     // 임의의 답변 내용 및 작성자 정보 (나중에 API로 대체 예정)
     final String content =
-        "안녕하세요 어르신..이건 어르신의 답변답변답변답변답변답변 의 답변답변답변답변답변답변 의 답변답변답변답변답변답변 의 답변답변답변답변답변답변 ";
+        "안녕하세요 어르신..이건 어르신의 답변답변답변답변답변답변 의 답변답변답변답변답변답변 의 답변답변답변답변답변답변 ";
     final String author = "- 대한민국에 사는 5세 신짱구";
 
     _showContentPopup(content: content, author: author);
