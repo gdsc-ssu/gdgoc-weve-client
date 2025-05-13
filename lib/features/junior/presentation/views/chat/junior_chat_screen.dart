@@ -508,7 +508,7 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
     return Column(
       children: [
         // 어르신의 프로필 확인하기
-        const SeniorProfileButton(),
+        // const SeniorProfileButton(),
         const SizedBox(height: 30),
         _buildImageContainer(
           image: CustomSvgImages.writeTop,
