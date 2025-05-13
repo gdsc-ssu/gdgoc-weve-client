@@ -61,6 +61,52 @@ class WorryDetailResult {
   }
 }
 
+// 어르신 답변 응답 모델
+class SeniorAnswerResponse {
+  final bool isSuccess;
+  final String code;
+  final String message;
+  final SeniorAnswerResult? result;
+
+  SeniorAnswerResponse({
+    required this.isSuccess,
+    required this.code,
+    required this.message,
+    this.result,
+  });
+
+  factory SeniorAnswerResponse.fromJson(Map<String, dynamic> json) {
+    return SeniorAnswerResponse(
+      isSuccess: json['isSuccess'] as bool,
+      code: json['code'] as String,
+      message: json['message'] as String,
+      result: json['result'] != null
+          ? SeniorAnswerResult.fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class SeniorAnswerResult {
+  final String content;
+  final String author;
+  final String imageUrl;
+
+  SeniorAnswerResult({
+    required this.content,
+    required this.author,
+    required this.imageUrl,
+  });
+
+  factory SeniorAnswerResult.fromJson(Map<String, dynamic> json) {
+    return SeniorAnswerResult(
+      content: json['content'] as String,
+      author: json['author'] as String,
+      imageUrl: json['imageUrl'] as String,
+    );
+  }
+}
+
 // 상태 enum 정의
 
 class JuniorChatScreen extends ConsumerStatefulWidget {
@@ -142,6 +188,51 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
     } catch (e) {
       if (kDebugMode) {
         print('주니어 고민 상세 조회 오류: $e');
+      }
+
+      setState(() {
+        _errorMessage = '서버 오류가 발생했습니다.';
+      });
+
+      return null;
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  // 어르신 답변 API 조회
+  Future<SeniorAnswerResult?> fetchSeniorAnswer(int worryId) async {
+    try {
+      setState(() {
+        _isLoading = true;
+        _errorMessage = null;
+      });
+
+      final response = await _apiClient.get<Map<String, dynamic>>(
+        '/api/worries/$worryId/answer/junior',
+      );
+
+      if (kDebugMode) {
+        print('어르신 답변 조회 응답: ${response.toJson()}');
+      }
+
+      if (response.isSuccess && response.code == 'COMMON200') {
+        final result = response.result;
+        if (result != null) {
+          return SeniorAnswerResult.fromJson(result);
+        }
+      } else {
+        setState(() {
+          _errorMessage = response.message;
+        });
+      }
+
+      return null;
+    } catch (e) {
+      if (kDebugMode) {
+        print('어르신 답변 조회 오류: $e');
       }
 
       setState(() {
@@ -262,13 +353,79 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
   }
 
   // 어르신 답변 팝업 표시 함수
-  void _showSeniorAnswerPopup() {
-    // 임의의 답변 내용 및 작성자 정보 (나중에 API로 대체 예정)
-    final String content =
-        "안녕하세요 어르신..이건 어르신의 답변답변답변답변답변답변 의 답변답변답변답변답변답변 의 답변답변답변답변답변답변 ";
-    final String author = "- 대한민국에 사는 5세 신짱구";
+  void _showSeniorAnswerPopup() async {
+    // 먼저 로딩 상태의 팝업을 표시
+    ref.read(popupProvider.notifier).showPopup(
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(30),
+            decoration: BoxDecoration(
+              color: WeveColor.gray.gray8,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(
+                  color: WeveColor.main.yellowText,
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  "어르신의 답변을 불러오는 중...",
+                  style: TextStyle(color: WeveColor.main.yellowText),
+                ),
+              ],
+            ),
+          ),
+        );
 
-    _showContentPopup(content: content, author: author);
+    // API로 어르신 답변 내용 가져오기
+    final answerResult = await fetchSeniorAnswer(widget.worryId);
+
+    if (answerResult != null) {
+      // 데이터를 받은 후 팝업 내용 업데이트
+      ref.read(popupProvider.notifier).showPopup(
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(30),
+              decoration: BoxDecoration(
+                color: WeveColor.gray.gray8,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    answerResult.content,
+                    style: WeveText.body2(color: WeveColor.main.yellowText),
+                  ),
+                  const SizedBox(height: 30),
+                  Text(
+                    answerResult.author,
+                    style: WeveText.body3(color: WeveColor.main.yellowText),
+                    textAlign: TextAlign.right,
+                  ),
+                ],
+              ),
+            ),
+          );
+    } else if (_errorMessage != null) {
+      // 에러 메시지 표시
+      ref.read(popupProvider.notifier).showPopup(
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(30),
+              decoration: BoxDecoration(
+                color: WeveColor.gray.gray8,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                _errorMessage!,
+                style: WeveText.body2(color: WeveColor.main.yellowText),
+              ),
+            ),
+          );
+    }
   }
 
   // 감사 인사 팝업 표시 함수
