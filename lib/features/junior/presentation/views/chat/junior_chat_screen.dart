@@ -131,7 +131,7 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        backgroundColor: WeveColor.gray.gray8,
+        backgroundColor: WeveColor.bg.bg1,
         appBar: const HeaderWidget(),
         body: Stack(
           children: [
