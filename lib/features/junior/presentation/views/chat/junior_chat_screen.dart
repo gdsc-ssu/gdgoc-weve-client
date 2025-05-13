@@ -17,6 +17,7 @@ import 'package:weve_client/core/enums/worry_status.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:weve_client/features/junior/data/datasources/chat_detail_service.dart';
+import 'package:weve_client/features/junior/presentation/views/write/junior_write_thx_screen.dart';
 
 // 상태 enum 정의
 
@@ -491,9 +492,19 @@ class _JuniorChatScreenState extends ConsumerState<JuniorChatScreen> {
         _buildImageContainer(
           image: CustomSvgImages.middleLineRight,
         ),
-        ChatButtonOff(
+        ChatButtonOn(
           title: '당신의 감사 인사',
           buttonText: '어르신께 감사 인사 남기기',
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => JuniorWriteThxScreen(
+                  worryId: widget.worryId,
+                ),
+              ),
+            );
+          },
         ),
         _buildImageContainer(
           image: CustomSvgImages.writeBottom,
