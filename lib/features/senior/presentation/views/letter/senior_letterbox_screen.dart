@@ -55,35 +55,33 @@ class _SeniorLetterboxScreenState extends ConsumerState<SeniorLetterboxScreen> {
     return Scaffold(
       backgroundColor: WeveColor.bg.bg1,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: ListView(
-            children: [
-              SectionTitle(
-                title: '새로운 편지',
-                icon: CustomIcons.getIcon(CustomIcons.seniorHeart, size: 40),
-                iconColor: Colors.brown,
-              ),
-              const SizedBox(height: 20),
-              LetterGrid(
-                letters: newLetters,
-                isNew: true,
-                onTap: _handleLetterTap,
-              ),
-              const SizedBox(height: 20),
-              SectionTitle(
-                title: '읽은 편지',
-                icon: CustomIcons.getIcon(CustomIcons.seniorChat, size: 40),
-                iconColor: Colors.brown,
-              ),
-              const SizedBox(height: 20),
-              LetterGrid(
-                letters: readLetters,
-                isNew: false,
-                onTap: _handleLetterTap,
-              ),
-            ],
-          ),
+        child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 20.0),
+          children: [
+            SectionTitle(
+              title: '새로운 편지',
+              icon: CustomIcons.getIcon(CustomIcons.seniorHeart, size: 40),
+              iconColor: Colors.brown,
+            ),
+            const SizedBox(height: 20),
+            LetterGrid(
+              letters: newLetters,
+              isNew: true,
+              onTap: _handleLetterTap,
+            ),
+            const SizedBox(height: 20),
+            SectionTitle(
+              title: '읽은 편지',
+              icon: CustomIcons.getIcon(CustomIcons.seniorChat, size: 40),
+              iconColor: Colors.brown,
+            ),
+            const SizedBox(height: 20),
+            LetterGrid(
+              letters: readLetters,
+              isNew: false,
+              onTap: _handleLetterTap,
+            ),
+          ],
         ),
       ),
     );
