@@ -31,7 +31,7 @@ class _SeniorMyScreenState extends ConsumerState<SeniorMyScreen> {
   String userLocation = '';
 
   // 프로필 이미지 색상
-  ProfileColor selectedProfileColor = ProfileColor.green;
+  ProfileColor selectedProfileColor = ProfileColor.orange;
 
   // 로딩 상태
   bool isLoading = true;
@@ -69,6 +69,7 @@ class _SeniorMyScreenState extends ConsumerState<SeniorMyScreen> {
       setState(() {
         userName = seniorInfo.name;
         userLocation = seniorInfo.nationality;
+        // selectedProfileColor = seniorInfo.profileColor; // TODO : 프로필 색상 요청 필요
         isLoading = false;
       });
     } catch (e) {
