@@ -24,7 +24,20 @@ final seniorSubmitProvider =
 );
 
 class SeniorInputStruggleScreen extends ConsumerWidget {
-  const SeniorInputStruggleScreen({super.key});
+  final String name;
+  final String phoneNumber;
+  final String birth;
+  final String job;
+  final String value;
+
+  const SeniorInputStruggleScreen({
+    super.key,
+    required this.name,
+    required this.phoneNumber,
+    required this.birth,
+    required this.job,
+    required this.value,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -54,14 +67,13 @@ class SeniorInputStruggleScreen extends ConsumerWidget {
                   backgroundColor: WeveColor.main.yellow1_100,
                   textColor: WeveColor.main.yellowText,
                   onPressed: () async {
-                    final birth = ref.read(birthSpeechProvider);
-                    final job = ref.read(careerSpeechProvider);
-                    final value = ref.read(valueSpeechProvider);
                     final hardship = ref.read(struggleSpeechProvider);
 
                     final submitViewModel =
                         ref.read(seniorSubmitProvider.notifier);
 
+                    submitViewModel.updateName(name);
+                    submitViewModel.updatePhoneNumber(phoneNumber);
                     submitViewModel.updateBirth(birth);
                     submitViewModel.updateJob(job);
                     submitViewModel.updateValue(value);

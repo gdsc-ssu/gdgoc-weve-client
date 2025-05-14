@@ -16,7 +16,18 @@ final valueSpeechProvider =
 );
 
 class SeniorInputValueScreen extends ConsumerWidget {
-  const SeniorInputValueScreen({super.key});
+  final String name;
+  final String phoneNumber;
+  final String birth;
+  final String job;
+
+  const SeniorInputValueScreen({
+    super.key,
+    required this.name,
+    required this.phoneNumber,
+    required this.birth,
+    required this.job,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,11 +58,18 @@ class SeniorInputValueScreen extends ConsumerWidget {
                 textColor: WeveColor.main.yellowText,
                 onPressed: () async {
                   await ref.read(valueSpeechProvider.notifier).stopSpeech();
+                  final value = ref.read(valueSpeechProvider);
 
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SeniorInputStruggleScreen(),
+                      builder: (context) => SeniorInputStruggleScreen(
+                        name: name,
+                        phoneNumber: phoneNumber,
+                        birth: birth,
+                        job: job,
+                        value: value,
+                      ),
                     ),
                   );
                 },

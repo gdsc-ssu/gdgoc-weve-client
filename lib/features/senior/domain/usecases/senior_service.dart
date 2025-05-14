@@ -22,25 +22,48 @@ class SeniorService {
   }
 
   Future<void> fetchAndNavigate(BuildContext context) async {
-    final seniorInfo = await fetchSeniorInfo();
+    try {
+      final seniorInfo = await fetchSeniorInfo();
 
-    if (!context.mounted) return;
+      if (!context.mounted) return;
 
-    // 초기질문에 답한 경우 MainScreen으로
-    if (seniorInfo.hasWrittenBasicInfo) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => SeniorMainScreen(),
-        ),
-      );
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => SeniorInputBirthScreen(),
-        ),
-      );
+      // 초기질문에 답한 경우 MainScreen으로
+      if (seniorInfo.hasWrittenBasicInfo) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => SeniorMainScreen(),
+          ),
+        );
+      } else {
+        // 현재 로그인한 사용자 정보 가져오기
+        final userInfoResponse = await _apiClient.get('/api/user/info');
+        final name = userInfoResponse.result['name'] as String? ?? '';
+        final phoneNumber =
+            userInfoResponse.result['phoneNumber'] as String? ?? '';
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => SeniorInputBirthScreen(
+              name: name,
+              phoneNumber: phoneNumber,
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      print('시니어 정보 조회 중 오류: $e');
+
+      // 오류 발생 시 메인 화면으로 이동
+      if (context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => SeniorMainScreen(),
+          ),
+        );
+      }
     }
   }
 }
