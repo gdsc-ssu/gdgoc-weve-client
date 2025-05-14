@@ -15,7 +15,7 @@
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>촬영한 사진을 저장하기 위해 사진 앨범 접근 권한이 필요합니다.</string>
 	<key>CFBundleDisplayName</key>
-	<string>Weve Client</string>
+	<string>Weve</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -23,7 +23,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>weve_client</string>
+	<string>Weve</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
