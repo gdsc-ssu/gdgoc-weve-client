@@ -16,7 +16,14 @@ final birthSpeechProvider =
 );
 
 class SeniorInputBirthScreen extends ConsumerWidget {
-  const SeniorInputBirthScreen({super.key});
+  final String name;
+  final String phoneNumber;
+
+  const SeniorInputBirthScreen({
+    super.key,
+    required this.name,
+    required this.phoneNumber,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,11 +54,16 @@ class SeniorInputBirthScreen extends ConsumerWidget {
                 textColor: WeveColor.main.yellowText,
                 onPressed: () async {
                   await ref.read(birthSpeechProvider.notifier).stopSpeech();
+                  final birth = ref.read(birthSpeechProvider);
 
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SeniorInputCareerScreen(),
+                      builder: (context) => SeniorInputCareerScreen(
+                        name: name,
+                        phoneNumber: phoneNumber,
+                        birth: birth,
+                      ),
                     ),
                   );
                 },

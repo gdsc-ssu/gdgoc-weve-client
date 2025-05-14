@@ -1,4 +1,6 @@
 class SeniorSubmitState {
+  final String name;
+  final String phoneNumber;
   final String birth;
   final String job;
   final String value;
@@ -7,6 +9,8 @@ class SeniorSubmitState {
   final String? errorMessage;
 
   SeniorSubmitState({
+    this.name = '',
+    this.phoneNumber = '',
     this.birth = '',
     this.job = '',
     this.value = '',
@@ -16,6 +20,8 @@ class SeniorSubmitState {
   });
 
   SeniorSubmitState copyWith({
+    String? name,
+    String? phoneNumber,
     String? birth,
     String? job,
     String? value,
@@ -24,6 +30,8 @@ class SeniorSubmitState {
     String? errorMessage,
   }) {
     return SeniorSubmitState(
+      name: name ?? this.name,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
       birth: birth ?? this.birth,
       job: job ?? this.job,
       value: value ?? this.value,

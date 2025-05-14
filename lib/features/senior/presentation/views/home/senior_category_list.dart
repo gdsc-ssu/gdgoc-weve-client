@@ -15,12 +15,34 @@ class CategoryList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(seniorHomeProvider);
 
-    if (state.isLoading)
+    if (state.isLoading) {
       return const Center(child: CircularProgressIndicator());
-    if (state.errorMessage != null)
-      return Center(child: Text(state.errorMessage!));
+    }
+
+    if (state.errorMessage != null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(state.errorMessage!, textAlign: TextAlign.center),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                ref.read(seniorHomeProvider.notifier).fetchSeniorWorry();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: WeveColor.main.orange1,
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('다시 시도하기'),
+            ),
+          ],
+        ),
+      );
+    }
 
     return ListView(
+      padding: const EdgeInsets.symmetric(vertical: 20),
       children: [
         CategorySection(
           icon: CustomIcons.getIcon(CustomIcons.seniorChat, size: 24),
