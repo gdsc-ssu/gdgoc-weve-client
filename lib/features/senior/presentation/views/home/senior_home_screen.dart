@@ -51,19 +51,16 @@ class _SeniorHomeScreenState extends ConsumerState<SeniorHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: WeveColor.bg.bg1,
-      body: Padding(
-        padding: const EdgeInsets.all(12),
-        child: CategoryList(
-          onItemTap: (worryId) async {
-            await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SeniorWorryDetailScreen(worryId: worryId),
-              ),
-            );
-            _setSeniorHomeHeader();
-          },
-        ),
+      body: CategoryList(
+        onItemTap: (worryId) async {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SeniorWorryDetailScreen(worryId: worryId),
+            ),
+          );
+          _setSeniorHomeHeader();
+        },
       ),
     );
   }
