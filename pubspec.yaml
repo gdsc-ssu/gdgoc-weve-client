@@ -49,6 +49,7 @@ dependencies:
   flutter_secure_storage: ^9.2.4
   shared_preferences: ^2.5.3
   flutter_dotenv: ^5.2.1
+  flutter_native_splash: ^2.4.4
 
 dev_dependencies:
   flutter_test:
@@ -115,3 +116,18 @@ flutter_launcher_icons:
     generate: false
   macos:
     generate: false
+
+# Flutter Native Splash 설정
+flutter_native_splash:
+  color: "#FFFBEE"
+  image: assets/icons/weve_splash_logo.png
+  color_dark: "#FFFBEE"
+  image_dark: assets/icons/weve_splash_logo.png
+
+  android_12:
+    image: assets/icons/weve_splash_logo.png
+    icon_background_color: "#FFFBEE"
+    image_dark: assets/icons/weve_splash_logo.png
+    icon_background_color_dark: "#FFFBEE"
+
+  web: false

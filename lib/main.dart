@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:weve_client/commons/presentation/language_screen.dart';
-import 'package:weve_client/commons/presentation/splash_screen.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/core/localization/app_localizations.dart';
 import 'package:weve_client/core/utils/auth_utils.dart';
@@ -12,7 +12,10 @@ import 'package:weve_client/features/senior/presentation/views/senior_main_scree
 
 void main() async {
   // Flutter 엔진과 위젯 바인딩 초기화
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
+  // Native Splash 화면 유지
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   // 환경 변수 초기화
   await dotenv.load(fileName: '.env');
@@ -71,11 +74,6 @@ class _InitialSplashScreenState extends State<InitialSplashScreen> {
 
   // 로그인 상태를 확인하고 적절한 화면으로 이동
   Future<void> _checkAuthAndNavigate() async {
-    // 스플래시 화면이 잠깐 보이도록 지연
-    await Future.delayed(const Duration(seconds: 2));
-
-    if (!mounted) return;
-
     try {
       // 로그인 상태 확인
       final isLoggedIn = await AuthUtils.isLoggedIn();
@@ -87,6 +85,9 @@ class _InitialSplashScreenState extends State<InitialSplashScreen> {
         final userType = await AuthUtils.getUserType();
 
         if (!mounted) return;
+
+        // Native Splash 화면 제거
+        FlutterNativeSplash.remove();
 
         // 사용자 타입에 따라 다른 메인 화면으로 이동
         if (userType == 'senior') {
@@ -105,6 +106,9 @@ class _InitialSplashScreenState extends State<InitialSplashScreen> {
           );
         }
       } else {
+        // Native Splash 화면 제거
+        FlutterNativeSplash.remove();
+
         // 로그인되지 않은 경우 언어 선택 화면으로 이동
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
@@ -113,6 +117,9 @@ class _InitialSplashScreenState extends State<InitialSplashScreen> {
         );
       }
     } catch (e) {
+      // Native Splash 화면 제거
+      FlutterNativeSplash.remove();
+
       // 오류 발생 시 언어 선택 화면으로 이동
       if (mounted) {
         Navigator.of(context).pushReplacement(
@@ -126,6 +133,7 @@ class _InitialSplashScreenState extends State<InitialSplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const SplashScreen();
+    // 빈 컨테이너 반환 (Native Splash가 표시되고 있기 때문)
+    return Container(color: WeveColor.bg.bg1);
   }
 }
