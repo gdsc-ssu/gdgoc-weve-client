@@ -67,7 +67,7 @@ class _LanguageScreenState extends ConsumerState<LanguageScreen> {
       floatingActionButton: selectedLanguage != null
           ? FloatingActionButton(
               onPressed: () {
-                Navigator.of(context).pushReplacement(
+                Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const IndexScreen(),
                   ),
