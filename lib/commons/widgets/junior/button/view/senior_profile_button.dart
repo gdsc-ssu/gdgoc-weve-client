@@ -21,7 +21,7 @@ class SeniorProfileButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CustomIcons.getIcon(CustomIcons.juniorProfile),
+          CustomIcons.getIcon(CustomIcons.juniorProfile, size: 44),
           SizedBox(width: 10),
           Text("어르신의 프로필 확인하기",
               style: WeveText.semiHeader4(color: WeveColor.main.yellowText)),

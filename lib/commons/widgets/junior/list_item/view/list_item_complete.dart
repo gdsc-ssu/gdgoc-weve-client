@@ -4,12 +4,14 @@ import 'package:weve_client/core/constants/custom_icon.dart';
 import 'package:weve_client/core/constants/fonts.dart';
 
 class ListItemComplete extends StatelessWidget {
-  final String text;
+  final String title;
+  final int worryId;
   final VoidCallback? onTap;
 
   const ListItemComplete({
     super.key,
-    required this.text,
+    required this.title,
+    required this.worryId,
     this.onTap,
   });
 
@@ -27,9 +29,13 @@ class ListItemComplete extends StatelessWidget {
           children: [
             CustomIcons.getIcon(CustomIcons.juniorCheck),
             SizedBox(width: 10),
-            Text(
-              text,
-              style: WeveText.semiHeader4(color: WeveColor.main.yellow4),
+            Expanded(
+              child: Text(
+                title,
+                style: WeveText.semiHeader4(color: WeveColor.main.yellow4),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
             ),
           ],
         ),
