@@ -6,6 +6,8 @@ import 'package:weve_client/commons/widgets/senior/button/view/button.dart';
 import 'package:weve_client/commons/widgets/senior/login/view/input_field.dart';
 import 'package:weve_client/core/constants/colors.dart';
 import 'package:weve_client/features/senior/presentation/viewmodels/providers/senior_providers.dart';
+import 'package:weve_client/commons/widgets/header/model/header_type.dart';
+import 'package:weve_client/commons/widgets/header/viewmodel/header_viewmodel.dart';
 
 class SeniorLoginScreen extends ConsumerStatefulWidget {
   const SeniorLoginScreen({super.key});
@@ -17,6 +19,15 @@ class SeniorLoginScreen extends ConsumerStatefulWidget {
 class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  late final headerViewModel = ref.read(headerProvider.notifier);
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      headerViewModel.resetHeader(type: HeaderType.backOnly);
+    });
+  }
 
   @override
   void dispose() {
