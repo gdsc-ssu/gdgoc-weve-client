@@ -37,7 +37,7 @@ class SeniorService {
         );
       } else {
         // 현재 로그인한 사용자 정보 가져오기
-        final userInfoResponse = await _apiClient.get('/api/user/info');
+        final userInfoResponse = await _apiClient.get('/api/mypage');
         final name = userInfoResponse.result['name'] as String? ?? '';
         final phoneNumber =
             userInfoResponse.result['phoneNumber'] as String? ?? '';
@@ -64,6 +64,20 @@ class SeniorService {
           ),
         );
       }
+    }
+  }
+
+  // 마이페이지 정보 가져오기
+  Future<Map<String, dynamic>> fetchMyPageInfo() async {
+    final response = await _apiClient.get('/api/mypage');
+
+    if (response.code == 'COMMON200') {
+      return response.result;
+    } else {
+      throw AppError(
+        code: response.code ?? 'UNKNOWN',
+        message: response.message ?? '마이페이지 정보 조회 실패',
+      );
     }
   }
 }

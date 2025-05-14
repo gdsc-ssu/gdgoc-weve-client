@@ -19,6 +19,7 @@ import 'package:weve_client/features/senior/data/models/senior_info.dart';
 import 'package:weve_client/features/senior/domain/usecases/senior_service.dart';
 import 'package:weve_client/features/senior/presentation/views/my/senior_edit_profile_screen.dart';
 import 'package:weve_client/features/senior/presentation/views/my/senior_edit_language_screen.dart';
+import 'package:weve_client/features/senior/presentation/views/my/senior_edit_phone_number_screen.dart';
 
 class SeniorMyScreen extends ConsumerStatefulWidget {
   const SeniorMyScreen({super.key});
@@ -259,13 +260,13 @@ class _SeniorMyScreenState extends ConsumerState<SeniorMyScreen> {
 
   // 전화번호 수정 화면으로 이동하는 함수
   void _navigateToPhoneNumberScreen() {
-    // TODO: 시니어 전화번호 수정 화면으로 이동
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => const SeniorEditPhoneNumberScreen(),
-    //   ),
-    // );
+    // 시니어 전화번호 수정 화면으로 이동
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SeniorEditPhoneNumberScreen(),
+      ),
+    );
   }
 
   @override
