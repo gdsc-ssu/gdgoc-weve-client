@@ -18,8 +18,24 @@ class ApiClient {
 
   ApiClient._internal() : _tokenStorage = SecureTokenStorage() {
     final baseUrl = dotenv.env['API_BASE_URL']!;
-    final connectTimeout = int.parse(dotenv.env['API_CONNECT_TIMEOUT']!);
-    final receiveTimeout = int.parse(dotenv.env['API_RECEIVE_TIMEOUT']!);
+
+    // 타임아웃 설정값을 환경변수에서 가져오되, 최소 30초 이상으로 설정
+    final configConnectTimeout =
+        int.tryParse(dotenv.env['API_CONNECT_TIMEOUT'] ?? '30') ?? 30;
+    final configReceiveTimeout =
+        int.tryParse(dotenv.env['API_RECEIVE_TIMEOUT'] ?? '30') ?? 30;
+
+    // 최소 30초 이상 설정
+    final connectTimeout =
+        configConnectTimeout < 30 ? 30 : configConnectTimeout;
+    final receiveTimeout =
+        configReceiveTimeout < 30 ? 30 : configReceiveTimeout;
+
+    if (kDebugMode) {
+      print('API 클라이언트 초기화: $baseUrl');
+      print('API 연결 타임아웃: $connectTimeout초');
+      print('API 수신 타임아웃: $receiveTimeout초');
+    }
 
     _dio = Dio(
       BaseOptions(
