@@ -51,10 +51,15 @@ This app aligns with the UN Sustainable Development Goals, specifically:
 - Use typed text or voice (with TTS input) to offer advice.
 - After the junior replies, read their thank-you message in the letterbox.
 
-| 🔐 Sign Up / Log In | 📝 Personal Info | 🏠 Home Screen | 📋 View Concerns | 🗣️ Provide Counseling | 📬 Thank-you Letters |
-|---------------------|------------------|----------------|------------------|------------------------|-----------------------|
-| <img src="https://github.com/user-attachments/assets/ca548334-b0e2-472b-a358-85bb0920a46d" width="190" height="409" /> | <img src="https://github.com/user-attachments/assets/4ea3bd78-6d60-4455-aba0-9a77dc34887f" width="190" height="409" /> | <img src="https://github.com/user-attachments/assets/e8ed6400-0f4f-4f4d-b5b5-51ce5df72d91" width="190" height="487" /> | <img src="https://github.com/user-attachments/assets/4c0dbca5-9bc1-45bc-8409-d6fbc2944425" width="190" height="409" /> | <img src="https://github.com/user-attachments/assets/b9d7973e-f89d-4faf-9a4c-79ac9d4409c8" width="190" height="436" /> | <img src="https://github.com/user-attachments/assets/887cd4ff-ad5e-4fca-863b-983e9aa6991e" width="190" height="448" /> |
 
+
+| 🔐 Sign Up / Log In | 📝 Personal Info | 🏠 Home Screen |
+|---------------------|------------------|----------------|
+| <img src="https://github.com/user-attachments/assets/ca548334-b0e2-472b-a358-85bb0920a46d" width="190" height="409" /> | <img src="https://github.com/user-attachments/assets/4ea3bd78-6d60-4455-aba0-9a77dc34887f" width="190" height="409" /> | <img src="https://github.com/user-attachments/assets/e8ed6400-0f4f-4f4d-b5b5-51ce5df72d91" width="190" height="487" /> |
+
+| 📋 View Concerns | 🗣️ Provide Counseling | 📬 Thank-you Letters |
+|------------------|------------------------|-----------------------|
+| <img src="https://github.com/user-attachments/assets/4c0dbca5-9bc1-45bc-8409-d6fbc2944425" width="190" height="409" /> | <img src="https://github.com/user-attachments/assets/b9d7973e-f89d-4faf-9a4c-79ac9d4409c8" width="190" height="436" /> | <img src="https://github.com/user-attachments/assets/887cd4ff-ad5e-4fca-863b-983e9aa6991e" width="190" height="448" /> |
 
 
 
