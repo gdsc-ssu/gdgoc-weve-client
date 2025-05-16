@@ -62,8 +62,18 @@ This app aligns with the UN Sustainable Development Goals, specifically:
 | <img src="https://github.com/user-attachments/assets/4c0dbca5-9bc1-45bc-8409-d6fbc2944425" width="250" height="553" /> | <img src="https://github.com/user-attachments/assets/b9d7973e-f89d-4faf-9a4c-79ac9d4409c8" width="250" height="553" /> | <img src="https://github.com/user-attachments/assets/887cd4ff-ad5e-4fca-863b-983e9aa6991e" width="250" height="553" /> |
 
 
+## 🎥 Prototype Demo
+You can explore our interactive prototype on Figma by clicking the link below:
 
+👉 [View the Figma Prototype](https://www.figma.com/proto/5ctjIb6U39VRZILFF51Ofd/-WEVE--2025-Solution-Challenge?node-id=0-1&t=lM5l7EJaZvpQrC2Y-1)
 
+<br>
+And here’s a preview of the prototype in action:
+
+|------------ 🧒 Junior ------------|----------- 👵 Senior ------------| 
+
+![화면 기록 2025-05-16 오후 10 12 26](https://github.com/user-attachments/assets/4c57f987-3dd8-4539-8969-8aff796d5c88)
+![화면 기록 2025-05-16 오후 10 12 26](https://github.com/user-attachments/assets/96fc389b-2bbc-4f05-91d3-5d1b28f783fc)
 
 ## 🏗️ Software Architecture
 ![image](https://github.com/user-attachments/assets/4d209d8a-4f63-4875-ba41-f143475264c8)    
